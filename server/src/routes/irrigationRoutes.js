@@ -1,0 +1,9 @@
+import { Router } from 'express';
+import { handleGetIrrigationAdvice } from '../controllers/irrigationController.js';
+import { validate, irrigationAdviceSchema } from '../middleware/validate.js';
+
+const router = Router();
+
+router.post('/advice', validate(irrigationAdviceSchema), handleGetIrrigationAdvice);
+
+export default router;

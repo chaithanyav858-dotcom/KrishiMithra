@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#fcfaf7] text-gray-900 font-sans antialiased min-h-screen;
+  }
+  ::selection {
+    background-color: #d8f3dc;
+    color: #1b4332;
+  }
+}
+
+/* Custom scrollbars and accessible focus styles */
+:focus-visible {
+  outline: 2px solid #2d6a4f;
+  outline-offset: 2px;
+}
+
+.agri-card {
+  @apply bg-white rounded-xl border border-soil-200/80 shadow-sm transition-all;
+}
+
+.agri-badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium tracking-wide;
+}

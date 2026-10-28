@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body style="background-color: var(--soil-100); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="register.html" class="btn btn-outline btn-sm">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Form Container -->
+  <main class="main-content" style="display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+    <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 20px;">
+
+      <!-- 1-Click Evaluation Demo Card -->
+      <div class="card" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid var(--amber-300);">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-demo">Evaluation Shortcut</span>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--amber-900); font-weight: 700;">MCE CSE Mini Project</span>
+        </div>
+        <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--amber-900); margin-bottom: 6px;">
+          1-Click Demo Farmer Access / ನೇರ ಲಾಗಿನ್
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--amber-800); line-height: 1.4; margin-bottom: 16px;">
+          Instant access preloaded with farmer <strong>Ramesh Patil (Hassan)</strong>, 2 active farm plots, and consultation history.
+        </p>
+        <a href="dashboard.html" class="btn btn-amber" style="width: 100%; padding: 12px; font-size: 0.9rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Continue as Ramesh Patil (Hassan)</span>
+        </a>
+      </div>
+
+      <!-- Standard Login Box -->
+      <div class="card">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--gray-900); margin-bottom: 4px;">
+            Farmer Sign In / ಲಾಗಿನ್
+          </h2>
+          <p style="font-size: 0.82rem; color: var(--gray-500);">
+            Access your registered farm plots, soil records, and saved advice.
+          </p>
+        </div>
+
+        <form action="dashboard.html" method="get">
+          <div class="form-group">
+            <label class="form-label">
+              <span>Email Address / ಇಮೇಲ್</span>
+              <span class="req">*</span>
+            </label>
+            <input type="email" class="form-input" required value="demo@krishimitra.agr" placeholder="farmer@example.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Password / ಪಾಸ್‌ವರ್ಡ್</span>
+              <span class="req">*</span>
+            </label>
+            <input type="password" class="form-input" required value="Demo@123" placeholder="••••••••">
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; font-size: 0.8rem;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--gray-700);">
+              <input type="checkbox" checked style="accent-color: var(--agri-primary);">
+              <span>Remember this device</span>
+            </label>
+            <a href="#" style="color: var(--agri-primary); font-weight: 700;">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
+            <span>Sign In to Dashboard</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--soil-200); text-align: center; font-size: 0.82rem; color: var(--gray-600);">
+          Don't have an account yet? 
+          <a href="register.html" style="color: var(--agri-primary); font-weight: 800; text-decoration: underline;">
+            Register Free / ಹೊಸ ಖಾತೆ ತೆರೆಯಿರಿ
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Pure HTML & CSS Implementation</div>
+    </div>
+  </footer>
+
+</body>
+</html>

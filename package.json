@@ -1,0 +1,17 @@
+{
+  "name": "krishimitra",
+  "version": "1.0.0",
+  "description": "Smart Agricultural Assistance Website - MCE Hassan 5th Sem Mini Project",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"node server/src/index.js\" \"node client/node_modules/vite/bin/vite.js client --host 0.0.0.0 --port 5173\"",
+    "start": "node server/src/index.js",
+    "seed": "node server/src/db/seed.js",
+    "server": "node server/src/index.js",
+    "client": "node client/node_modules/vite/bin/vite.js client --host 0.0.0.0 --port 5173",
+    "build": "npm.cmd --prefix client run build",
+    "test": "node server/test-e2e.js"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

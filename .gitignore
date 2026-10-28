@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Production builds
+dist/
+client/dist/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.production
+server/.env
+serviceAccountKey.json
+server/serviceAccountKey.json
+*.pem
+
+# SQLite database files
+data/krishimitra.db*
+server/data/krishimitra.db*
+*.db
+*.db-wal
+*.db-shm
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

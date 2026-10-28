@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommendation Result - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link active">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="profile.html" class="btn btn-outline btn-sm">Ramesh Patil</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Recommendation Result Main -->
+  <main class="main-content">
+    <div class="container" style="max-width: 960px; display: flex; flex-direction: column; gap: 24px;">
+
+      <!-- Top Back/Reset Bar -->
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <a href="recommendation.html" class="btn btn-outline btn-sm">
+          ← Back to Soil Inputs / ಹೊಸ ಪರಿಶೀಲನೆ
+        </a>
+        <div style="display: flex; gap: 8px;">
+          <a href="history.html" class="btn btn-outline btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>Save to History / ಉಳಿಸಿ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Result Card -->
+      <div class="card" style="background: linear-gradient(135deg, #ffffff 0%, #ffffff 70%, #f6faf5 100%); border-color: rgba(45, 106, 79, 0.4); padding: 36px; box-shadow: var(--shadow-md);">
+        
+        <!-- Top Crop Badge & Header -->
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--soil-100);">
+          <div>
+            <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--agri-primary);">
+              Recommended Crop / ನಿಮಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆ
+            </span>
+            <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 4px;">
+              <h1 style="font-size: 2.4rem; font-weight: 900; color: var(--gray-900);">
+                Finger Millet (Ragi)
+              </h1>
+              <span style="font-size: 1.8rem; font-weight: 800; color: var(--agri-primary);">
+                • ರಾಗಿ (Ragi)
+              </span>
+            </div>
+            <p style="font-size: 0.82rem; font-style: italic; color: var(--gray-500); font-family: serif; margin-top: 4px;">
+              Eleusine coracana (Millets / Coarse Cereals • ಕಿರುಧಾನ್ಯ)
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <span class="badge badge-demo">
+              Demo Agronomic Heuristics
+            </span>
+            <span style="font-size: 0.72rem; color: var(--gray-500);">
+              Honest Metric: Heuristic rules; confidence not falsified
+            </span>
+          </div>
+        </div>
+
+        <!-- ==========================================================================
+             Prominent Bilingual Action Guide: What Should You Do Next?
+             ========================================================================== -->
+        <div class="action-checklist">
+          <div class="checklist-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--agri-primary);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>What You Need To Do Next / ಮುಂದೆ ನೀವು ಏನು ಮಾಡಬೇಕು?</span>
+          </div>
+
+          <div class="grid-2" style="gap: 16px;">
+            <!-- Step 1: Prepare Field -->
+            <div class="step-card">
+              <div>
+                <span class="step-number" style="color: var(--agri-primary);">1. Prepare Your Field / ಜಮೀನು ಸಿದ್ಧಪಡಿಸಿ</span>
+                <p class="step-en">
+                  Prepare soil well; sow seeds 2-3 cm deep. High drought tolerance with low water need.
+                </p>
+              </div>
+              <p class="step-kn">
+                ಭೂಮಿಯನ್ನು ಚೆನ್ನಾಗಿ ಉಳುಮೆ ಮಾಡಿ ೨-೩ ಸೆಂ.ಮೀ ಆಳದಲ್ಲಿ ಬಿತ್ತಿ. ರಾಗಿಗೆ ಕಡಿಮೆ ನೀರಿದ್ದರೂ ಉತ್ತಮ ಇಳುವರಿ ಬರುತ್ತದೆ.
+              </p>
+            </div>
+
+            <!-- Step 2: Weather -->
+            <div class="step-card">
+              <div>
+                <span class="step-number" style="color: var(--sky-700);">2. Check Local Weather / ಇಂದಿನ ಹವಾಮಾನ ಗಮನಿಸಿ</span>
+                <p class="step-en">
+                  Check rain forecast before sowing so heavy showers do not wash away seeds.
+                </p>
+              </div>
+              <p class="step-kn">
+                ಬಿತ್ತಿದ ಬೀಜ ಮಳೆಗೆ ಕೊಚ್ಚಿಹೋಗದಂತೆ ಬಿತ್ತನೆಗೆ ಮುನ್ನ ಹವಾಮಾನ ಪರಿಶೀಲಿಸಿ.
+              </p>
+            </div>
+
+            <!-- Step 3: Irrigation -->
+            <div class="step-card">
+              <div>
+                <span class="step-number" style="color: #2563eb;">3. Get Watering Advice / ನೀರು ಹಾಯಿಸುವ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
+                <p class="step-en">
+                  Click "Proceed to Irrigation" below to see if your field needs water today.
+                </p>
+              </div>
+              <p class="step-kn">
+                ಇಂದು ಜಮೀನಿಗೆ ನೀರು ಹಾಯಿಸಬೇಕೇ ಅಥವಾ ಮಳೆ ಬರುವುದರಿಂದ ಮುಂದೂಡಬೇಕೇ ಎಂದು ತಿಳಿಯಲು ಕೆಳಗಿನ ನೀರಾವರಿ ಬಟನ್ ಒತ್ತಿ.
+              </p>
+            </div>
+
+            <!-- Step 4: Save Record -->
+            <div class="step-card">
+              <div>
+                <span class="step-number" style="color: var(--amber-900);">4. Save This Record / ಈ ದಾಖಲೆ ಉಳಿಸಿಕೊಳ್ಳಿ</span>
+                <p class="step-en">
+                  Click "Save to History" so you can open and review this advice anytime.
+                </p>
+              </div>
+              <p class="step-kn">
+                ಈ ಬೆಳೆ ಮಾಹಿತಿಯನ್ನು ನಿಮ್ಮ ಖಾತೆಯಲ್ಲಿ ಸೇವ್ (Save) ಮಾಡಿ ಇಟ್ಟುಕೊಳ್ಳಿ.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regional Relevance Callout -->
+        <div style="margin-top: 20px; padding: 14px 18px; border-radius: var(--radius-md); background: #f2f7f1; border: 1px solid var(--agri-mist); font-size: 0.85rem; color: var(--agri-deep); display: flex; align-items: flex-start; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--agri-primary); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <div>
+            <strong>Regional Relevance (ಪ್ರಾದೇಶಿಕ ಮಹತ್ವ):</strong> Primary staple crop of Southern Karnataka (Hassan, Mandya, Tumakuru). Extremely resilient, highly nutritious, and ideally matched to Red Loamy soil profiles.
+          </div>
+        </div>
+
+        <!-- Why This Crop Fits -->
+        <div style="margin-top: 28px;">
+          <h4 style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-700); margin-bottom: 12px;">
+            Agronomic Match Factors / ಹೊಂದಾಣಿಕೆಯ ಕಾರಣಗಳು:
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">1</span>
+              <span><strong>Soil Texture Compatibility:</strong> Highly suited for Red Loamy soil due to optimal root aeration and medium water holding capacity.</span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">2</span>
+              <span><strong>Monsoon Timing:</strong> Perfectly synchronized with Kharif southwest monsoon window (June - October).</span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
+              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">3</span>
+              <span><strong>Nutrient Utilization:</strong> Thrives on moderate Nitrogen (40-80 kg/ha) without requiring intensive chemical fertilizers.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cultivation Guidelines Matrix -->
+        <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--soil-100);">
+          <h4 style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-700); margin-bottom: 14px;">
+            Cultivation Guidelines / ಬೆಳೆ ನಿರ್ವಹಣಾ ಮಾರ್ಗದರ್ಶಿ:
+          </h4>
+          <div class="grid-3">
+            <div class="card" style="padding: 14px; background: #faf9f7;">
+              <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Ideal N-P-K Range (ಪೋಷಕಾಂಶ)</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+                N: 40-80 | P: 25-45 | K: 25-50 kg/ha
+              </div>
+            </div>
+
+            <div class="card" style="padding: 14px; background: #faf9f7;">
+              <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Water Requirement (ನೀರಿನ ಅಗತ್ಯತೆ)</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+                Low to Moderate (350 - 450 mm)
+              </div>
+            </div>
+
+            <div class="card" style="padding: 14px; background: #faf9f7;">
+              <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Critical Growth Stages (ಮುಖ್ಯ ಹಂತಗಳು)</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+                Tillering, Flowering, Grain filling
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suitable Alternatives -->
+        <div style="margin-top: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.8rem;">
+          <span style="font-weight: 700; color: var(--gray-700);">Other Suitable Crops / ಇತರ ಸೂಕ್ತ ಬೆಳೆಗಳು:</span>
+          <span style="background: var(--gray-100); border: 1px solid var(--gray-200); padding: 4px 10px; border-radius: var(--radius-sm); font-weight: 600;">
+            Maize (Corn) (ಮೆಕ್ಕೆಜೋಳ)
+          </span>
+          <span style="background: var(--gray-100); border: 1px solid var(--gray-200); padding: 4px 10px; border-radius: var(--radius-sm); font-weight: 600;">
+            Groundnut (Peanut) (ಕಡಲೆಕಾಯಿ)
+          </span>
+        </div>
+
+        <!-- Action Buttons Footer -->
+        <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--soil-200); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+          <a href="history.html" class="btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>Save to History / ಹಿಸ್ಟರಿಗೆ ಸೇವ್ ಮಾಡಿ</span>
+          </a>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="weather.html" class="btn btn-sky">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>
+              <span>View Weather / ಹವಾಮಾನ ನೋಡಿ</span>
+            </a>
+
+            <a href="irrigation.html" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>Proceed to Irrigation / ನೀರು ಹಾಯಿಸುವ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Pure HTML & CSS Implementation</div>
+    </div>
+  </footer>
+
+</body>
+</html>
