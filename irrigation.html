@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Irrigation Advice - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link active">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="profile.html" class="btn btn-outline btn-sm">Ramesh Patil</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Irrigation Content -->
+  <main class="main-content">
+    <div class="container" style="max-width: 960px; display: flex; flex-direction: column; gap: 28px;">
+
+      <!-- Header Section -->
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="padding: 8px; border-radius: var(--radius-md); background: #eff6ff; color: #2563eb;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <h1 style="font-size: 2rem; font-weight: 900; color: var(--gray-900);">
+              Smart Irrigation Advisory / ನೀರಾವರಿ ಸಲಹೆ
+            </h1>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--gray-500); margin-top: 6px;">
+            Daily crop evapotranspiration (ETc), soil moisture balance, and weather forecast integration.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="badge badge-live">Live Weather Integrated</span>
+        </div>
+      </div>
+
+      <!-- Directive Card (Result) -->
+      <div class="card" style="border: 2px solid var(--amber-300); background: linear-gradient(135deg, #fffdfa 0%, #fffbf0 100%); padding: 32px; box-shadow: var(--shadow-md);">
+        
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <span class="badge badge-demo" style="font-size: 0.8rem; padding: 4px 12px; background: #fef3c7; color: #92400e; border-color: #fcd34d;">
+                Directive: DELAY IRRIGATION / ನೀರು ಹಾಯಿಸುವುದನ್ನು ಮುಂದೂಡಿ
+              </span>
+            </div>
+            <div style="font-size: 1.8rem; font-weight: 900; color: var(--gray-900); margin-top: 4px;">
+              No Irrigation Required Today (0.0 mm)
+            </div>
+            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 4px;">
+              Crop: <strong>Finger Millet (Ragi • ರಾಗಿ)</strong> • Plot A (Hassan, Red Loamy Soil)
+            </p>
+          </div>
+
+          <div style="text-align: right;">
+            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">Rain Delay Safeguard</div>
+            <div style="font-size: 1.4rem; font-weight: 900; color: #b45309; margin-top: 2px;">
+              🌧 65% Rain Forecast
+            </div>
+            <div style="font-size: 0.75rem; color: var(--gray-500);">Expected within 24-48h</div>
+          </div>
+        </div>
+
+        <!-- Explanation Summary -->
+        <div style="margin-top: 20px; padding: 18px; border-radius: var(--radius-md); background: #ffffff; border: 1px solid var(--soil-200);">
+          <h4 style="font-size: 0.85rem; font-weight: 800; color: var(--gray-800); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--amber-500);"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>Why Irrigation is Delayed / ಕಾರಣ:</span>
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--gray-700); line-height: 1.5;">
+            Imminent precipitation (4.2 - 8.5 mm) is forecasted for Hassan within the next 24 to 48 hours. Soil moisture currently stands at <strong>45%</strong>, which is optimal for the tillering stage of Finger Millet. Applying canal or borewell irrigation now would risk waterlogging, leach soil nitrogen, and unnecessarily consume electricity.
+          </p>
+        </div>
+
+        <!-- Practical Actions Checklist (Bilingual) -->
+        <div class="action-checklist" style="margin-top: 20px;">
+          <div class="checklist-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--agri-primary);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Farmer Action Plan / ರೈತರು ಕೈಗೊಳ್ಳಬೇಕಾದ ಕ್ರಮಗಳು:</span>
+          </div>
+
+          <div class="grid-3">
+            <div class="step-card">
+              <span class="step-number" style="color: var(--agri-primary);">1. Hold Off Pumping / ಪಂಪ್ ಚಾಲೂ ಮಾಡಬೇಡಿ</span>
+              <p class="step-en">Do not operate borewell or drip lines for 48 hours.</p>
+              <p class="step-kn">ಮಳೆ ಮುನ್ಸೂಚನೆ ಇರುವುದರಿಂದ ಎರಡು ದಿನ ನೀರು ಹಾಯಿಸಬೇಡಿ.</p>
+            </div>
+
+            <div class="step-card">
+              <span class="step-number" style="color: var(--sky-700);">2. Clear Drainage / ಬಸಿಗಾಲುವೆ ಸ್ವಚ್ಛಗೊಳಿಸಿ</span>
+              <p class="step-en">Ensure excess rainwater flows easily out of field corners.</p>
+              <p class="step-kn">ಮಳೆ ನೀರು ಗದ್ದೆಯಲ್ಲಿ ನಿಲ್ಲದಂತೆ ಬಸಿಗಾಲುವೆ ಸರಿಪಡಿಸಿ.</p>
+            </div>
+
+            <div class="step-card">
+              <span class="step-number" style="color: var(--amber-900);">3. Re-Check on Friday / ಶುಕ್ರವಾರ ಪರಿಶೀಲಿಸಿ</span>
+              <p class="step-en">Test soil dryness before next scheduled watering cycle.</p>
+              <p class="step-kn">ಶುಕ್ರವಾರ ಮಣ್ಣಿನ ತೇವಾಂಶ ನೋಡಿ ಮುಂದಿನ ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳಿ.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evapotranspiration Science Metrics -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--soil-200);">
+          <h4 style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: var(--gray-700); margin-bottom: 12px;">
+            Scientific Water Balance Breakdown (FAO Penman-Monteith Model):
+          </h4>
+          <div class="grid-4">
+            <div class="card" style="padding: 12px; background: #faf9f7;">
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Crop Evapotranspiration (ETc)</div>
+              <div style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-top: 2px;">3.2 mm/day</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">Kc = 0.85 (Tillering Stage)</div>
+            </div>
+
+            <div class="card" style="padding: 12px; background: #faf9f7;">
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Forecasted Precipitation</div>
+              <div style="font-size: 1rem; font-weight: 800; color: #0284c7; margin-top: 2px;">+4.2 mm</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">High confidence rain</div>
+            </div>
+
+            <div class="card" style="padding: 12px; background: #faf9f7;">
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Net Daily Deficit</div>
+              <div style="font-size: 1rem; font-weight: 800; color: var(--agri-primary); margin-top: 2px;">0.0 mm</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">Rain covers crop need</div>
+            </div>
+
+            <div class="card" style="padding: 12px; background: #faf9f7;">
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Electricity Conserved</div>
+              <div style="font-size: 1rem; font-weight: 800; color: var(--forest-800); margin-top: 2px;">~3.5 kWh</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">Saved 2.5 hrs pumping</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--soil-200); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+          <a href="history.html" class="btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>Save Consultation to History / ಉಳಿಸಿ</span>
+          </a>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="weather.html" class="btn btn-sky">
+              <span>Inspect Weather Feed</span>
+            </a>
+            <a href="dashboard.html" class="btn btn-primary">
+              <span>Return to Dashboard</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Pure HTML & CSS Implementation</div>
+    </div>
+  </footer>
+
+</body>
+</html>
