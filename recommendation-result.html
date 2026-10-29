@@ -62,28 +62,31 @@
         <!-- Top Crop Badge & Header -->
         <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--soil-100);">
           <div>
-            <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--agri-primary);">
-              Recommended Crop / ನಿಮಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆ
-            </span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--agri-primary);">
+                Recommended Crop / ನಿಮಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆ
+              </span>
+              <span id="score-badge" class="badge badge-live">Compatibility: 95/100</span>
+            </div>
             <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-top: 4px;">
-              <h1 style="font-size: 2.4rem; font-weight: 900; color: var(--gray-900);">
-                Finger Millet (Ragi)
+              <h1 id="crop-name" style="font-size: 2.4rem; font-weight: 900; color: var(--gray-900);">
+                Evaluating Best Crop...
               </h1>
-              <span style="font-size: 1.8rem; font-weight: 800; color: var(--agri-primary);">
-                • ರಾಗಿ (Ragi)
+              <span id="crop-kannada" style="font-size: 1.8rem; font-weight: 800; color: var(--agri-primary);">
+                • ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...
               </span>
             </div>
-            <p style="font-size: 0.82rem; font-style: italic; color: var(--gray-500); font-family: serif; margin-top: 4px;">
-              Eleusine coracana (Millets / Coarse Cereals • ಕಿರುಧಾನ್ಯ)
+            <p id="crop-botanical" style="font-size: 0.85rem; font-style: italic; color: var(--gray-500); font-family: serif; margin-top: 4px;">
+              Botanical classification & crop family
             </p>
           </div>
 
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <span class="badge badge-demo">
-              Demo Agronomic Heuristics
+              ICAR Agronomic Heuristic Engine
             </span>
             <span style="font-size: 0.72rem; color: var(--gray-500);">
-              Honest Metric: Heuristic rules; confidence not falsified
+              Inputs: <span id="summary-inputs" style="font-weight: bold; color: var(--gray-700);">Red Loamy, Kharif</span>
             </span>
           </div>
         </div>
@@ -102,12 +105,12 @@
             <div class="step-card">
               <div>
                 <span class="step-number" style="color: var(--agri-primary);">1. Prepare Your Field / ಜಮೀನು ಸಿದ್ಧಪಡಿಸಿ</span>
-                <p class="step-en">
-                  Prepare soil well; sow seeds 2-3 cm deep. High drought tolerance with low water need.
+                <p id="step-1-en" class="step-en">
+                  Plow and level your soil. Buy good quality certified seeds.
                 </p>
               </div>
-              <p class="step-kn">
-                ಭೂಮಿಯನ್ನು ಚೆನ್ನಾಗಿ ಉಳುಮೆ ಮಾಡಿ ೨-೩ ಸೆಂ.ಮೀ ಆಳದಲ್ಲಿ ಬಿತ್ತಿ. ರಾಗಿಗೆ ಕಡಿಮೆ ನೀರಿದ್ದರೂ ಉತ್ತಮ ಇಳುವರಿ ಬರುತ್ತದೆ.
+              <p id="step-1-kn" class="step-kn">
+                ಭೂಮಿಯನ್ನು ಚೆನ್ನಾಗಿ ಉಳುಮೆ ಮಾಡಿ. ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಬಿತ್ತನೆ ಬೀಜಗಳನ್ನು ಆಯ್ದುಕೊಳ್ಳಿ.
               </p>
             </div>
 
@@ -115,11 +118,11 @@
             <div class="step-card">
               <div>
                 <span class="step-number" style="color: var(--sky-700);">2. Check Local Weather / ಇಂದಿನ ಹವಾಮಾನ ಗಮನಿಸಿ</span>
-                <p class="step-en">
+                <p id="step-2-en" class="step-en">
                   Check rain forecast before sowing so heavy showers do not wash away seeds.
                 </p>
               </div>
-              <p class="step-kn">
+              <p id="step-2-kn" class="step-kn">
                 ಬಿತ್ತಿದ ಬೀಜ ಮಳೆಗೆ ಕೊಚ್ಚಿಹೋಗದಂತೆ ಬಿತ್ತನೆಗೆ ಮುನ್ನ ಹವಾಮಾನ ಪರಿಶೀಲಿಸಿ.
               </p>
             </div>
@@ -129,11 +132,11 @@
               <div>
                 <span class="step-number" style="color: #2563eb;">3. Get Watering Advice / ನೀರು ಹಾಯಿಸುವ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
                 <p class="step-en">
-                  Click "Proceed to Irrigation" below to see if your field needs water today.
+                  Check whether your field needs irrigation today or if rain is predicted.
                 </p>
               </div>
               <p class="step-kn">
-                ಇಂದು ಜಮೀನಿಗೆ ನೀರು ಹಾಯಿಸಬೇಕೇ ಅಥವಾ ಮಳೆ ಬರುವುದರಿಂದ ಮುಂದೂಡಬೇಕೇ ಎಂದು ತಿಳಿಯಲು ಕೆಳಗಿನ ನೀರಾವರಿ ಬಟನ್ ಒತ್ತಿ.
+                ಇಂದು ಜಮೀನಿಗೆ ನೀರು ಹಾಯಿಸಬೇಕೇ ಅಥವಾ ಮಳೆ ಬರುವುದರಿಂದ ಮುಂದೂಡಬೇಕೇ ಎಂದು ತಿಳಿಯಲು ನೀರಾವರಿ ಸಲಹೆ ಪಡೆಯಿರಿ.
               </p>
             </div>
 
@@ -142,7 +145,7 @@
               <div>
                 <span class="step-number" style="color: var(--amber-900);">4. Save This Record / ಈ ದಾಖಲೆ ಉಳಿಸಿಕೊಳ್ಳಿ</span>
                 <p class="step-en">
-                  Click "Save to History" so you can open and review this advice anytime.
+                  Save this consultation record to your farmer account history.
                 </p>
               </div>
               <p class="step-kn">
@@ -156,7 +159,7 @@
         <div style="margin-top: 20px; padding: 14px 18px; border-radius: var(--radius-md); background: #f2f7f1; border: 1px solid var(--agri-mist); font-size: 0.85rem; color: var(--agri-deep); display: flex; align-items: flex-start; gap: 10px;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--agri-primary); flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           <div>
-            <strong>Regional Relevance (ಪ್ರಾದೇಶಿಕ ಮಹತ್ವ):</strong> Primary staple crop of Southern Karnataka (Hassan, Mandya, Tumakuru). Extremely resilient, highly nutritious, and ideally matched to Red Loamy soil profiles.
+            <strong>Regional Relevance (ಪ್ರಾದೇಶಿಕ ಮಹತ್ವ):</strong> <span id="regional-text">Primary staple crop of Southern Karnataka.</span>
           </div>
         </div>
 
@@ -165,19 +168,8 @@
           <h4 style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-700); margin-bottom: 12px;">
             Agronomic Match Factors / ಹೊಂದಾಣಿಕೆಯ ಕಾರಣಗಳು:
           </h4>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">1</span>
-              <span><strong>Soil Texture Compatibility:</strong> Highly suited for Red Loamy soil due to optimal root aeration and medium water holding capacity.</span>
-            </div>
-            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">2</span>
-              <span><strong>Monsoon Timing:</strong> Perfectly synchronized with Kharif southwest monsoon window (June - October).</span>
-            </div>
-            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-700);">
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">3</span>
-              <span><strong>Nutrient Utilization:</strong> Thrives on moderate Nitrogen (40-80 kg/ha) without requiring intensive chemical fertilizers.</span>
-            </div>
+          <div id="match-factors-list" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Injected dynamically -->
           </div>
         </div>
 
@@ -189,21 +181,21 @@
           <div class="grid-3">
             <div class="card" style="padding: 14px; background: #faf9f7;">
               <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Ideal N-P-K Range (ಪೋಷಕಾಂಶ)</div>
-              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+              <div id="ideal-npk" style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
                 N: 40-80 | P: 25-45 | K: 25-50 kg/ha
               </div>
             </div>
 
             <div class="card" style="padding: 14px; background: #faf9f7;">
               <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Water Requirement (ನೀರಿನ ಅಗತ್ಯತೆ)</div>
-              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
-                Low to Moderate (350 - 450 mm)
+              <div id="water-req" style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+                Moderate (450 - 550 mm)
               </div>
             </div>
 
             <div class="card" style="padding: 14px; background: #faf9f7;">
               <div style="font-size: 0.72rem; color: var(--gray-500); font-weight: 600;">Critical Growth Stages (ಮುಖ್ಯ ಹಂತಗಳು)</div>
-              <div style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
+              <div id="growth-stages" style="font-size: 0.88rem; font-weight: 800; color: var(--gray-900); margin-top: 4px;">
                 Tillering, Flowering, Grain filling
               </div>
             </div>
@@ -213,12 +205,9 @@
         <!-- Suitable Alternatives -->
         <div style="margin-top: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.8rem;">
           <span style="font-weight: 700; color: var(--gray-700);">Other Suitable Crops / ಇತರ ಸೂಕ್ತ ಬೆಳೆಗಳು:</span>
-          <span style="background: var(--gray-100); border: 1px solid var(--gray-200); padding: 4px 10px; border-radius: var(--radius-sm); font-weight: 600;">
-            Maize (Corn) (ಮೆಕ್ಕೆಜೋಳ)
-          </span>
-          <span style="background: var(--gray-100); border: 1px solid var(--gray-200); padding: 4px 10px; border-radius: var(--radius-sm); font-weight: 600;">
-            Groundnut (Peanut) (ಕಡಲೆಕಾಯಿ)
-          </span>
+          <div id="alternatives-chips" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <!-- Injected dynamically -->
+          </div>
         </div>
 
         <!-- Action Buttons Footer -->
@@ -229,14 +218,14 @@
           </a>
 
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="weather.html" class="btn btn-sky">
+            <a id="btn-view-weather" href="weather.html" class="btn btn-sky">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>
-              <span>View Weather / ಹವಾಮಾನ ನೋಡಿ</span>
+              <span>View Weather for this Location / ಹವಾಮಾನ ನೋಡಿ</span>
             </a>
 
-            <a href="irrigation.html" class="btn btn-primary">
+            <a id="btn-proceed-irrigation" href="irrigation.html" class="btn btn-primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-              <span>Proceed to Irrigation / ನೀರು ಹಾಯಿಸುವ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
+              <span>Proceed to Irrigation Advice / ನೀರಾವರಿ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
               <span>→</span>
             </a>
           </div>
@@ -250,9 +239,100 @@
   <footer class="site-footer">
     <div class="container footer-bottom" style="border: 0; padding-top: 0;">
       <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
-      <div>Pure HTML & CSS Implementation</div>
+      <div>Dynamic ICAR Heuristic Engine</div>
     </div>
   </footer>
+
+  <!-- Include AgriEngine Script -->
+  <script src="js/agriEngine.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Parse URL Search Params
+      const params = new URLSearchParams(window.location.search);
+      const location = params.get('location') || 'Hassan, Karnataka';
+      const soilType = params.get('soilType') || 'red_loamy';
+      const season = params.get('season') || 'kharif';
+      const nitrogen = params.get('nitrogen') ? parseFloat(params.get('nitrogen')) : null;
+      const phosphorus = params.get('phosphorus') ? parseFloat(params.get('phosphorus')) : null;
+      const potassium = params.get('potassium') ? parseFloat(params.get('potassium')) : null;
+      const ph = params.get('ph') ? parseFloat(params.get('ph')) : null;
+
+      // 2. Run Evaluation
+      const result = evaluateCrop({
+        location,
+        soilType,
+        season,
+        nitrogen,
+        phosphorus,
+        potassium,
+        ph
+      });
+
+      const { crop, profile, score, explanation, suitableAlternatives } = result;
+
+      // 3. Update DOM with Results
+      document.getElementById('crop-name').innerText = crop;
+      document.getElementById('crop-kannada').innerText = '• ' + profile.kannadaName;
+      document.getElementById('crop-botanical').innerText = `${profile.botanicalName} (${profile.category})`;
+      document.getElementById('score-badge').innerText = `Compatibility Score: ${score}/100`;
+      
+      const soilFormatted = soilType.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const seasonFormatted = season.toUpperCase();
+      document.getElementById('summary-inputs').innerText = `${location.split(',')[0]} • ${soilFormatted} • ${seasonFormatted}`;
+
+      // Step Instructions
+      document.getElementById('step-1-en').innerText = profile.simpleInstructionEn;
+      document.getElementById('step-1-kn').innerText = profile.simpleInstructionKn;
+      document.getElementById('step-2-en').innerText = `Check current meteorological forecast for ${location} before sowing so heavy downpours do not wash away seedbeds.`;
+
+      // Regional text
+      document.getElementById('regional-text').innerText = profile.localKarnatakaRelevance;
+
+      // Match Factors List
+      const factorsContainer = document.getElementById('match-factors-list');
+      factorsContainer.innerHTML = '';
+      explanation.slice(0, 3).forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.alignItems = 'flex-start';
+        div.style.gap = '10px';
+        div.style.fontSize = '0.85rem';
+        div.style.color = 'var(--gray-700)';
+        div.innerHTML = `
+          <span style="width: 22px; height: 22px; border-radius: 50%; background: var(--agri-mist); color: var(--agri-deep); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; flex-shrink: 0;">${idx + 1}</span>
+          <span>${item}</span>
+        `;
+        factorsContainer.appendChild(div);
+      });
+
+      // Guidelines Matrix
+      document.getElementById('ideal-npk').innerText = `N: ${profile.idealNPK.n.join('-')} | P: ${profile.idealNPK.p.join('-')} | K: ${profile.idealNPK.k.join('-')} kg/ha`;
+      document.getElementById('water-req').innerText = profile.waterRequirement;
+      document.getElementById('growth-stages').innerText = profile.criticalStages.join(', ');
+
+      // Alternative Crops Chips
+      const altsContainer = document.getElementById('alternatives-chips');
+      altsContainer.innerHTML = '';
+      suitableAlternatives.forEach(alt => {
+        const altProfile = CROP_PROFILES[alt];
+        const span = document.createElement('span');
+        span.style.background = 'var(--gray-100)';
+        span.style.border = '1px solid var(--gray-200)';
+        span.style.padding = '4px 10px';
+        span.style.borderRadius = 'var(--radius-sm)';
+        span.style.fontWeight = '600';
+        span.innerText = `${alt} (${altProfile ? altProfile.kannadaName.split(' ')[0] : ''})`;
+        altsContainer.appendChild(span);
+      });
+
+      // Update Action Links
+      const weatherUrl = `weather.html?location=${encodeURIComponent(location)}`;
+      const irrigationUrl = `irrigation.html?crop=${encodeURIComponent(crop)}&soilType=${encodeURIComponent(soilType)}&location=${encodeURIComponent(location)}`;
+      
+      document.getElementById('btn-view-weather').href = weatherUrl;
+      document.getElementById('btn-proceed-irrigation').href = irrigationUrl;
+    });
+  </script>
 
 </body>
 </html>

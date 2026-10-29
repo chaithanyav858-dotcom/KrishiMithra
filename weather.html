@@ -43,7 +43,7 @@
   <main class="main-content">
     <div class="container" style="max-width: 960px; display: flex; flex-direction: column; gap: 28px;">
 
-      <!-- Header & Location Selector -->
+      <!-- Header & Search Box -->
       <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
         <div>
           <div style="display: flex; align-items: center; gap: 10px;">
@@ -60,20 +60,38 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="badge badge-sky">Open-Meteo Live Feed</span>
+          <span id="feed-badge" class="badge badge-sky">Live Open-Meteo Feed</span>
         </div>
+      </div>
+
+      <!-- District Search Bar -->
+      <div class="card" style="padding: 16px 20px; background: #ffffff;">
+        <form id="search-form" onsubmit="handleSearch(event)" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; position: relative;">
+            <input type="text" id="district-search-input" class="form-input" placeholder="Type Karnataka district name (e.g. Dharwad, Belagavi, Mandya...)" value="Hassan">
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span>Check Weather / ಹವಾಮಾನ ನೋಡಿ</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </form>
       </div>
 
       <!-- District Selector Quick Filter Chips -->
       <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem;">
-        <span style="font-weight: 700; color: var(--gray-600);">Select District / ಜಿಲ್ಲೆ:</span>
-        <a href="weather.html" class="btn btn-primary btn-sm">Hassan (ಹಾಸನ)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Mandya (ಮಂಡ್ಯ)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Mysuru (ಮೈಸೂರು)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Shivamogga (ಶಿವಮೊಗ್ಗ)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Chikkamagaluru (ಚಿಕ್ಕಮಗಳೂರು)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Belagavi (ಬೆಳಗಾವಿ)</a>
-        <a href="weather.html" class="btn btn-outline btn-sm">Dharwad (ಧಾರವಾಡ)</a>
+        <span style="font-weight: 700; color: var(--gray-600);">Select District / ಜಿಲ್ಲೆ ಆಯ್ಕೆ:</span>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Hassan')">Hassan (ಹಾಸನ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Dharwad')">Dharwad (ಧಾರವಾಡ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Belagavi')">Belagavi (ಬೆಳಗಾವಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Mandya')">Mandya (ಮಂಡ್ಯ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Mysuru')">Mysuru (ಮೈಸೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Shivamogga')">Shivamogga (ಶಿವಮೊಗ್ಗ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Chikkamagaluru')">Chikkamagaluru (ಚಿಕ್ಕಮಗಳೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Tumakuru')">Tumakuru (ತುಮಕೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Davangere')">Davangere (ದಾವಣಗೆರೆ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Ballari')">Ballari (ಬಳ್ಳಾರಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Kalaburagi')">Kalaburagi (ಕಲಬುರಗಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Vijayapura')">Vijayapura (ವಿಜಯಪುರ)</button>
       </div>
 
       <!-- Current Weather Hero Card -->
@@ -82,24 +100,28 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
               <span class="badge badge-pill">Observed Just Now</span>
-              <span style="font-size: 0.75rem; color: #bae6fd;">Lat: 13.003°N, Lon: 76.100°E</span>
+              <span id="geo-coords" style="font-size: 0.75rem; color: #bae6fd;">Lat: 13.003°N, Lon: 76.100°E</span>
             </div>
-            <h2 style="font-size: 2.2rem; font-weight: 900; line-height: 1.1;">
+            <h2 id="weather-location" style="font-size: 2.2rem; font-weight: 900; line-height: 1.1;">
               Hassan, Karnataka
             </h2>
-            <div style="display: flex; align-items: baseline; gap: 14px; margin-top: 12px;">
-              <span style="font-size: 3.5rem; font-weight: 900; letter-spacing: -0.03em;">27.2°C</span>
+            <div id="weather-zone" style="font-size: 0.85rem; color: #e0f2fe; margin-top: 2px;">
+              Southern Transition Agro-Ecological Zone
+            </div>
+
+            <div style="display: flex; align-items: baseline; gap: 14px; margin-top: 14px;">
+              <span id="weather-temp" style="font-size: 3.5rem; font-weight: 900; letter-spacing: -0.03em;">27.2°C</span>
               <div>
-                <div style="font-size: 1.25rem; font-weight: 800; color: #bae6fd;">Light Drizzle</div>
-                <div style="font-size: 0.95rem; font-weight: 700; color: #e0f2fe;">• ತುಂತುರು ಮಳೆ</div>
+                <div id="weather-cond-en" style="font-size: 1.25rem; font-weight: 800; color: #bae6fd;">Light Drizzle</div>
+                <div id="weather-cond-kn" style="font-size: 0.95rem; font-weight: 700; color: #e0f2fe;">• ತುಂತುರು ಮಳೆ</div>
               </div>
             </div>
           </div>
 
-          <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; height: 100%;">
-            <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #bae6fd;"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/><path d="m8 19-2 3"/><path d="m12 19-2 3"/></svg>
-            <div style="font-size: 0.75rem; color: #e0f2fe; margin-top: 10px;">
-              Updated: Oct 28, 2026 21:00 IST
+          <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;">
+            <div id="weather-icon-large" style="font-size: 4.5rem; line-height: 1;">🌦️</div>
+            <div id="observation-time" style="font-size: 0.75rem; color: #e0f2fe; margin-top: 10px;">
+              Updated: Just Now
             </div>
           </div>
         </div>
@@ -108,93 +130,93 @@
         <div class="grid-4" style="margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
           <div style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: var(--radius-sm);">
             <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Relative Humidity</div>
-            <div style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">78%</div>
-            <div style="font-size: 0.7rem; color: #e0f2fe;">Sustained high moisture</div>
+            <div id="metric-humidity" style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">78%</div>
+            <div id="metric-humidity-note" style="font-size: 0.7rem; color: #e0f2fe;">Moderate to high</div>
           </div>
 
           <div style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: var(--radius-sm);">
             <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Rain Probability</div>
-            <div style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">65% Today</div>
-            <div style="font-size: 0.7rem; color: #e0f2fe;">Expected rain: 4.2 mm</div>
+            <div id="metric-rain" style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">65% Today</div>
+            <div id="metric-precip" style="font-size: 0.7rem; color: #e0f2fe;">Expected rain: 4.2 mm</div>
           </div>
 
           <div style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: var(--radius-sm);">
             <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Wind Speed & Direction</div>
-            <div style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">14.2 km/h</div>
-            <div style="font-size: 0.7rem; color: #e0f2fe;">WNW (Moderate breeze)</div>
+            <div id="metric-wind" style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">14.2 km/h</div>
+            <div style="font-size: 0.7rem; color: #e0f2fe;">Surface gentle breeze</div>
           </div>
 
           <div style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: var(--radius-sm);">
             <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Barometric Pressure</div>
-            <div style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">1012 hPa</div>
-            <div style="font-size: 0.7rem; color: #e0f2fe;">Stable low pressure trough</div>
+            <div id="metric-pressure" style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">1012 hPa</div>
+            <div style="font-size: 0.7rem; color: #e0f2fe;">Stable atmospheric layer</div>
           </div>
         </div>
       </div>
 
       <!-- ==========================================================================
            Crucial Agricultural Interpretations Section
-           (Explicitly distinguishes weather provider data from farming guidance)
+           (Translates raw meteorological numbers into actionable farm directives)
            ========================================================================== -->
       <div>
         <div style="margin-bottom: 16px;">
           <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--gray-900);">
             Agricultural Interpretations / ಕೃಷಿ ನಿರ್ವಹಣಾ ಸಲಹೆ
           </h3>
-          <p style="font-size: 0.82rem; color: var(--gray-500);">
+          <p id="interpretations-subtitle" style="font-size: 0.82rem; color: var(--gray-500);">
             Translating raw atmospheric data into practical field actions for Hassan farmers.
           </p>
         </div>
 
         <div class="grid-3">
           <!-- Advice 1: Chemical Spraying Window -->
-          <div class="card" style="border-top: 4px solid #dc2626;">
+          <div id="card-spray" class="card" style="border-top: 4px solid #dc2626;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Pesticide Spraying</span>
-              <span style="background: var(--red-100); color: var(--red-700); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RISKY / ಅಪಾಯಕಾರಿ</span>
+              <span id="badge-spray" style="background: var(--red-100); color: var(--red-700); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RISKY / ಅಪಾಯಕಾರಿ</span>
             </div>
-            <h4 style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+            <h4 id="title-spray" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
               Hold Off Chemical Applications
             </h4>
-            <p style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
-              Rain probability exceeds 65% and relative humidity is 78%. Foliar sprays will be washed off before systemic absorption, causing chemical wastage.
+            <p id="desc-spray" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Rain probability exceeds 60% and high humidity will cause foliar wash-off, wasting chemical pesticides.
             </p>
-            <div style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
-              Safe window opens in 48h when skies clear.
+            <div id="footer-spray" style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Postpone until precipitation chances drop below 30%.
             </div>
           </div>
 
           <!-- Advice 2: Soil Evaporation -->
-          <div class="card" style="border-top: 4px solid var(--agri-primary);">
+          <div id="card-moisture" class="card" style="border-top: 4px solid var(--agri-primary);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Moisture Balance</span>
-              <span style="background: var(--forest-100); color: var(--forest-800); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">FAVORABLE / ತೇವಾಂಶ ಉತ್ತಮ</span>
+              <span id="badge-moisture" style="background: var(--forest-100); color: var(--forest-800); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">FAVORABLE / ತೇವಾಂಶ ಉತ್ತಮ</span>
             </div>
-            <h4 style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+            <h4 id="title-moisture" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
               Sustained Root Moisture
             </h4>
-            <p style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
-              Intermittent cloud cover suppresses evapotranspiration to ~3.1 mm/day. Red loamy soils will retain adequate moisture for young Finger Millet tillers.
+            <p id="desc-moisture" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Daily transpiration rate is balanced by ambient cloud cover. Rootzone drying will be minimal.
             </p>
-            <div style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
-              No surface wilting expected for 4 days.
+            <div id="footer-moisture" style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Natural moisture is adequate for active root uptake.
             </div>
           </div>
 
           <!-- Advice 3: Field Machinery -->
-          <div class="card" style="border-top: 4px solid var(--amber-500);">
+          <div id="card-tractor" class="card" style="border-top: 4px solid var(--amber-500);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Field Workability</span>
-              <span style="background: var(--amber-100); color: var(--amber-900); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">MODERATE / ಸಾಮಾನ್ಯ</span>
+              <span id="badge-tractor" style="background: var(--amber-100); color: var(--amber-900); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">MODERATE / ಸಾಮಾನ್ಯ</span>
             </div>
-            <h4 style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+            <h4 id="title-tractor" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
               Light Tractor Operations OK
             </h4>
-            <p style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
-              Surface topsoil is damp but well-drained. Manual inter-cultivation and weeding are feasible; avoid heavy combine machinery in clay pockets.
+            <p id="desc-tractor" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Topsoil remains workable for inter-cultivation. Avoid heavy machinery in low-lying furrow depressions.
             </p>
-            <div style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
-              Check furrow lines for water pooling.
+            <div id="footer-tractor" style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Check furrow channels for water pooling.
             </div>
           </div>
         </div>
@@ -206,77 +228,19 @@
           5-Day Agricultural Forecast / ೫ ದಿನಗಳ ಮುನ್ಸೂಚನೆ
         </h3>
         <p style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 20px;">
-          Hourly temperature curve and precipitation forecast modeled by Open-Meteo.
+          Hourly temperature curve and precipitation probability forecast.
         </p>
 
-        <div class="grid-4" style="grid-template-columns: repeat(5, 1fr);">
-          <!-- Day 1 -->
-          <div class="card" style="text-align: center; padding: 16px; background: #faf9f7; border-color: var(--sky-200);">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">Today</div>
-            <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 8px;">Oct 28</div>
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">🌦</div>
-            <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">27°C</div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Min: 20°C</div>
-            <div style="margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--sky-700); background: var(--sky-50); padding: 2px 4px; border-radius: 4px;">
-              Rain: 65% (4mm)
-            </div>
-          </div>
-
-          <!-- Day 2 -->
-          <div class="card" style="text-align: center; padding: 16px; background: #faf9f7;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">Thursday</div>
-            <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 8px;">Oct 29</div>
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">🌧</div>
-            <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">26°C</div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Min: 19°C</div>
-            <div style="margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--sky-700); background: var(--sky-50); padding: 2px 4px; border-radius: 4px;">
-              Rain: 75% (8mm)
-            </div>
-          </div>
-
-          <!-- Day 3 -->
-          <div class="card" style="text-align: center; padding: 16px; background: #faf9f7;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">Friday</div>
-            <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 8px;">Oct 30</div>
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">⛅</div>
-            <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">28°C</div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Min: 20°C</div>
-            <div style="margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--gray-600); background: var(--gray-100); padding: 2px 4px; border-radius: 4px;">
-              Rain: 30% (1mm)
-            </div>
-          </div>
-
-          <!-- Day 4 -->
-          <div class="card" style="text-align: center; padding: 16px; background: #faf9f7;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">Saturday</div>
-            <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 8px;">Oct 31</div>
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">🌤</div>
-            <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">29°C</div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Min: 21°C</div>
-            <div style="margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--gray-600); background: var(--gray-100); padding: 2px 4px; border-radius: 4px;">
-              Rain: 15% (0mm)
-            </div>
-          </div>
-
-          <!-- Day 5 -->
-          <div class="card" style="text-align: center; padding: 16px; background: #faf9f7;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">Sunday</div>
-            <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 8px;">Nov 01</div>
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">☀️</div>
-            <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">30°C</div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Min: 21°C</div>
-            <div style="margin-top: 8px; font-size: 0.72rem; font-weight: 700; color: var(--gray-600); background: var(--gray-100); padding: 2px 4px; border-radius: 4px;">
-              Rain: 10% (0mm)
-            </div>
-          </div>
+        <div id="forecast-cards-container" class="grid-4" style="grid-template-columns: repeat(5, 1fr);">
+          <!-- Injected dynamically -->
         </div>
 
         <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--soil-100); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
           <div style="font-size: 0.8rem; color: var(--gray-600);">
-            Ready to calculate water balance using today's live precipitation?
+            Ready to calculate irrigation water requirement with this weather?
           </div>
-          <a href="irrigation.html" class="btn btn-primary btn-sm">
-            <span>Calculate Irrigation Advice for Hassan</span>
+          <a id="btn-calc-irrigation" href="irrigation.html" class="btn btn-primary btn-sm">
+            <span>Calculate Irrigation Advice</span>
             <span>→</span>
           </a>
         </div>
@@ -288,9 +252,125 @@
   <footer class="site-footer">
     <div class="container footer-bottom" style="border: 0; padding-top: 0;">
       <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
-      <div>Pure HTML & CSS Implementation</div>
+      <div>Dynamic Open-Meteo Meteorological Feed</div>
     </div>
   </footer>
+
+  <!-- Include AgriEngine Script -->
+  <script src="js/agriEngine.js"></script>
+  <script>
+    let currentDistrict = 'Hassan';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query param for location
+      const params = new URLSearchParams(window.location.search);
+      const locParam = params.get('location');
+      if (locParam) {
+        currentDistrict = locParam.split(',')[0].trim();
+      }
+      loadWeather(currentDistrict);
+    });
+
+    function handleSearch(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('district-search-input');
+      const val = input.value.trim();
+      if (val) {
+        switchDistrict(val);
+      }
+    }
+
+    function switchDistrict(name) {
+      currentDistrict = name;
+      document.getElementById('district-search-input').value = name;
+      
+      // Update chip styling
+      document.querySelectorAll('.district-chip').forEach(btn => {
+        if (btn.innerText.toLowerCase().includes(name.toLowerCase())) {
+          btn.className = 'btn btn-primary btn-sm district-chip';
+        } else {
+          btn.className = 'btn btn-outline btn-sm district-chip';
+        }
+      });
+
+      loadWeather(name);
+    }
+
+    async function loadWeather(districtName) {
+      document.getElementById('weather-temp').innerText = '...';
+      document.getElementById('weather-cond-en').innerText = 'Updating...';
+
+      const data = await fetchDistrictWeather(districtName);
+
+      document.getElementById('weather-location').innerText = `${data.districtName}, Karnataka • ${data.kannadaName}`;
+      document.getElementById('weather-zone').innerText = `${data.zone}`;
+      document.getElementById('weather-temp').innerText = `${data.temperature}°C`;
+      document.getElementById('weather-cond-en').innerText = data.conditionText;
+      document.getElementById('weather-cond-kn').innerText = '• ' + data.conditionKn;
+      document.getElementById('weather-icon-large').innerText = data.icon;
+      document.getElementById('geo-coords').innerText = `Lat: ${data.temperature > 0 ? (DISTRICT_DATA[data.districtName]?.lat || 13.0) : 13.0}°N, Lon: ${DISTRICT_DATA[data.districtName]?.lon || 76.1}°E`;
+      document.getElementById('observation-time').innerText = `Updated: ${data.observationTime}`;
+
+      document.getElementById('metric-humidity').innerText = `${data.humidity}%`;
+      document.getElementById('metric-rain').innerText = `${data.rainChance}% Today`;
+      document.getElementById('metric-precip').innerText = `Precipitation: ${data.precipitation} mm`;
+      document.getElementById('metric-wind').innerText = `${data.windSpeed} km/h`;
+      document.getElementById('metric-pressure').innerText = `${data.pressure} hPa`;
+
+      document.getElementById('feed-badge').innerText = data.isLive ? 'Live Open-Meteo Feed' : 'Regional Agro Feed';
+      document.getElementById('interpretations-subtitle').innerText = `Translating live atmospheric data into practical field actions for ${data.districtName} farmers.`;
+
+      // Dynamic Agricultural Interpretations
+      const isRainingOrWindy = data.rainChance > 45 || data.windSpeed > 15;
+      const sprayBadge = document.getElementById('badge-spray');
+      const sprayTitle = document.getElementById('title-spray');
+      const sprayDesc = document.getElementById('desc-spray');
+      const sprayCard = document.getElementById('card-spray');
+
+      if (isRainingOrWindy) {
+        sprayCard.style.borderTopColor = '#dc2626';
+        sprayBadge.style.background = 'var(--red-100)';
+        sprayBadge.style.color = 'var(--red-700)';
+        sprayBadge.innerText = 'RISKY / ಅಪಾಯಕಾರಿ';
+        sprayTitle.innerText = 'Hold Off Chemical Sprays';
+        sprayDesc.innerText = `Rain probability (${data.rainChance}%) and wind (${data.windSpeed} km/h) will blow chemicals off-target or wash them away before absorption.`;
+      } else {
+        sprayCard.style.borderTopColor = 'var(--agri-primary)';
+        sprayBadge.style.background = 'var(--forest-100)';
+        sprayBadge.style.color = 'var(--forest-800)';
+        sprayBadge.innerText = 'FAVORABLE / ಅನುಕೂಲಕರ';
+        sprayTitle.innerText = 'Optimal Spraying Window';
+        sprayDesc.innerText = `Calm winds (${data.windSpeed} km/h) and low rain risk (${data.rainChance}%) allow systemic foliar pesticides or fertilizers to absorb safely.`;
+      }
+
+      // Forecast cards
+      const forecastContainer = document.getElementById('forecast-cards-container');
+      forecastContainer.innerHTML = '';
+      data.forecast.forEach((day, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.textAlign = 'center';
+        card.style.padding = '14px';
+        card.style.background = idx === 0 ? 'var(--sky-50)' : '#faf9f7';
+        card.style.borderColor = idx === 0 ? 'var(--sky-200)' : 'var(--soil-200)';
+        card.innerHTML = `
+          <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">${day.dayName}</div>
+          <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 6px;">${day.date}</div>
+          <div style="font-size: 1.6rem; margin-bottom: 4px;">${day.icon}</div>
+          <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">${day.maxTemp}°C</div>
+          <div style="font-size: 0.75rem; color: var(--gray-500);">Min: ${day.minTemp}°C</div>
+          <div style="margin-top: 6px; font-size: 0.72rem; font-weight: 700; color: ${day.rainChance > 40 ? 'var(--sky-700)' : 'var(--gray-600)'}; background: ${day.rainChance > 40 ? 'var(--sky-100)' : 'var(--gray-100)'}; padding: 2px 4px; border-radius: 4px;">
+            Rain: ${day.rainChance}%
+          </div>
+        `;
+        forecastContainer.appendChild(card);
+      });
+
+      // Update button to calculate irrigation for this district
+      document.getElementById('btn-calc-irrigation').href = `irrigation.html?location=${encodeURIComponent(data.location)}`;
+      document.getElementById('btn-calc-irrigation').querySelector('span').innerText = `Calculate Irrigation for ${data.districtName}`;
+    }
+  </script>
 
 </body>
 </html>

@@ -60,34 +60,71 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="badge badge-live">Live Weather Integrated</span>
+          <span class="badge badge-live">Live Forecast Integrated</span>
+        </div>
+      </div>
+
+      <!-- Crop & Location Switcher -->
+      <div class="card" style="padding: 16px 20px; background: #ffffff;">
+        <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 180px;">
+            <label class="form-label" style="margin-bottom: 4px;">Crop / ಬೆಳೆ</label>
+            <select id="select-crop" class="form-select" onchange="recalculate()">
+              <option value="Finger Millet (Ragi)" selected>Finger Millet (Ragi • ರಾಗಿ)</option>
+              <option value="Cotton">Cotton (ಹತ್ತಿ)</option>
+              <option value="Paddy (Rice)">Paddy (Rice • ಭತ್ತ)</option>
+              <option value="Maize (Corn)">Maize (Corn • ಮೆಕ್ಕೆಜೋಳ)</option>
+              <option value="Chickpea (Bengal Gram)">Chickpea (Bengal Gram • ಕಡಲೆ)</option>
+              <option value="Coffee (Arabica / Robusta)">Coffee (ಕಾಫಿ)</option>
+              <option value="Groundnut (Peanut)">Groundnut (ಕಡಲೆಕಾಯಿ)</option>
+              <option value="Sugarcane">Sugarcane (ಕಬ್ಬು)</option>
+              <option value="Sorghum (Jowar)">Sorghum (Jowar • ಜೋಳ)</option>
+              <option value="Sunflower">Sunflower (ಸೂರ್ಯಕಾಂತಿ)</option>
+            </select>
+          </div>
+
+          <div style="flex: 1; min-width: 180px;">
+            <label class="form-label" style="margin-bottom: 4px;">Location / ಸ್ಥಳ</label>
+            <input type="text" id="select-location" class="form-input" value="Hassan, Karnataka" onchange="recalculate()">
+          </div>
+
+          <div style="flex: 1; min-width: 180px;">
+            <label class="form-label" style="margin-bottom: 4px;">Soil Type / ಮಣ್ಣು</label>
+            <select id="select-soil" class="form-select" onchange="recalculate()">
+              <option value="red_loamy" selected>Red Sandy / Loamy (ಕೆಂಪು ಮಣ್ಣು)</option>
+              <option value="black_regur">Black / Regur (ಕಪ್ಪು ಎರೇ ಮಣ್ಣು)</option>
+              <option value="alluvial">Alluvial (ಮೆಕ್ಕಲು ಮಣ್ಣು)</option>
+              <option value="clayey">Clayey (ಜೇಡಿ ಮಣ್ಣು)</option>
+              <option value="laterite">Laterite (ಜಂಬಿಟ್ಟಿಗೆ)</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <!-- Directive Card (Result) -->
-      <div class="card" style="border: 2px solid var(--amber-300); background: linear-gradient(135deg, #fffdfa 0%, #fffbf0 100%); padding: 32px; box-shadow: var(--shadow-md);">
+      <div id="directive-card" class="card" style="border: 2px solid var(--amber-300); background: linear-gradient(135deg, #fffdfa 0%, #fffbf0 100%); padding: 32px; box-shadow: var(--shadow-md);">
         
         <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-              <span class="badge badge-demo" style="font-size: 0.8rem; padding: 4px 12px; background: #fef3c7; color: #92400e; border-color: #fcd34d;">
+              <span id="directive-badge" class="badge" style="font-size: 0.8rem; padding: 4px 12px; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;">
                 Directive: DELAY IRRIGATION / ನೀರು ಹಾಯಿಸುವುದನ್ನು ಮುಂದೂಡಿ
               </span>
             </div>
-            <div style="font-size: 1.8rem; font-weight: 900; color: var(--gray-900); margin-top: 4px;">
+            <div id="directive-headline" style="font-size: 1.8rem; font-weight: 900; color: var(--gray-900); margin-top: 4px;">
               No Irrigation Required Today (0.0 mm)
             </div>
-            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 4px;">
-              Crop: <strong>Finger Millet (Ragi • ರಾಗಿ)</strong> • Plot A (Hassan, Red Loamy Soil)
+            <p id="directive-crop-info" style="font-size: 0.85rem; color: var(--gray-600); margin-top: 4px;">
+              Crop: <strong>Finger Millet (Ragi • ರಾಗಿ)</strong> • Hassan (Red Loamy Soil)
             </p>
           </div>
 
           <div style="text-align: right;">
-            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">Rain Delay Safeguard</div>
-            <div style="font-size: 1.4rem; font-weight: 900; color: #b45309; margin-top: 2px;">
+            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">Rain Forecast Safeguard</div>
+            <div id="rain-forecast-indicator" style="font-size: 1.4rem; font-weight: 900; color: #b45309; margin-top: 2px;">
               🌧 65% Rain Forecast
             </div>
-            <div style="font-size: 0.75rem; color: var(--gray-500);">Expected within 24-48h</div>
+            <div id="rain-forecast-timeline" style="font-size: 0.75rem; color: var(--gray-500);">Expected within 24-48h</div>
           </div>
         </div>
 
@@ -95,10 +132,10 @@
         <div style="margin-top: 20px; padding: 18px; border-radius: var(--radius-md); background: #ffffff; border: 1px solid var(--soil-200);">
           <h4 style="font-size: 0.85rem; font-weight: 800; color: var(--gray-800); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--amber-500);"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>Why Irrigation is Delayed / ಕಾರಣ:</span>
+            <span>Practical Explanation / ಪ್ರಾಯೋಗಿಕ ಕಾರಣ:</span>
           </h4>
-          <p style="font-size: 0.85rem; color: var(--gray-700); line-height: 1.5;">
-            Imminent precipitation (4.2 - 8.5 mm) is forecasted for Hassan within the next 24 to 48 hours. Soil moisture currently stands at <strong>45%</strong>, which is optimal for the tillering stage of Finger Millet. Applying canal or borewell irrigation now would risk waterlogging, leach soil nitrogen, and unnecessarily consume electricity.
+          <p id="irrigation-explanation" style="font-size: 0.85rem; color: var(--gray-700); line-height: 1.5;">
+            Imminent precipitation is forecasted for your location. Soil moisture is currently adequate. Applying canal or borewell irrigation now would risk waterlogging, leach soil nitrogen, and unnecessarily consume electricity.
           </p>
         </div>
 
@@ -111,21 +148,21 @@
 
           <div class="grid-3">
             <div class="step-card">
-              <span class="step-number" style="color: var(--agri-primary);">1. Hold Off Pumping / ಪಂಪ್ ಚಾಲೂ ಮಾಡಬೇಡಿ</span>
-              <p class="step-en">Do not operate borewell or drip lines for 48 hours.</p>
-              <p class="step-kn">ಮಳೆ ಮುನ್ಸೂಚನೆ ಇರುವುದರಿಂದ ಎರಡು ದಿನ ನೀರು ಹಾಯಿಸಬೇಡಿ.</p>
+              <span id="action-1-num" class="step-number" style="color: var(--agri-primary);">1. Hold Off Pumping / ಪಂಪ್ ಚಾಲೂ ಮಾಡಬೇಡಿ</span>
+              <p id="action-1-en" class="step-en">Do not operate borewell or drip lines for 48 hours.</p>
+              <p id="action-1-kn" class="step-kn">ಮಳೆ ಮುನ್ಸೂಚನೆ ಇರುವುದರಿಂದ ಎರಡು ದಿನ ನೀರು ಹಾಯಿಸಬೇಡಿ.</p>
             </div>
 
             <div class="step-card">
-              <span class="step-number" style="color: var(--sky-700);">2. Clear Drainage / ಬಸಿಗಾಲುವೆ ಸ್ವಚ್ಛಗೊಳಿಸಿ</span>
-              <p class="step-en">Ensure excess rainwater flows easily out of field corners.</p>
-              <p class="step-kn">ಮಳೆ ನೀರು ಗದ್ದೆಯಲ್ಲಿ ನಿಲ್ಲದಂತೆ ಬಸಿಗಾಲುವೆ ಸರಿಪಡಿಸಿ.</p>
+              <span id="action-2-num" class="step-number" style="color: var(--sky-700);">2. Clear Drainage / ಬಸಿಗಾಲುವೆ ಸ್ವಚ್ಛಗೊಳಿಸಿ</span>
+              <p id="action-2-en" class="step-en">Ensure excess rainwater flows easily out of field corners.</p>
+              <p id="action-2-kn" class="step-kn">ಮಳೆ ನೀರು ಗದ್ದೆಯಲ್ಲಿ ನಿಲ್ಲದಂತೆ ಬಸಿಗಾಲುವೆ ಸರಿಪಡಿಸಿ.</p>
             </div>
 
             <div class="step-card">
-              <span class="step-number" style="color: var(--amber-900);">3. Re-Check on Friday / ಶುಕ್ರವಾರ ಪರಿಶೀಲಿಸಿ</span>
-              <p class="step-en">Test soil dryness before next scheduled watering cycle.</p>
-              <p class="step-kn">ಶುಕ್ರವಾರ ಮಣ್ಣಿನ ತೇವಾಂಶ ನೋಡಿ ಮುಂದಿನ ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳಿ.</p>
+              <span id="action-3-num" class="step-number" style="color: var(--amber-900);">3. Re-Check on Friday / ಶುಕ್ರವಾರ ಪರಿಶೀಲಿಸಿ</span>
+              <p id="action-3-en" class="step-en">Test soil dryness before next scheduled watering cycle.</p>
+              <p id="action-3-kn" class="step-kn">ಮಳೆಯ ನಂತರ ಮಣ್ಣಿನ ತೇವಾಂಶ ನೋಡಿ ಮುಂದಿನ ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳಿ.</p>
             </div>
           </div>
         </div>
@@ -138,25 +175,25 @@
           <div class="grid-4">
             <div class="card" style="padding: 12px; background: #faf9f7;">
               <div style="font-size: 0.7rem; color: var(--gray-500);">Crop Evapotranspiration (ETc)</div>
-              <div style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-top: 2px;">3.2 mm/day</div>
-              <div style="font-size: 0.68rem; color: var(--gray-500);">Kc = 0.85 (Tillering Stage)</div>
+              <div id="metric-etc" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-top: 2px;">3.5 mm/day</div>
+              <div id="metric-kc" style="font-size: 0.68rem; color: var(--gray-500);">Vegetative Stage (Kc = 0.85)</div>
             </div>
 
             <div class="card" style="padding: 12px; background: #faf9f7;">
               <div style="font-size: 0.7rem; color: var(--gray-500);">Forecasted Precipitation</div>
-              <div style="font-size: 1rem; font-weight: 800; color: #0284c7; margin-top: 2px;">+4.2 mm</div>
-              <div style="font-size: 0.68rem; color: var(--gray-500);">High confidence rain</div>
+              <div id="metric-rain-supply" style="font-size: 1rem; font-weight: 800; color: #0284c7; margin-top: 2px;">+4.2 mm</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">Natural rain replenishment</div>
             </div>
 
             <div class="card" style="padding: 12px; background: #faf9f7;">
-              <div style="font-size: 0.7rem; color: var(--gray-500);">Net Daily Deficit</div>
-              <div style="font-size: 1rem; font-weight: 800; color: var(--agri-primary); margin-top: 2px;">0.0 mm</div>
-              <div style="font-size: 0.68rem; color: var(--gray-500);">Rain covers crop need</div>
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Net Irrigation Deficit</div>
+              <div id="metric-net-deficit" style="font-size: 1rem; font-weight: 800; color: var(--agri-primary); margin-top: 2px;">0.0 mm</div>
+              <div style="font-size: 0.68rem; color: var(--gray-500);">Rain covers crop demand</div>
             </div>
 
             <div class="card" style="padding: 12px; background: #faf9f7;">
-              <div style="font-size: 0.7rem; color: var(--gray-500);">Electricity Conserved</div>
-              <div style="font-size: 1rem; font-weight: 800; color: var(--forest-800); margin-top: 2px;">~3.5 kWh</div>
+              <div style="font-size: 0.7rem; color: var(--gray-500);">Power / Water Conserved</div>
+              <div id="metric-power" style="font-size: 1rem; font-weight: 800; color: var(--forest-800); margin-top: 2px;">~3.5 kWh</div>
               <div style="font-size: 0.68rem; color: var(--gray-500);">Saved 2.5 hrs pumping</div>
             </div>
           </div>
@@ -170,7 +207,7 @@
           </a>
 
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="weather.html" class="btn btn-sky">
+            <a id="link-weather-btn" href="weather.html" class="btn btn-sky">
               <span>Inspect Weather Feed</span>
             </a>
             <a href="dashboard.html" class="btn btn-primary">
@@ -187,9 +224,107 @@
   <footer class="site-footer">
     <div class="container footer-bottom" style="border: 0; padding-top: 0;">
       <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
-      <div>Pure HTML & CSS Implementation</div>
+      <div>Pure HTML, CSS & Client-Side Intelligence</div>
     </div>
   </footer>
+
+  <script src="js/agriEngine.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const crop = params.get('crop');
+      const location = params.get('location');
+      const soilType = params.get('soilType');
+
+      if (crop) {
+        const cropSelect = document.getElementById('select-crop');
+        for (let i = 0; i < cropSelect.options.length; i++) {
+          if (cropSelect.options[i].value.toLowerCase().includes(crop.toLowerCase().split(' ')[0])) {
+            cropSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (location) {
+        document.getElementById('select-location').value = location;
+      }
+
+      if (soilType) {
+        document.getElementById('select-soil').value = soilType;
+      }
+
+      recalculate();
+    });
+
+    async function recalculate() {
+      const cropName = document.getElementById('select-crop').value;
+      const location = document.getElementById('select-location').value;
+      const soilType = document.getElementById('select-soil').value;
+
+      const profile = CROP_PROFILES[cropName] || CROP_PROFILES['Finger Millet (Ragi)'];
+      const district = location.split(',')[0].trim();
+
+      // Fetch district weather
+      const weather = await fetchDistrictWeather(district);
+
+      document.getElementById('directive-crop-info').innerHTML = `Crop: <strong>${cropName} (${profile.kannadaName})</strong> • ${district} (${soilType.replace('_', ' ')} soil)`;
+      document.getElementById('link-weather-btn').href = `weather.html?location=${encodeURIComponent(location)}`;
+
+      const rainChance = weather.rainChance || 30;
+      const dailyConsumption = profile.dailyWaterConsumptionMm || 4.0;
+      document.getElementById('metric-etc').innerText = `${dailyConsumption} mm/day`;
+
+      const card = document.getElementById('directive-card');
+      const badge = document.getElementById('directive-badge');
+      const headline = document.getElementById('directive-headline');
+      const expl = document.getElementById('irrigation-explanation');
+      const rainIndicator = document.getElementById('rain-forecast-indicator');
+      const rainTimeline = document.getElementById('rain-forecast-timeline');
+
+      if (rainChance >= 40) {
+        // Delay irrigation
+        card.style.borderColor = 'var(--amber-300)';
+        badge.style.background = '#fef3c7';
+        badge.style.color = '#92400e';
+        badge.style.borderColor = '#fcd34d';
+        badge.innerText = 'Directive: DELAY IRRIGATION / ನೀರು ಹಾಯಿಸುವುದನ್ನು ಮುಂದೂಡಿ';
+        headline.innerText = 'No Irrigation Required Today (0.0 mm)';
+        rainIndicator.innerText = `🌧 ${rainChance}% Rain Chance`;
+        rainTimeline.innerText = `Forecasted in ${district} within 24-48h`;
+        
+        expl.innerText = `Rainfall is forecasted for ${district} (${rainChance}% probability). Soil moisture is adequate for ${cropName}. Applying additional irrigation risks waterlogging, nutrient leaching, and wastes pump electricity.`;
+
+        document.getElementById('action-1-num').innerText = '1. Hold Off Pumping / ಪಂಪ್ ಚಾಲೂ ಮಾಡಬೇಡಿ';
+        document.getElementById('action-1-en').innerText = 'Do not operate borewell or canal pumps for 48 hours.';
+        document.getElementById('action-1-kn').innerText = 'ಮಳೆ ಮುನ್ಸೂಚನೆ ಇರುವುದರಿಂದ ಎರಡು ದಿನ ನೀರು ಹಾಯಿಸಬೇಡಿ.';
+
+        document.getElementById('metric-rain-supply').innerText = `+${weather.precipitation || 4.2} mm`;
+        document.getElementById('metric-net-deficit').innerText = '0.0 mm';
+        document.getElementById('metric-power').innerText = '~3.5 kWh saved';
+      } else {
+        // Recommend irrigation
+        card.style.borderColor = 'var(--agri-primary)';
+        badge.style.background = 'var(--forest-100)';
+        badge.style.color = 'var(--forest-800)';
+        badge.style.borderColor = 'var(--agri-mint)';
+        badge.innerText = 'Directive: APPLY IRRIGATION / ನೀರು ಹಾಯಿಸಿ';
+        headline.innerText = `Provide Light Irrigation (~${Math.round(dailyConsumption * 5)} mm)`;
+        rainIndicator.innerText = `☀️ ${rainChance}% Rain (Dry)`;
+        rainTimeline.innerText = `Clear skies in ${district}`;
+
+        expl.innerText = `Weather in ${district} is mostly dry (${weather.conditionText}, ${weather.temperature}°C). Crop evapotranspiration (${dailyConsumption} mm/day) requires replenishment to support active ${profile.criticalStages[0]}.`;
+
+        document.getElementById('action-1-num').innerText = '1. Apply Irrigation / ನೀರು ಹಾಯಿಸಿ';
+        document.getElementById('action-1-en').innerText = `Apply ~15,000 liters/acre in early morning or evening hours.`;
+        document.getElementById('action-1-kn').innerText = 'ಬೆಳಿಗ್ಗೆ ಅಥವಾ ಸಂಜೆ ಸಮಯದಲ್ಲಿ ಗದ್ದೆಗೆ ಹಿತಮಿತವಾಗಿ ನೀರು ಹಾಯಿಸಿ.';
+
+        document.getElementById('metric-rain-supply').innerText = '0.0 mm';
+        document.getElementById('metric-net-deficit').innerText = `${dailyConsumption} mm`;
+        document.getElementById('metric-power').innerText = 'Run pump 1.5 hrs';
+      }
+    }
+  </script>
 
 </body>
 </html>

@@ -60,7 +60,29 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="badge badge-demo">Evaluation Heuristic Model</span>
+          <span class="badge badge-demo">Dynamic ICAR Agronomic Model</span>
+        </div>
+      </div>
+
+      <!-- Quick Preset Selection Helper (Try Different Combinations) -->
+      <div style="background: #ffffff; border: 1px solid var(--soil-200); border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 0.8rem;">
+        <span style="font-weight: 700; color: var(--gray-700);">Quick Presets (ವಿವಿಧ ಜಿಲ್ಲೆಗಳ ಪರೀಕ್ಷೆ):</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Hassan', 'red_loamy', 'kharif', 65, 40, 40)">
+            Hassan (Red Loam / Kharif)
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Dharwad', 'black_regur', 'rabi', 25, 45, 30)">
+            Dharwad (Black Soil / Rabi)
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Belagavi', 'black_regur', 'kharif', 100, 50, 50)">
+            Belagavi (Black Soil / Cotton)
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Mandya', 'clayey', 'kharif', 120, 60, 60)">
+            Mandya (Wetland Clay / Paddy)
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Chikkamagaluru', 'laterite', 'whole_year', 90, 50, 90)">
+            Chikkamagaluru (Laterite / Coffee)
+          </button>
         </div>
       </div>
 
@@ -125,8 +147,8 @@
                 <span>Location / ಊರು - ಜಿಲ್ಲೆ</span>
                 <span class="req">*</span>
               </label>
-              <input type="text" name="location" class="form-input" required value="Hassan, Karnataka" placeholder="e.g. Hassan, Karnataka">
-              <div class="form-help">Hassan, Mandya, Belagavi, or any district.</div>
+              <input type="text" id="input-location" name="location" class="form-input" required value="Hassan, Karnataka" placeholder="e.g. Hassan, Dharwad, Mandya...">
+              <div class="form-help">Hassan, Dharwad, Belagavi, Mandya, Mysuru, etc.</div>
             </div>
 
             <!-- Soil Type -->
@@ -135,7 +157,7 @@
                 <span>Soil Type / ಮಣ್ಣಿನ ಪ್ರಕಾರ</span>
                 <span class="req">*</span>
               </label>
-              <select name="soilType" class="form-select" required>
+              <select id="input-soil" name="soilType" class="form-select" required>
                 <option value="red_loamy" selected>Red Sandy / Loamy (ಕೆಂಪು ಮಣ್ಣು - Hassan & South Kar)</option>
                 <option value="black_regur">Black / Regur (ಕಪ್ಪು / ಎರೇ ಮಣ್ಣು - North Kar)</option>
                 <option value="alluvial">Alluvial Soil (ಮೆಕ್ಕಲು ಮಣ್ಣು - River Basins)</option>
@@ -144,7 +166,7 @@
                 <option value="loamy">Loamy Soil (ಗೋಡು ಮಣ್ಣು - Balanced Texture)</option>
                 <option value="sandy">Sandy Soil (ಮರಳು ಮಣ್ಣು - Fast Drainage)</option>
               </select>
-              <div class="form-help">Porous aeration & water holding balance.</div>
+              <div class="form-help">Soil texture and moisture retention capacity.</div>
             </div>
 
             <!-- Sowing Season -->
@@ -153,7 +175,7 @@
                 <span>Sowing Season / ಬಿತ್ತನೆ ಕಾಲ</span>
                 <span class="req">*</span>
               </label>
-              <select name="season" class="form-select" required>
+              <select id="input-season" name="season" class="form-select" required>
                 <option value="kharif" selected>Kharif / ಮುಂಗಾರು (June to Oct)</option>
                 <option value="rabi">Rabi / ಹಿಂಗಾರು (Oct to March)</option>
                 <option value="zaid">Zaid / ಬೇಸಿಗೆ (March to June)</option>
@@ -181,7 +203,7 @@
               </p>
             </div>
 
-            <!-- CSS Checkbox Hack for Toggle -->
+            <!-- Checkbox Toggle -->
             <div>
               <input type="checkbox" id="toggle-npk">
               <label for="toggle-npk" class="toggle-switch-label">
@@ -191,16 +213,16 @@
             </div>
           </div>
 
-          <!-- Hidden container that expands when toggle-npk is checked in pure CSS -->
+          <!-- Hidden container that expands when toggle-npk is checked -->
           <div class="npk-expandable grid-3" style="background: #fbfaf8; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--soil-200);">
             <!-- Nitrogen -->
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--gray-800);">Nitrogen (N) / ಸಾರಜನಕ</label>
-                <span style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">65 kg/ha</span>
+                <span id="n-val" style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">65 kg/ha</span>
               </div>
               <p style="font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px;">Leaf & plant growth / ಹಸಿರು ಎಲೆಗಳ ಬೆಳವಣಿಗೆಗೆ.</p>
-              <input type="range" min="0" max="250" value="65">
+              <input type="range" id="input-n" name="nitrogen" min="0" max="250" value="65" oninput="document.getElementById('n-val').innerText = this.value + ' kg/ha'">
               <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--gray-400); margin-top: 4px;">
                 <span>0 (Low)</span>
                 <span>100 (Med)</span>
@@ -212,10 +234,10 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--gray-800);">Phosphorus (P) / ರಂಜಕ</label>
-                <span style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">40 kg/ha</span>
+                <span id="p-val" style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">40 kg/ha</span>
               </div>
               <p style="font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px;">Roots & flowers / ಬೇರು ಮತ್ತು ಹೂ ಬಿಡಲು.</p>
-              <input type="range" min="0" max="150" value="40">
+              <input type="range" id="input-p" name="phosphorus" min="0" max="150" value="40" oninput="document.getElementById('p-val').innerText = this.value + ' kg/ha'">
               <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--gray-400); margin-top: 4px;">
                 <span>0 (Low)</span>
                 <span>60 (Med)</span>
@@ -227,10 +249,10 @@
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--gray-800);">Potassium (K) / ಪೊಟ್ಯಾಷ್</label>
-                <span style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">40 kg/ha</span>
+                <span id="k-val" style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">40 kg/ha</span>
               </div>
               <p style="font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px;">Disease protection / ರೋಗ ನಿರೋಧಕ ಶಕ್ತಿಗೆ.</p>
-              <input type="range" min="0" max="180" value="40">
+              <input type="range" id="input-k" name="potassium" min="0" max="180" value="40" oninput="document.getElementById('k-val').innerText = this.value + ' kg/ha'">
               <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--gray-400); margin-top: 4px;">
                 <span>0 (Low)</span>
                 <span>80 (Med)</span>
@@ -248,19 +270,19 @@
           <div class="grid-4" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--soil-200);">
             <div>
               <label class="form-label">Soil pH / pH</label>
-              <input type="number" step="0.1" class="form-input" value="6.5" placeholder="6.5">
+              <input type="number" step="0.1" name="ph" class="form-input" value="6.5" placeholder="6.5">
             </div>
             <div>
               <label class="form-label">Moisture (%) / ತೇವಾಂಶ</label>
-              <input type="number" class="form-input" value="45" placeholder="45">
+              <input type="number" name="soilMoisture" class="form-input" value="45" placeholder="45">
             </div>
             <div>
               <label class="form-label">Temp (°C) / ತಾಪಮಾನ</label>
-              <input type="number" class="form-input" value="27" placeholder="27">
+              <input type="number" name="temperature" class="form-input" value="27" placeholder="27">
             </div>
             <div>
               <label class="form-label">Rainfall (mm) / ಮಳೆ</label>
-              <input type="number" class="form-input" value="120" placeholder="120">
+              <input type="number" name="rainfall" class="form-input" value="120" placeholder="120">
             </div>
           </div>
         </details>
@@ -283,13 +305,31 @@
     </div>
   </main>
 
-  <!-- Site Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom" style="border: 0; padding-top: 0;">
       <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
-      <div>Pure HTML & CSS Implementation</div>
+      <div>Pure HTML, CSS & JavaScript Client Intelligence</div>
     </div>
   </footer>
+
+  <script>
+    function setPreset(loc, soil, season, n, p, k) {
+      document.getElementById('input-location').value = loc + ', Karnataka';
+      document.getElementById('input-soil').value = soil;
+      document.getElementById('input-season').value = season;
+      
+      const toggle = document.getElementById('toggle-npk');
+      toggle.checked = true;
+      
+      const nInput = document.getElementById('input-n');
+      const pInput = document.getElementById('input-p');
+      const kInput = document.getElementById('input-k');
+      
+      if (nInput) { nInput.value = n; document.getElementById('n-val').innerText = n + ' kg/ha'; }
+      if (pInput) { pInput.value = p; document.getElementById('p-val').innerText = p + ' kg/ha'; }
+      if (kInput) { kInput.value = k; document.getElementById('k-val').innerText = k + ' kg/ha'; }
+    }
+  </script>
 
 </body>
 </html>
