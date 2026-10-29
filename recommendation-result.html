@@ -117,26 +117,26 @@
             <!-- Step 2: Weather -->
             <div class="step-card">
               <div>
-                <span class="step-number" style="color: var(--sky-700);">2. Check Local Weather / ಇಂದಿನ ಹವಾಮಾನ ಗಮನಿಸಿ</span>
+                <span class="step-number" style="color: var(--sky-700);">2. Local Weather & Spray / ಇಂದಿನ ಹವಾಮಾನ & ಸಿಂಪಡಣೆ</span>
                 <p id="step-2-en" class="step-en">
-                  Check rain forecast before sowing so heavy showers do not wash away seeds.
+                  Checking real-time weather and spray conditions...
                 </p>
               </div>
               <p id="step-2-kn" class="step-kn">
-                ಬಿತ್ತಿದ ಬೀಜ ಮಳೆಗೆ ಕೊಚ್ಚಿಹೋಗದಂತೆ ಬಿತ್ತನೆಗೆ ಮುನ್ನ ಹವಾಮಾನ ಪರಿಶೀಲಿಸಿ.
+                ಹವಾಮಾನ ಮತ್ತು ಕೀಟನಾಶಕ ಸಿಂಪಡಣೆಯ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...
               </p>
             </div>
 
             <!-- Step 3: Irrigation -->
             <div class="step-card">
               <div>
-                <span class="step-number" style="color: #2563eb;">3. Get Watering Advice / ನೀರು ಹಾಯಿಸುವ ಸಲಹೆ ಪಡೆಯಿರಿ</span>
-                <p class="step-en">
-                  Check whether your field needs irrigation today or if rain is predicted.
+                <span class="step-number" style="color: #2563eb;">3. Automated Irrigation / ಸ್ವಯಂಚಾಲಿತ ನೀರಾವರಿ ಸಲಹೆ</span>
+                <p id="step-3-en" class="step-en">
+                  Calculating daily crop water demand (ETc) and soil retention...
                 </p>
               </div>
-              <p class="step-kn">
-                ಇಂದು ಜಮೀನಿಗೆ ನೀರು ಹಾಯಿಸಬೇಕೇ ಅಥವಾ ಮಳೆ ಬರುವುದರಿಂದ ಮುಂದೂಡಬೇಕೇ ಎಂದು ತಿಳಿಯಲು ನೀರಾವರಿ ಸಲಹೆ ಪಡೆಯಿರಿ.
+              <p id="step-3-kn" class="step-kn">
+                ಬೆಳೆಗೆ ಇಂದಿನ ನೀರಿನ ಅಗತ್ಯತೆಯನ್ನು ಲೆಕ್ಕಹಾಕಲಾಗುತ್ತಿದೆ...
               </p>
             </div>
 
@@ -233,6 +233,164 @@
 
       </div>
 
+      <!-- ==========================================================================
+           Automated Weather & Smart Irrigation Directives (Crop-Specific)
+           ========================================================================== -->
+      <section class="card" style="border: 2px solid var(--agri-primary); background: #ffffff; padding: 32px; box-shadow: var(--shadow-md);">
+        
+        <!-- Header -->
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="badge badge-live">Automated Agro-Intelligence</span>
+              <span id="auto-section-district" style="font-size: 0.75rem; font-weight: 700; color: var(--gray-600);">Live Meteorological Feed</span>
+            </div>
+            <h2 id="auto-section-title" style="font-size: 1.6rem; font-weight: 900; color: var(--gray-900); margin-top: 4px;">
+              Automated Weather & Smart Irrigation Directives
+            </h2>
+            <p id="auto-section-kannada" style="font-size: 0.95rem; font-weight: 700; color: var(--agri-primary); margin-top: 2px;">
+              ಆಯ್ಕೆಯಾದ ಬೆಳೆಗೆ ಹವಾಮಾನ ಮತ್ತು ನೀರಾವರಿ ಸ್ವಯಂಚಾಲಿತ ಮಾರ್ಗದರ್ಶನ
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+            <span class="badge badge-demo" id="auto-live-status">
+              ⚡ Open-Meteo Synced
+            </span>
+            <span id="auto-observed-time" style="font-size: 0.72rem; color: var(--gray-500);">
+              Observation: Current
+            </span>
+          </div>
+        </div>
+
+        <!-- 2-Card Layout: Weather/Spray Advisory & Irrigation Directive -->
+        <div class="grid-2" style="margin-top: 24px; gap: 24px;">
+          
+          <!-- Card 1: Automated Weather & Spraying Advisory -->
+          <div class="card" id="auto-weather-card" style="background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%); border: 1.5px solid var(--sky-200); padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px;">
+                <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sky-800);">
+                  1. Local Agro-Weather & Foliar Spray
+                </span>
+                <span id="auto-spray-badge" class="badge" style="background: var(--forest-100); color: var(--forest-800); border: 1px solid var(--agri-mint); font-size: 0.7rem;">
+                  OPTIMAL SPRAY WINDOW
+                </span>
+              </div>
+
+              <!-- Live Weather Snapshot -->
+              <div style="display: flex; align-items: center; gap: 16px; padding: 14px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--sky-100); margin-bottom: 16px;">
+                <div id="auto-weather-icon" style="font-size: 2.4rem; line-height: 1;">🌦️</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                    <span id="auto-weather-temp" style="font-size: 1.8rem; font-weight: 900; color: var(--gray-900);">--°C</span>
+                    <span id="auto-weather-cond" style="font-size: 0.85rem; font-weight: 700; color: var(--sky-800);">Partly Cloudy</span>
+                  </div>
+                  <div style="display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.75rem; color: var(--gray-600); margin-top: 4px;">
+                    <span>Rain: <strong id="auto-weather-rain" style="color: var(--gray-900);">--%</strong></span>
+                    <span>Wind: <strong id="auto-weather-wind" style="color: var(--gray-900);">-- km/h</strong></span>
+                    <span>Humidity: <strong id="auto-weather-humidity" style="color: var(--gray-900);">--%</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Spray Advisory Text (Bilingual) -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <p id="auto-spray-en" style="font-size: 0.85rem; color: var(--gray-800); line-height: 1.45; font-weight: 500;">
+                  Fetching live agro-meteorological advisory...
+                </p>
+                <p id="auto-spray-kn" style="font-size: 0.82rem; color: var(--soil-800); line-height: 1.45; font-weight: 600; background: #f8fafc; padding: 8px 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--sky-500);">
+                  ಹವಾಮಾನ ಸಲಹೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 1 Footer -->
+            <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--sky-100); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 0.72rem; color: var(--gray-500);">Hyperlocal Open-Meteo API</span>
+              <a id="auto-link-weather" href="weather.html" class="btn btn-outline btn-sm" style="font-size: 0.75rem;">
+                Open Deep Weather →
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Automated Smart Irrigation Directive -->
+          <div class="card" id="auto-irrigation-card" style="background: linear-gradient(180deg, #fdfbf7 0%, #ffffff 100%); border: 1.5px solid var(--soil-300); padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px;">
+                <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--soil-800);">
+                  2. Smart Irrigation Directive (ETc)
+                </span>
+                <span id="auto-irrigation-badge" class="badge" style="background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; font-size: 0.7rem;">
+                  DIRECTIVE: DELAY IRRIGATION
+                </span>
+              </div>
+
+              <!-- Directive Headline -->
+              <div>
+                <h3 id="auto-irrigation-headline" style="font-size: 1.25rem; font-weight: 900; color: var(--gray-900);">
+                  Evaluating Daily Water Deficit...
+                </h3>
+                <p id="auto-irrigation-headline-kn" style="font-size: 0.95rem; font-weight: 800; color: var(--agri-primary); margin-top: 2px;">
+                  ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...
+                </p>
+              </div>
+
+              <!-- 3-Metric Chips -->
+              <div class="grid-3" style="gap: 10px; margin: 14px 0;">
+                <div style="background: #ffffff; border: 1px solid var(--soil-200); border-radius: var(--radius-sm); padding: 8px 10px; text-align: center;">
+                  <div style="font-size: 0.68rem; color: var(--gray-500); font-weight: 700;">DAILY ETc NEED</div>
+                  <div id="auto-metric-etc" style="font-size: 0.95rem; font-weight: 800; color: #1e40af; margin-top: 2px;">-- mm</div>
+                </div>
+
+                <div style="background: #ffffff; border: 1px solid var(--soil-200); border-radius: var(--radius-sm); padding: 8px 10px; text-align: center;">
+                  <div style="font-size: 0.68rem; color: var(--gray-500); font-weight: 700;">WATER VOLUME</div>
+                  <div id="auto-metric-volume" style="font-size: 0.95rem; font-weight: 800; color: #0284c7; margin-top: 2px;">-- L/Acre</div>
+                </div>
+
+                <div style="background: #ffffff; border: 1px solid var(--soil-200); border-radius: var(--radius-sm); padding: 8px 10px; text-align: center;">
+                  <div style="font-size: 0.68rem; color: var(--gray-500); font-weight: 700;">PUMP RUNTIME</div>
+                  <div id="auto-metric-pump" style="font-size: 0.95rem; font-weight: 800; color: #b45309; margin-top: 2px;">-- hrs</div>
+                </div>
+              </div>
+
+              <!-- Soil Retention Insight -->
+              <div style="background: #faf8f5; border: 1px solid var(--soil-200); padding: 10px 12px; border-radius: var(--radius-sm); margin-bottom: 12px;">
+                <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--soil-700); margin-bottom: 2px;">
+                  Soil Moisture Behavior / ಮಣ್ಣಿನ ತೇವಾಂಶ ಲಕ್ಷಣ:
+                </div>
+                <p id="auto-soil-note-en" style="font-size: 0.78rem; color: var(--gray-700); line-height: 1.4;">
+                  Analyzing soil water-holding capacity...
+                </p>
+                <p id="auto-soil-note-kn" style="font-size: 0.75rem; color: var(--soil-800); line-height: 1.4; margin-top: 4px; font-weight: 600;">
+                  ಮಣ್ಣಿನ ತೇವಾಂಶ ಮಾಹಿತಿ...
+                </p>
+              </div>
+
+              <!-- Irrigation Action (Bilingual) -->
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <p id="auto-irrigation-action-en" style="font-size: 0.85rem; color: var(--gray-800); line-height: 1.45; font-weight: 500;">
+                  Calculating recommendation...
+                </p>
+                <p id="auto-irrigation-action-kn" style="font-size: 0.82rem; color: var(--soil-800); line-height: 1.45; font-weight: 600; background: #fffcf2; padding: 8px 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--amber-500);">
+                  ಕ್ರಮಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ...
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 2 Footer -->
+            <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--soil-200); display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 0.72rem; color: var(--gray-500);">ICAR ETc Calculation</span>
+              <a id="auto-link-irrigation" href="irrigation.html" class="btn btn-primary btn-sm" style="font-size: 0.75rem;">
+                Customize in Irrigation Tool →
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
   </main>
 
@@ -246,7 +404,7 @@
   <!-- Include AgriEngine Script -->
   <script src="js/agriEngine.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // 1. Parse URL Search Params
       const params = new URLSearchParams(window.location.search);
       const location = params.get('location') || 'Hassan, Karnataka';
@@ -257,7 +415,7 @@
       const potassium = params.get('potassium') ? parseFloat(params.get('potassium')) : null;
       const ph = params.get('ph') ? parseFloat(params.get('ph')) : null;
 
-      // 2. Run Evaluation
+      // 2. Run Crop Evaluation
       const result = evaluateCrop({
         location,
         soilType,
@@ -270,7 +428,7 @@
 
       const { crop, profile, score, explanation, suitableAlternatives } = result;
 
-      // 3. Update DOM with Results
+      // 3. Update Crop Recommendation DOM
       document.getElementById('crop-name').innerText = crop;
       document.getElementById('crop-kannada').innerText = '• ' + profile.kannadaName;
       document.getElementById('crop-botanical').innerText = `${profile.botanicalName} (${profile.category})`;
@@ -280,10 +438,9 @@
       const seasonFormatted = season.toUpperCase();
       document.getElementById('summary-inputs').innerText = `${location.split(',')[0]} • ${soilFormatted} • ${seasonFormatted}`;
 
-      // Step Instructions
+      // Step Instructions (Field Prep)
       document.getElementById('step-1-en').innerText = profile.simpleInstructionEn;
       document.getElementById('step-1-kn').innerText = profile.simpleInstructionKn;
-      document.getElementById('step-2-en').innerText = `Check current meteorological forecast for ${location} before sowing so heavy downpours do not wash away seedbeds.`;
 
       // Regional text
       document.getElementById('regional-text').innerText = profile.localKarnatakaRelevance;
@@ -325,12 +482,91 @@
         altsContainer.appendChild(span);
       });
 
-      // Update Action Links
-      const weatherUrl = `weather.html?location=${encodeURIComponent(location)}`;
+      // Update Top Action Links
+      const weatherUrl = `weather.html?location=${encodeURIComponent(location)}&crop=${encodeURIComponent(crop)}`;
       const irrigationUrl = `irrigation.html?crop=${encodeURIComponent(crop)}&soilType=${encodeURIComponent(soilType)}&location=${encodeURIComponent(location)}`;
       
       document.getElementById('btn-view-weather').href = weatherUrl;
       document.getElementById('btn-proceed-irrigation').href = irrigationUrl;
+
+      // 4. AUTOMATIC WEATHER & IRRIGATION ADVISORY GENERATION
+      try {
+        const weatherData = await fetchDistrictWeather(location);
+        const advice = getCropAgroAdvice(crop, soilType, weatherData);
+
+        // Update Checklist Step 2 & 3 with Live Derived Values
+        document.getElementById('step-2-en').innerText = advice.sprayAdvisory.summaryEn;
+        document.getElementById('step-2-kn').innerText = advice.sprayAdvisory.summaryKn;
+        document.getElementById('step-3-en').innerText = advice.irrigationDirective.summaryEn;
+        document.getElementById('step-3-kn').innerText = advice.irrigationDirective.summaryKn;
+
+        // Update Section Header Info
+        document.getElementById('auto-section-title').innerText = `Automated Weather & Smart Irrigation for ${crop}`;
+        document.getElementById('auto-section-kannada').innerText = `${profile.kannadaName} ಬೆಳೆಗೆ ${advice.districtName} ಜಿಲ್ಲೆಯ ಹವಾಮಾನ ಮತ್ತು ನೀರಾವರಿ ಮಾರ್ಗದರ್ಶನ`;
+        document.getElementById('auto-section-district').innerText = `${advice.districtName}, Karnataka • ${weatherData.zone || 'Agro-Climatic Zone'}`;
+        document.getElementById('auto-live-status').innerText = weatherData.isLive ? '⚡ Open-Meteo Live Synced' : '🛰️ Regional Baseline Synced';
+        document.getElementById('auto-observed-time').innerText = `Updated: ${weatherData.observationTime || 'Today'}`;
+
+        // Update Card 1: Weather & Spray Advisory
+        document.getElementById('auto-weather-icon').innerText = advice.weather.icon;
+        document.getElementById('auto-weather-temp').innerText = `${advice.weather.temperature}°C`;
+        document.getElementById('auto-weather-cond').innerText = `${advice.weather.conditionText} • ${advice.weather.conditionKn}`;
+        document.getElementById('auto-weather-rain').innerText = `${advice.weather.rainChance}%`;
+        document.getElementById('auto-weather-wind').innerText = `${advice.weather.windSpeed} km/h`;
+        document.getElementById('auto-weather-humidity').innerText = `${advice.weather.humidity}%`;
+
+        const sprayBadge = document.getElementById('auto-spray-badge');
+        sprayBadge.innerText = `${advice.sprayAdvisory.badgeText} / ${advice.sprayAdvisory.badgeKn}`;
+        if (advice.sprayAdvisory.status === 'risky') {
+          sprayBadge.style.background = '#fee2e2';
+          sprayBadge.style.color = '#991b1b';
+          sprayBadge.style.borderColor = '#fca5a5';
+        } else if (advice.sprayAdvisory.status === 'caution') {
+          sprayBadge.style.background = '#fef3c7';
+          sprayBadge.style.color = '#92400e';
+          sprayBadge.style.borderColor = '#fcd34d';
+        } else {
+          sprayBadge.style.background = 'var(--forest-100)';
+          sprayBadge.style.color = 'var(--forest-800)';
+          sprayBadge.style.borderColor = 'var(--agri-mint)';
+        }
+
+        document.getElementById('auto-spray-en').innerText = advice.sprayAdvisory.adviceEn;
+        document.getElementById('auto-spray-kn').innerText = advice.sprayAdvisory.adviceKn;
+        document.getElementById('auto-link-weather').href = weatherUrl;
+        document.getElementById('auto-link-weather').innerText = `Open Full Weather for ${advice.districtName} →`;
+
+        // Update Card 2: Smart Irrigation Directive
+        const irrBadge = document.getElementById('auto-irrigation-badge');
+        irrBadge.innerText = `${advice.irrigationDirective.badgeEn} / ${advice.irrigationDirective.badgeKn}`;
+        if (advice.irrigationDirective.status === 'delay') {
+          irrBadge.style.background = '#fef3c7';
+          irrBadge.style.color = '#92400e';
+          irrBadge.style.borderColor = '#fcd34d';
+        } else {
+          irrBadge.style.background = '#dbeafe';
+          irrBadge.style.color = '#1e40af';
+          irrBadge.style.borderColor = '#93c5fd';
+        }
+
+        document.getElementById('auto-irrigation-headline').innerText = advice.irrigationDirective.headlineEn;
+        document.getElementById('auto-irrigation-headline-kn').innerText = advice.irrigationDirective.headlineKn;
+
+        document.getElementById('auto-metric-etc').innerText = advice.irrigationDirective.waterNeedMm > 0 ? `${advice.irrigationDirective.waterNeedMm} mm/day` : '0.0 mm (Rain)';
+        document.getElementById('auto-metric-volume').innerText = advice.irrigationDirective.litersPerAcre > 0 ? `${advice.irrigationDirective.litersPerAcre.toLocaleString()} L/Acre` : '0 L (Rain)';
+        document.getElementById('auto-metric-pump').innerText = advice.irrigationDirective.pumpRuntimeHours;
+
+        document.getElementById('auto-soil-note-en').innerText = advice.irrigationDirective.soilNoteEn;
+        document.getElementById('auto-soil-note-kn').innerText = advice.irrigationDirective.soilNoteKn;
+
+        document.getElementById('auto-irrigation-action-en').innerText = advice.irrigationDirective.practicalActionEn;
+        document.getElementById('auto-irrigation-action-kn').innerText = advice.irrigationDirective.practicalActionKn;
+        document.getElementById('auto-link-irrigation').href = irrigationUrl;
+        document.getElementById('auto-link-irrigation').innerText = `Open Irrigation Plan for ${crop} →`;
+
+      } catch (err) {
+        console.error('Error generating automated weather and irrigation advice:', err);
+      }
     });
   </script>
 
