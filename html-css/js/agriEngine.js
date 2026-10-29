@@ -443,3 +443,179 @@ function getFallbackWeather(districtName) {
     observationTime: 'Current Regional Model'
   };
 }
+
+/**
+ * Automatically generates crop-specific agro-weather advisories and smart irrigation directives
+ * based on the recommended crop, local soil type, and live meteorological conditions.
+ */
+function getCropAgroAdvice(cropName, soilType, weatherData) {
+  // Normalize crop lookup
+  let matchedCrop = 'Finger Millet (Ragi)';
+  for (const key of Object.keys(CROP_PROFILES)) {
+    if (cropName && (key.toLowerCase() === cropName.toLowerCase() || key.toLowerCase().includes(cropName.toLowerCase().split(' ')[0]))) {
+      matchedCrop = key;
+      break;
+    }
+  }
+
+  const profile = CROP_PROFILES[matchedCrop] || CROP_PROFILES['Finger Millet (Ragi)'];
+  const soil = (soilType || 'red_loamy').toLowerCase();
+  const weather = weatherData || getFallbackWeather('Hassan');
+
+  const rainChance = typeof weather.rainChance === 'number' ? weather.rainChance : 30;
+  const windSpeed = typeof weather.windSpeed === 'number' ? weather.windSpeed : 12;
+  const temp = typeof weather.temperature === 'number' ? weather.temperature : 27;
+  const precipitation = typeof weather.precipitation === 'number' ? weather.precipitation : 0;
+  const dailyETc = profile.dailyWaterConsumptionMm || 4.5;
+  const criticalStage = profile.criticalStages && profile.criticalStages.length > 0 ? profile.criticalStages[0] : 'Vegetative growth';
+
+  // --- 1. Automated Weather & Spraying Advisory ---
+  const isHighRainRisk = rainChance >= 40 || precipitation >= 2.0;
+  const isWindy = windSpeed > 15;
+  const isHeatStress = temp >= 34;
+
+  let sprayBadgeText = 'OPTIMAL SPRAY WINDOW';
+  let sprayBadgeKn = 'ಅನುಕೂಲಕರ ಸಿಂಪಡಣೆ ಸಮಯ';
+  let sprayStatus = 'favorable'; // 'favorable', 'caution', 'risky'
+  let sprayAdviceEn = '';
+  let sprayAdviceKn = '';
+
+  if (isHighRainRisk) {
+    sprayBadgeText = 'HIGH WASHOFF RISK / HOLD OFF SPRAYS';
+    sprayBadgeKn = 'ಮಳೆಯಿಂದಾಗಿ ಸಿಂಪಡಣೆ ಮುಂದೂಡಿ';
+    sprayStatus = 'risky';
+    sprayAdviceEn = `Precipitation probability is high (${rainChance}%) in ${weather.districtName}. Postpone foliar nutrition, bio-stimulants, and chemical sprays on ${matchedCrop} to prevent wash-off into drainage and avoid fertilizer waste.`;
+    sprayAdviceKn = `${weather.districtName} ಭಾಗದಲ್ಲಿ ${rainChance}% ಮಳೆಯಾಗುವ ಮುನ್ಸೂಚನೆ ಇದೆ. ${profile.kannadaName} ಬೆಳೆಗೆ ಕೀಟನಾಶಕ ಅಥವಾ ರಸಗೊಬ್ಬರ ಸಿಂಪಡಿಸುವುದನ್ನು ಮುಂದೂಡಿ; ಮಳೆಗೆ ಔಷಧ ಕೊಚ್ಚಿಹೋಗುತ್ತದೆ.`;
+  } else if (isWindy) {
+    sprayBadgeText = 'WIND DRIFT CAUTION';
+    sprayBadgeKn = 'ಗಾಳಿಯ ವೇಗ ಹೆಚ್ಚು - ಎಚ್ಚರ';
+    sprayStatus = 'caution';
+    sprayAdviceEn = `Wind velocity (${windSpeed} km/h) is above calm limits. Spray only during early morning hours (6:30 - 8:30 AM) using low-pressure cone nozzles to reduce chemical drift away from ${matchedCrop} canopy.`;
+    sprayAdviceKn = `ಗಾಳಿಯ ವೇಗ (${windSpeed} km/h) ಹೆಚ್ಚಿರುವುದರಿಂದ ಮುಂಜಾನೆ ೬:೩೦ ರಿಂದ ೮:೩೦ ರ ಒಳಗೆ ಮಾತ್ರ ಸಿಂಪಡಿಸಿ. ಗಾಳಿಗೆ ಔಷಧ ಪಕ್ಕದ ಜಮೀನಿಗೆ ಹಾರುವುದನ್ನು ತಪ್ಪಿಸಿ.`;
+  } else if (isHeatStress) {
+    sprayBadgeText = 'AFTERNOON HEAT WARNING';
+    sprayBadgeKn = 'ಬಿರುಬಿಸಿಲು - ಬೆಳಿಗ್ಗೆ ಮಾತ್ರ ಸಿಂಪಡಿಸಿ';
+    sprayStatus = 'caution';
+    sprayAdviceEn = `High daytime heat (${temp}°C) accelerates spray droplet evaporation. Schedule applications strictly during early morning or sunset to prevent scorching on ${matchedCrop} leaves during its critical ${criticalStage} stage.`;
+    sprayAdviceKn = `ತಾಪಮಾನ (${temp}°C) ಹೆಚ್ಚಿರುವುದರಿಂದ ಮಧ್ಯಾಹ್ನ ಸಿಂಪಡಿಸಬೇಡಿ. ಎಲೆಗಳು ಬಾಡುವ ಅಥವಾ ಸುಡುವ ಸಾಧ್ಯತೆ ಇರುತ್ತದೆ. ಮುಂಜಾನೆ ಅಥವಾ ಸಂಜೆ ಸಿಂಪಡಿಸಿ.`;
+  } else {
+    sprayBadgeText = 'OPTIMAL SPRAYING WINDOW';
+    sprayBadgeKn = 'ಅತ್ಯುತ್ತಮ ಸಿಂಪಡಣೆ ಸಮಯ';
+    sprayStatus = 'favorable';
+    sprayAdviceEn = `Clear and calm conditions in ${weather.districtName} (${weather.conditionText}, ${temp}°C, wind ${windSpeed} km/h). Safe and effective window for systemic absorption of micro-nutrients or crop protection sprays for ${matchedCrop}.`;
+    sprayAdviceKn = `${weather.districtName} ಭಾಗದಲ್ಲಿ ಹವಾಮಾನ ಶಾಂತವಾಗಿದೆ (${weather.conditionKn}, ${temp}°C). ${profile.kannadaName} ಬೆಳೆಗೆ ಪೋಷಕಾಂಶ ಅಥವಾ ಅಗತ್ಯ ಕೀಟನಾಶಕ ಸಿಂಪಡಿಸಲು ಇದು ಅತ್ಯಂತ ಸೂಕ್ತ ಸಮಯ.`;
+  }
+
+  // Weather quick summary for checklist
+  const weatherSummaryEn = `Current: ${temp}°C, ${weather.conditionText}, Rain chance: ${rainChance}%, Wind: ${windSpeed} km/h. ${sprayStatus === 'risky' ? 'Hold chemical sprays.' : 'Safe for field operations.'}`;
+  const weatherSummaryKn = `ಇಂದಿನ ಹವಾಮಾನ: ${temp}°C, ${weather.conditionKn}, ಮಳೆ: ${rainChance}%, ಗಾಳಿ: ${windSpeed} km/h. ${sprayStatus === 'risky' ? 'ಸಿಂಪಡಣೆ ಬೇಡ.' : 'ಹೊಲದ ಕೆಲಸಕ್ಕೆ ಅನುಕೂಲಕರ.'}`;
+
+  // --- 2. Smart Irrigation Directive ---
+  let irrigationDirective = 'APPLY_IRRIGATION';
+  let irrigationBadgeEn = 'APPLY IRRIGATION TODAY';
+  let irrigationBadgeKn = 'ಇಂದು ನೀರು ಹಾಯಿಸಿ';
+  let irrigationStatus = 'irrigate'; // 'delay', 'irrigate'
+  let headlineEn = '';
+  let headlineKn = '';
+  let waterNeedMm = dailyETc;
+  let litersPerAcre = 0;
+  let pumpRuntimeHours = '';
+  let soilNoteEn = '';
+  let soilNoteKn = '';
+  let practicalActionEn = '';
+  let practicalActionKn = '';
+
+  // Soil retention specifics
+  if (soil.includes('black')) {
+    soilNoteEn = 'Black (Regur) soil holds substantial root-zone moisture for 4-5 days. Highly vulnerable to waterlogging; irrigate sparingly.';
+    soilNoteKn = 'ಕಪ್ಪು ಎರೇ ಮಣ್ಣು ತೇವಾಂಶವನ್ನು ದೀರ್ಘಕಾಲ ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳುತ್ತದೆ; ನೀರು ನಿಂತು ಬೇರು ಕೊಳೆಯದಂತೆ ಹಿತಮಿತವಾಗಿ ನೀರು ಹಾಯಿಸಿ.';
+  } else if (soil.includes('red') || soil.includes('loam')) {
+    soilNoteEn = 'Red loamy soil drains rapidly with moderate water retention. Frequent light watering is optimal for root zone aeration.';
+    soilNoteKn = 'ಕೆಂಪು ಮಣ್ಣು ಬೇಗನೆ ಒಣಗುವುದರಿಂದ ಹಿತಮಿತವಾಗಿ ಆಗಾಗ ನೀರು ಹಾಯಿಸುವುದು ಬೇರುಗಳ ಬೆಳವಣಿಗೆಗೆ ಉತ್ತಮ.';
+  } else if (soil.includes('clay')) {
+    soilNoteEn = 'Clayey soil has slow infiltration and risks surface crusted puddling. Check soil beneath top 3 cm before pumping.';
+    soilNoteKn = 'ಜೇಡಿ ಮಣ್ಣಿನಲ್ಲಿ ನೀರು ನಿಧಾನವಾಗಿ ಇಂಗುತ್ತದೆ; ಮೇಲ್ಪದರದ ತೇವಾಂಶ ಪರೀಕ್ಷಿಸಿ ನಂತರ ನೀರು ಕೊಡಿ.';
+  } else {
+    soilNoteEn = 'Well-aerated soil profile. Ensure even distribution across planting beds.';
+    soilNoteKn = 'ಮಣ್ಣಿನಲ್ಲಿ ಸಮನಾಗಿ ತೇವಾಂಶ ಹರಡುವಂತೆ ಡ್ರಿಪ್ ಅಥವಾ ಕಾಲುವೆ ಮೂಲಕ ನೀರು ಹಾಯಿಸಿ.';
+  }
+
+  if (isHighRainRisk) {
+    irrigationDirective = 'DELAY_IRRIGATION';
+    irrigationBadgeEn = 'DELAY IRRIGATION (RAIN SAFEGUARD)';
+    irrigationBadgeKn = 'ನೀರು ಹಾಯಿಸಬೇಡಿ (ಮಳೆ ಮುನ್ಸೂಚನೆ)';
+    irrigationStatus = 'delay';
+    headlineEn = 'No Irrigation Needed Today (0.0 mm)';
+    headlineKn = 'ಇಂದು ನೀರು ಹಾಯಿಸಬೇಕಾಗಿಲ್ಲ (೦.೦ ಮಿ.ಮೀ)';
+    waterNeedMm = 0;
+    litersPerAcre = 0;
+    pumpRuntimeHours = '0 hrs (Power & Water Saved)';
+    practicalActionEn = `Hold off pump or drip operation for 24 to 48 hours. Approaching showers in ${weather.districtName} will supply natural root moisture for ${matchedCrop}. Pumping now wastes electricity and risks root asphyxiation / wilt.`;
+    practicalActionKn = `${weather.districtName} ವ್ಯಾಪ್ತಿಯಲ್ಲಿ ಮಳೆ ಮುನ್ಸೂಚನೆ ಇರುವುದರಿಂದ ಮುಂದಿನ ೨೪-೪೮ ಗಂಟೆಗಳ ಕಾಲ ನೀರು ಹಾಯಿಸಬೇಡಿ. ನೈಸರ್ಗಿಕ ಮಳೆಯಿಂದಲೇ ${profile.kannadaName} ಬೆಳೆಗೆ ತೇವಾಂಶ ಸಿಗುತ್ತದೆ. ವಿದ್ಯುತ್ ಮತ್ತು ನೀರು ಎರಡೂ ಉಳಿಯುತ್ತದೆ.`;
+  } else {
+    irrigationDirective = 'APPLY_IRRIGATION';
+    irrigationBadgeEn = 'APPLY LIGHT IRRIGATION';
+    irrigationBadgeKn = 'ಹಿತಮಿತವಾಗಿ ನೀರು ಹಾಯಿಸಿ';
+    irrigationStatus = 'irrigate';
+
+    const appliedMm = Math.round(dailyETc * 10) / 10;
+    waterNeedMm = appliedMm;
+    litersPerAcre = Math.round(appliedMm * 4046.86);
+    const pumpHours = (appliedMm * 0.35).toFixed(1);
+    pumpRuntimeHours = `~${pumpHours} hrs (5 HP motor)`;
+
+    headlineEn = `Apply ~${appliedMm} mm Irrigation (~${litersPerAcre.toLocaleString()} Liters/Acre)`;
+    headlineKn = `ಸುಮಾರು ${appliedMm} ಮಿ.ಮೀ ನೀರು ಹಾಯಿಸಿ (ಎಕರೆಗೆ ~${litersPerAcre.toLocaleString()} ಲೀಟರ್)`;
+    practicalActionEn = `Dry regional weather (${temp}°C, ${rainChance}% rain chance). Provide ${litersPerAcre.toLocaleString()} L/acre to satisfy daily evapotranspiration (${dailyETc} mm/day) during active ${criticalStage}. Best applied via drip in early morning.`;
+    practicalActionKn = `ಒಣ ಹವಾಮಾನವಿರುವುದರಿಂದ ${profile.kannadaName} ಬೆಳೆಗೆ ಎಕರೆಗೆ ಸುಮಾರು ${litersPerAcre.toLocaleString()} ಲೀಟರ್ ನೀರು ಹಾಯಿಸಿ. ಮುಂಜಾನೆ ನೀರು ಹಾಯಿಸುವುದರಿಂದ ಆವಿಯಾಗುವಿಕೆ ತಡೆಯಬಹುದು.`;
+  }
+
+  // Irrigation quick summary for checklist
+  const irrigationSummaryEn = `Directive: ${irrigationStatus === 'delay' ? 'Delay irrigation (Rain forecast: ' + rainChance + '%). Clear field drains.' : 'Apply ~' + litersPerAcre.toLocaleString() + ' L/acre in morning. Pump ~' + pumpRuntimeHours + '.'}`;
+  const irrigationSummaryKn = `ನಿರ್ದೇಶನ: ${irrigationStatus === 'delay' ? 'ಮಳೆ ಇರುವುದರಿಂದ ನೀರು ಹಾಯಿಸಬೇಡಿ. ಬಸಿಗಾಲುವೆ ಸರಿಪಡಿಸಿ.' : 'ಮುಂಜಾನೆ ಎಕರೆಗೆ ~' + litersPerAcre.toLocaleString() + ' ಲೀಟರ್ ನೀರು ಹಾಯಿಸಿ.'}`;
+
+  return {
+    cropName: matchedCrop,
+    cropKannada: profile.kannadaName,
+    districtName: weather.districtName,
+    location: weather.location,
+    soilType,
+    criticalStage,
+    weather: {
+      temperature: temp,
+      humidity: weather.humidity,
+      rainChance,
+      windSpeed,
+      conditionText: weather.conditionText,
+      conditionKn: weather.conditionKn,
+      icon: weather.icon,
+      isLive: weather.isLive
+    },
+    sprayAdvisory: {
+      status: sprayStatus,
+      badgeText: sprayBadgeText,
+      badgeKn: sprayBadgeKn,
+      adviceEn: sprayAdviceEn,
+      adviceKn: sprayAdviceKn,
+      summaryEn: weatherSummaryEn,
+      summaryKn: weatherSummaryKn
+    },
+    irrigationDirective: {
+      status: irrigationStatus,
+      directive: irrigationDirective,
+      badgeEn: irrigationBadgeEn,
+      badgeKn: irrigationBadgeKn,
+      headlineEn,
+      headlineKn,
+      waterNeedMm,
+      litersPerAcre,
+      pumpRuntimeHours,
+      soilNoteEn,
+      soilNoteKn,
+      practicalActionEn,
+      practicalActionKn,
+      summaryEn: irrigationSummaryEn,
+      summaryKn: irrigationSummaryKn
+    }
+  };
+}
