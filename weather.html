@@ -82,7 +82,7 @@
       <div class="card" style="padding: 16px 20px; background: #ffffff;">
         <form id="search-form" onsubmit="handleSearch(event)" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 240px; position: relative;">
-            <input type="text" id="district-search-input" class="form-input" placeholder="Type Karnataka district name (e.g. Dharwad, Belagavi, Mandya...)" value="Hassan">
+            <input type="text" id="district-search-input" class="form-input" placeholder="Type Karnataka district or taluk name (e.g. Channarayapatna, Hubballi, Bailhongal, Hassan...)" value="Hassan">
           </div>
           <button type="submit" class="btn btn-primary">
             <span>Check Weather / ಹವಾಮಾನ ನೋಡಿ</span>
@@ -106,6 +106,14 @@
         <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Ballari')">Ballari (ಬಳ್ಳಾರಿ)</button>
         <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Kalaburagi')">Kalaburagi (ಕಲಬುರಗಿ)</button>
         <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Vijayapura')">Vijayapura (ವಿಜಯಪುರ)</button>
+      </div>
+
+      <!-- Taluk Selector Quick Filter Chips -->
+      <div id="taluk-chips-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; background: #f4f8f3; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--agri-mist);">
+        <span style="font-weight: 700; color: var(--agri-deep);">Select Taluk / ತಾಲೂಕು ಆಯ್ಕೆ:</span>
+        <div id="taluk-chips-container" style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <!-- Dynamically populated -->
+        </div>
       </div>
 
       <!-- Current Weather Hero Card -->
@@ -275,17 +283,26 @@
   <script src="js/agriEngine.js"></script>
   <script>
     let currentDistrict = 'Hassan';
+    let currentTaluk = 'Hassan';
     let currentCrop = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       // Check query param for location & crop
       const params = new URLSearchParams(window.location.search);
       const locParam = params.get('location');
+      const talukParam = params.get('taluk');
       const cropParam = params.get('crop');
 
-      if (locParam) {
-        currentDistrict = locParam.split(',')[0].trim();
+      let initialQuery = 'Hassan';
+      if (talukParam) {
+        initialQuery = talukParam;
+      } else if (locParam) {
+        initialQuery = locParam;
       }
+
+      const locInfo = typeof resolveKarnatakaLocation === 'function' ? resolveKarnatakaLocation(initialQuery) : { district: 'Hassan', taluk: 'Hassan' };
+      currentDistrict = locInfo.district;
+      currentTaluk = locInfo.taluk;
 
       if (cropParam) {
         currentCrop = cropParam;
@@ -293,15 +310,17 @@
         if (banner) {
           banner.style.display = 'flex';
           document.getElementById('crop-context-name').innerText = cropParam;
-          const profile = CROP_PROFILES[cropParam];
+          const profile = typeof CROP_PROFILES !== 'undefined' ? CROP_PROFILES[cropParam] : null;
           if (profile) {
             document.getElementById('crop-context-kannada').innerText = `${profile.kannadaName} • ${profile.summary}`;
           }
-          document.getElementById('crop-context-irrigation-link').href = `irrigation.html?crop=${encodeURIComponent(cropParam)}&location=${encodeURIComponent(locParam || currentDistrict)}`;
+          document.getElementById('crop-context-irrigation-link').href = `irrigation.html?crop=${encodeURIComponent(cropParam)}&location=${encodeURIComponent(locParam || currentTaluk + ', ' + currentDistrict)}`;
         }
       }
 
-      loadWeather(currentDistrict);
+      renderTalukChips(currentDistrict, currentTaluk);
+      highlightDistrictChip(currentDistrict);
+      loadWeather(locInfo.isTaluk ? `${currentTaluk}, ${currentDistrict}` : currentDistrict);
     });
 
     function handleSearch(e) {
@@ -309,15 +328,16 @@
       const input = document.getElementById('district-search-input');
       const val = input.value.trim();
       if (val) {
-        switchDistrict(val);
+        const locInfo = resolveKarnatakaLocation(val);
+        currentDistrict = locInfo.district;
+        currentTaluk = locInfo.taluk;
+        highlightDistrictChip(currentDistrict);
+        renderTalukChips(currentDistrict, currentTaluk);
+        loadWeather(locInfo.isTaluk ? `${currentTaluk}, ${currentDistrict}` : currentDistrict);
       }
     }
 
-    function switchDistrict(name) {
-      currentDistrict = name;
-      document.getElementById('district-search-input').value = name;
-      
-      // Update chip styling
+    function highlightDistrictChip(name) {
       document.querySelectorAll('.district-chip').forEach(btn => {
         if (btn.innerText.toLowerCase().includes(name.toLowerCase())) {
           btn.className = 'btn btn-primary btn-sm district-chip';
@@ -325,8 +345,47 @@
           btn.className = 'btn btn-outline btn-sm district-chip';
         }
       });
+    }
 
+    function renderTalukChips(districtName, selectedTaluk) {
+      const container = document.getElementById('taluk-chips-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const distData = typeof KARNATAKA_DISTRICTS_TALUKS !== 'undefined' ? KARNATAKA_DISTRICTS_TALUKS[districtName] : null;
+      if (!distData || !distData.taluks) return;
+
+      distData.taluks.forEach(t => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        const isSel = selectedTaluk && (t.en.toLowerCase() === selectedTaluk.toLowerCase());
+        btn.className = isSel ? 'btn btn-sky btn-sm taluk-chip' : 'btn btn-outline btn-sm taluk-chip';
+        btn.style.fontSize = '0.74rem';
+        btn.style.padding = '3px 8px';
+        btn.innerText = `${t.en} (${t.kn})`;
+        btn.onclick = () => switchTaluk(t.en, districtName);
+        container.appendChild(btn);
+      });
+    }
+
+    function switchDistrict(name) {
+      currentDistrict = name;
+      document.getElementById('district-search-input').value = name;
+      highlightDistrictChip(name);
+
+      const distData = KARNATAKA_DISTRICTS_TALUKS[name];
+      currentTaluk = distData && distData.taluks ? distData.taluks[0].en : name;
+      renderTalukChips(name, currentTaluk);
       loadWeather(name);
+    }
+
+    function switchTaluk(talukName, districtName) {
+      currentTaluk = talukName;
+      currentDistrict = districtName;
+      document.getElementById('district-search-input').value = `${talukName}, ${districtName}`;
+
+      renderTalukChips(districtName, talukName);
+      loadWeather(`${talukName}, ${districtName}`);
     }
 
     async function loadWeather(districtName) {
@@ -335,13 +394,13 @@
 
       const data = await fetchDistrictWeather(districtName);
 
-      document.getElementById('weather-location').innerText = `${data.districtName}, Karnataka • ${data.kannadaName}`;
+      document.getElementById('weather-location').innerText = `${data.displayName || data.location} • ${data.kannadaName}`;
       document.getElementById('weather-zone').innerText = `${data.zone}`;
       document.getElementById('weather-temp').innerText = `${data.temperature}°C`;
       document.getElementById('weather-cond-en').innerText = data.conditionText;
       document.getElementById('weather-cond-kn').innerText = '• ' + data.conditionKn;
       document.getElementById('weather-icon-large').innerText = data.icon;
-      document.getElementById('geo-coords').innerText = `Lat: ${data.temperature > 0 ? (DISTRICT_DATA[data.districtName]?.lat || 13.0) : 13.0}°N, Lon: ${DISTRICT_DATA[data.districtName]?.lon || 76.1}°E`;
+      document.getElementById('geo-coords').innerText = `Lat: ${data.lat || 13.0}°N, Lon: ${data.lon || 76.1}°E`;
       document.getElementById('observation-time').innerText = `Updated: ${data.observationTime}`;
 
       document.getElementById('metric-humidity').innerText = `${data.humidity}%`;
@@ -351,7 +410,7 @@
       document.getElementById('metric-pressure').innerText = `${data.pressure} hPa`;
 
       document.getElementById('feed-badge').innerText = data.isLive ? 'Live Open-Meteo Feed' : 'Regional Agro Feed';
-      document.getElementById('interpretations-subtitle').innerText = `Translating live atmospheric data into practical field actions for ${data.districtName} farmers.`;
+      document.getElementById('interpretations-subtitle').innerText = `Translating live atmospheric data into practical field actions for ${data.talukName ? data.talukName + ' (' + data.districtName + ' Dist)' : data.districtName} farmers.`;
 
       // Dynamic Agricultural Interpretations
       const sprayBadge = document.getElementById('badge-spray');

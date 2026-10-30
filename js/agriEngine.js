@@ -4,6 +4,278 @@
  * Provides dynamic crop evaluation, live Open-Meteo weather feeds, and smart irrigation calculations.
  */
 
+
+const KARNATAKA_DISTRICTS_TALUKS = {
+  'Hassan': {
+    kannada: 'ಹಾಸನ',
+    zone: 'Southern Transition Zone',
+    taluks: [
+      { en: 'Hassan', kn: 'ಹಾಸನ', lat: 13.0033, lon: 76.1004 },
+      { en: 'Channarayapatna', kn: 'ಚನ್ನರಾಯಪಟ್ಟಣ', lat: 12.9056, lon: 76.3912 },
+      { en: 'Arsikere', kn: 'ಅರಸೀಕೆರೆ', lat: 13.3150, lon: 76.2575 },
+      { en: 'Belur', kn: 'ಬೇಲೂರು', lat: 13.1625, lon: 75.8647 },
+      { en: 'Sakleshpur', kn: 'ಸಕಲೇಶಪುರ', lat: 12.9438, lon: 75.7878 },
+      { en: 'Holenarasipur', kn: 'ಹೊಳೆನರಸೀಪುರ', lat: 12.7886, lon: 76.2447 },
+      { en: 'Arkalgud', kn: 'ಅರಕಲಗೂಡು', lat: 12.7667, lon: 76.0583 },
+      { en: 'Alur', kn: 'ಆಲೂರು', lat: 12.9833, lon: 75.9833 }
+    ]
+  },
+  'Dharwad': {
+    kannada: 'ಧಾರವಾಡ',
+    zone: 'Northern Transition / Black Soil',
+    taluks: [
+      { en: 'Dharwad', kn: 'ಧಾರವಾಡ', lat: 15.4589, lon: 75.0078 },
+      { en: 'Hubballi', kn: 'ಹುಬ್ಬಳ್ಳಿ', lat: 15.3647, lon: 75.1240 },
+      { en: 'Kalghatgi', kn: 'ಕಲಘಟಗಿ', lat: 15.1833, lon: 74.9667 },
+      { en: 'Navalgund', kn: 'ನವಲಗುಂದ', lat: 15.5667, lon: 75.3667 },
+      { en: 'Kundgol', kn: 'ಕುಂದಗೋಳ', lat: 15.2500, lon: 75.2500 },
+      { en: 'Alnavar', kn: 'ಅಳ್ನಾವರ', lat: 15.4333, lon: 74.7333 },
+      { en: 'Annigeri', kn: 'ಅಣ್ಣಿಗೇರಿ', lat: 15.4167, lon: 75.4333 }
+    ]
+  },
+  'Belagavi': {
+    kannada: 'ಬೆಳಗಾವಿ',
+    zone: 'Northern Transition Zone',
+    taluks: [
+      { en: 'Belagavi', kn: 'ಬೆಳಗಾವಿ', lat: 15.8497, lon: 74.4977 },
+      { en: 'Chikkodi', kn: 'ಚಿಕ್ಕೋಡಿ', lat: 16.4333, lon: 74.6000 },
+      { en: 'Athani', kn: 'ಅಥಣಿ', lat: 16.7333, lon: 75.0667 },
+      { en: 'Gokak', kn: 'ಗೋಕಾಕ', lat: 16.1667, lon: 74.8333 },
+      { en: 'Bailhongal', kn: 'ಬೈಲಹೊಂಗಲ', lat: 15.8167, lon: 74.8667 },
+      { en: 'Hukkeri', kn: 'ಹುಕ್ಕೇರಿ', lat: 16.2333, lon: 74.6000 },
+      { en: 'Ramdurg', kn: 'ರಾಮದುರ್ಗ', lat: 15.9500, lon: 75.3000 },
+      { en: 'Saundatti', kn: 'ಸವದತ್ತಿ', lat: 15.7667, lon: 75.1167 },
+      { en: 'Raybag', kn: 'ರಾಯಭಾಗ', lat: 16.4833, lon: 74.7833 },
+      { en: 'Khanapur', kn: 'ಖಾನಾಪುರ', lat: 15.6333, lon: 74.5167 },
+      { en: 'Kittur', kn: 'ಕಿತ್ತೂರು', lat: 15.6000, lon: 74.7833 },
+      { en: 'Nipani', kn: 'ನಿಪ್ಪಾಣಿ', lat: 16.4000, lon: 74.3833 }
+    ]
+  },
+  'Mandya': {
+    kannada: 'ಮಂಡ್ಯ',
+    zone: 'Southern Dry / Cauvery Basin',
+    taluks: [
+      { en: 'Mandya', kn: 'ಮಂಡ್ಯ', lat: 12.5226, lon: 76.8973 },
+      { en: 'Maddur', kn: 'ಮದ್ದೂರು', lat: 12.5833, lon: 77.0500 },
+      { en: 'Malavalli', kn: 'ಮಳವಳ್ಳಿ', lat: 12.3833, lon: 77.0667 },
+      { en: 'Pandavapura', kn: 'ಪಾಂಡವಪುರ', lat: 12.5000, lon: 76.6667 },
+      { en: 'Srirangapatna', kn: 'ಶ್ರೀರಂಗಪಟ್ಟಣ', lat: 12.4183, lon: 76.6947 },
+      { en: 'Krishnarajpet (K.R. Pet)', kn: 'ಕೃಷ್ಣರಾಜಪೇಟೆ', lat: 12.6667, lon: 76.4833 },
+      { en: 'Nagamangala', kn: 'ನಾಗಮಂಗಲ', lat: 12.8167, lon: 76.7500 }
+    ]
+  },
+  'Mysuru': {
+    kannada: 'ಮೈಸೂರು',
+    zone: 'Southern Dry Zone',
+    taluks: [
+      { en: 'Mysuru', kn: 'ಮೈಸೂರು', lat: 12.2958, lon: 76.6394 },
+      { en: 'Nanjangud', kn: 'ನಂಜನಗೂಡು', lat: 12.1167, lon: 76.6833 },
+      { en: 'Hunsur', kn: 'ಹುಣಸೂರು', lat: 12.3167, lon: 76.2833 },
+      { en: 'Piriyapatna', kn: 'ಪಿರಿಯಾಪಟ್ಟಣ', lat: 12.3333, lon: 76.1000 },
+      { en: 'T. Narasipura', kn: 'ಟಿ. ನರಸೀಪುರ', lat: 12.2167, lon: 76.9000 },
+      { en: 'K.R. Nagar', kn: 'ಕೆ.ಆರ್. ನಗರ', lat: 12.5833, lon: 76.3833 },
+      { en: 'H.D. Kote', kn: 'ಎಚ್.ಡಿ. ಕೋಟೆ', lat: 11.9833, lon: 76.3333 },
+      { en: 'Saragur', kn: 'ಸರಗೂರು', lat: 11.9667, lon: 76.4167 }
+    ]
+  },
+  'Shivamogga': {
+    kannada: 'ಶಿವಮೊಗ್ಗ',
+    zone: 'Malnad / Central Zone',
+    taluks: [
+      { en: 'Shivamogga', kn: 'ಶಿವಮೊಗ್ಗ', lat: 13.9299, lon: 75.5681 },
+      { en: 'Bhadravathi', kn: 'ಭದ್ರಾವತಿ', lat: 13.8400, lon: 75.7000 },
+      { en: 'Sagar', kn: 'ಸಾಗರ', lat: 14.1667, lon: 75.0333 },
+      { en: 'Shikaripura', kn: 'ಶಿಕಾರಿಪುರ', lat: 14.2667, lon: 75.3500 },
+      { en: 'Soraba', kn: 'ಸೊರಬ', lat: 14.3833, lon: 75.1000 },
+      { en: 'Thirthahalli', kn: 'ತೀರ್ಥಹಳ್ಳಿ', lat: 13.6833, lon: 75.2333 },
+      { en: 'Hosanagara', kn: 'ಹೊಸನಗರ', lat: 13.9167, lon: 75.0667 }
+    ]
+  },
+  'Chikkamagaluru': {
+    kannada: 'ಚಿಕ್ಕಮಗಳೂರು',
+    zone: 'Hill / Coffee Tract',
+    taluks: [
+      { en: 'Chikkamagaluru', kn: 'ಚಿಕ್ಕಮಗಳೂರು', lat: 13.3161, lon: 75.7720 },
+      { en: 'Mudigere', kn: 'ಮೂಡಿಗೆರೆ', lat: 13.1333, lon: 75.6333 },
+      { en: 'Kadur', kn: 'ಕಡೂರು', lat: 13.5500, lon: 76.0167 },
+      { en: 'Tarikere', kn: 'ತರೀಕೆರೆ', lat: 13.7167, lon: 75.8167 },
+      { en: 'Koppa', kn: 'ಕೊಪ್ಪ', lat: 13.5333, lon: 75.3667 },
+      { en: 'Sringeri', kn: 'ಶೃಂಗೇರಿ', lat: 13.4167, lon: 75.2500 },
+      { en: 'Narasimharajapura (NR Pura)', kn: 'ಎನ್.ಆರ್. ಪುರ', lat: 13.6167, lon: 75.5167 },
+      { en: 'Ajjampura', kn: 'ಅಜ್ಜಂಪುರ', lat: 13.7167, lon: 76.0167 }
+    ]
+  },
+  'Tumakuru': {
+    kannada: 'ತುಮಕೂರು',
+    zone: 'Eastern Dry Zone',
+    taluks: [
+      { en: 'Tumakuru', kn: 'ತುಮಕೂರು', lat: 13.3409, lon: 77.1006 },
+      { en: 'Tiptur', kn: 'ತಿಪಟೂರು', lat: 13.2667, lon: 76.4833 },
+      { en: 'Gubbi', kn: 'ಗುಬ್ಬಿ', lat: 13.3167, lon: 76.9333 },
+      { en: 'Kunigal', kn: 'ಕುಣಿಗಲ್', lat: 13.0167, lon: 77.0333 },
+      { en: 'Madhugiri', kn: 'ಮಧುಗಿರಿ', lat: 13.6667, lon: 77.2167 },
+      { en: 'Sira', kn: 'ಶಿರಾ', lat: 13.7500, lon: 76.9000 },
+      { en: 'Koratagere', kn: 'ಕೊರಟಗೆರೆ', lat: 13.5167, lon: 77.2333 },
+      { en: 'Pavagada', kn: 'ಪಾವಗಡ', lat: 14.1000, lon: 77.2833 },
+      { en: 'Turuvekere', kn: 'ತುರುವೇಕೆರೆ', lat: 13.1667, lon: 76.6667 },
+      { en: 'Chikkanayakanahalli', kn: 'ಚಿಕ್ಕನಾಯಕನಹಳ್ಳಿ', lat: 13.4167, lon: 76.6167 }
+    ]
+  },
+  'Davangere': {
+    kannada: 'ದಾವಣಗೆರೆ',
+    zone: 'Central Dry Zone',
+    taluks: [
+      { en: 'Davangere', kn: 'ದಾವಣಗೆರೆ', lat: 14.4644, lon: 75.9218 },
+      { en: 'Harihara', kn: 'ಹರಿಹರ', lat: 14.5167, lon: 75.8000 },
+      { en: 'Channagiri', kn: 'ಚನ್ನಗಿರಿ', lat: 14.0333, lon: 75.9333 },
+      { en: 'Honnali', kn: 'ಹೊನ್ನಾಳಿ', lat: 14.2500, lon: 75.6500 },
+      { en: 'Nyamathi', kn: 'ನ್ಯಾಮತಿ', lat: 14.1500, lon: 75.5667 },
+      { en: 'Jagalur', kn: 'ಜಗಳೂರು', lat: 14.5333, lon: 76.3500 }
+    ]
+  },
+  'Ballari': {
+    kannada: 'ಬಳ್ಳಾರಿ',
+    zone: 'Northeastern Dry Zone',
+    taluks: [
+      { en: 'Ballari', kn: 'ಬಳ್ಳಾರಿ', lat: 15.1394, lon: 76.9214 },
+      { en: 'Sandur', kn: 'ಸಂಡೂರು', lat: 15.0833, lon: 76.5500 },
+      { en: 'Siruguppa', kn: 'ಸಿರುಗುಪ್ಪ', lat: 15.6333, lon: 76.9000 },
+      { en: 'Kampli', kn: 'ಕಂಪ್ಲಿ', lat: 15.4000, lon: 76.6167 },
+      { en: 'Kurugodu', kn: 'ಕುರುಗೋಡು', lat: 15.3500, lon: 76.8333 }
+    ]
+  },
+  'Kalaburagi': {
+    kannada: 'ಕಲಬುರಗಿ',
+    zone: 'Northeastern Transition Zone',
+    taluks: [
+      { en: 'Kalaburagi', kn: 'ಕಲಬುರಗಿ', lat: 17.3297, lon: 76.8343 },
+      { en: 'Aland', kn: 'ಆಳಂದ', lat: 17.5667, lon: 76.5667 },
+      { en: 'Afzalpur', kn: 'ಅಫಜಲಪುರ', lat: 17.2000, lon: 76.3500 },
+      { en: 'Chincholi', kn: 'ಚಿಂಚೋಳಿ', lat: 17.4667, lon: 77.4333 },
+      { en: 'Chitapur', kn: 'ಚಿತ್ತಾಪುರ', lat: 17.1167, lon: 77.0833 },
+      { en: 'Jewargi', kn: 'ಜೇವರ್ಗಿ', lat: 17.0167, lon: 76.7667 },
+      { en: 'Sedam', kn: 'ಸೇಡಂ', lat: 17.1833, lon: 77.2833 }
+    ]
+  },
+  'Vijayapura': {
+    kannada: 'ವಿಜಯಪುರ',
+    zone: 'Northern Dry Zone',
+    taluks: [
+      { en: 'Vijayapura', kn: 'ವಿಜಯಪುರ', lat: 16.8302, lon: 75.7100 },
+      { en: 'Indi', kn: 'ಇಂಡಿ', lat: 17.1833, lon: 75.9667 },
+      { en: 'Basavana Bagewadi', kn: 'ಬಸವನ ಬಾಗೇವಾಡಿ', lat: 16.5833, lon: 75.9667 },
+      { en: 'Muddebihal', kn: 'ಮುದ್ದೇಬಿಹಾಳ', lat: 16.3333, lon: 76.1333 },
+      { en: 'Sindagi', kn: 'ಸಿಂದಗಿ', lat: 16.9167, lon: 76.2333 },
+      { en: 'Talikoti', kn: 'ತಾಳಿಕೋಟೆ', lat: 16.4833, lon: 76.3167 }
+    ]
+  },
+  'Bagalkot': {
+    kannada: 'ಬಾಗಲಕೋಟೆ',
+    zone: 'Northern Dry Zone',
+    taluks: [
+      { en: 'Bagalkot', kn: 'ಬಾಗಲಕೋಟೆ', lat: 16.1817, lon: 75.6958 },
+      { en: 'Badami', kn: 'ಬಾದಾಮಿ', lat: 15.9167, lon: 75.6833 },
+      { en: 'Jamkhandi', kn: 'ಜಮಖಂಡಿ', lat: 16.5167, lon: 75.3000 },
+      { en: 'Mudhol', kn: 'ಮುಧೋಳ', lat: 16.3500, lon: 75.2833 },
+      { en: 'Hungund', kn: 'ಹುನಗುಂದ', lat: 16.0667, lon: 76.0500 },
+      { en: 'Ilkal', kn: 'ಇಳಕಲ್', lat: 15.9667, lon: 76.1167 }
+    ]
+  },
+  'Chitradurga': {
+    kannada: 'ಚಿತ್ರದುರ್ಗ',
+    zone: 'Central Dry Zone',
+    taluks: [
+      { en: 'Chitradurga', kn: 'ಚಿತ್ರದುರ್ಗ', lat: 14.2251, lon: 76.3980 },
+      { en: 'Challakere', kn: 'ಚಳ್ಳಕೆರೆ', lat: 14.3167, lon: 76.6500 },
+      { en: 'Hiriyur', kn: 'ಹಿರಿಯೂರು', lat: 13.9500, lon: 76.6167 },
+      { en: 'Holalkere', kn: 'ಹೊಳಲ್ಕೆರೆ', lat: 14.0333, lon: 76.1833 },
+      { en: 'Hosadurga', kn: 'ಹೊಸದುರ್ಗ', lat: 13.8000, lon: 76.2833 }
+    ]
+  },
+  'Kodagu': {
+    kannada: 'ಕೊಡಗು',
+    zone: 'Western Ghats / Plantation',
+    taluks: [
+      { en: 'Madikeri', kn: 'ಮಡಿಕೇರಿ', lat: 12.4244, lon: 75.7382 },
+      { en: 'Somwarpet', kn: 'ಸೋಮವಾರಪೇಟೆ', lat: 12.6000, lon: 75.8667 },
+      { en: 'Virajpet', kn: 'ವಿರಾಜಪೇಟೆ', lat: 12.2000, lon: 75.8000 },
+      { en: 'Kushalnagar', kn: 'ಕುಶಾಲನಗರ', lat: 12.4667, lon: 75.9667 }
+    ]
+  },
+  'Udupi': {
+    kannada: 'ಉಡುಪಿ',
+    zone: 'Coastal Zone',
+    taluks: [
+      { en: 'Udupi', kn: 'ಉಡುಪಿ', lat: 13.3409, lon: 74.7421 },
+      { en: 'Kundapura', kn: 'ಕುಂದಾಪುರ', lat: 13.6333, lon: 74.7000 },
+      { en: 'Karkala', kn: 'ಕಾರ್ಕಳ', lat: 13.2167, lon: 74.9833 },
+      { en: 'Byndoor', kn: 'ಬೈಂದೂರು', lat: 13.8667, lon: 74.6333 }
+    ]
+  },
+  'Bengaluru Rural': {
+    kannada: 'ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ',
+    zone: 'Eastern Dry Zone',
+    taluks: [
+      { en: 'Devanahalli', kn: 'ದೇವನಹಳ್ಳಿ', lat: 13.2500, lon: 77.7167 },
+      { en: 'Doddaballapura', kn: 'ದೊಡ್ಡಬಳ್ಳಾಪುರ', lat: 13.2846, lon: 77.5684 },
+      { en: 'Hosakote', kn: 'ಹೊಸಕೋಟೆ', lat: 13.0667, lon: 77.8000 },
+      { en: 'Nelamangala', kn: 'ನೆಲಮಂಗಲ', lat: 13.1000, lon: 77.3833 }
+    ]
+  }
+};
+
+function resolveKarnatakaLocation(query) {
+  if (!query) query = 'Hassan';
+  const q = String(query).toLowerCase().trim();
+
+  // 1. First check if any specific taluk (not named identically to district) matches
+  for (const [distName, distObj] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
+    for (const t of distObj.taluks) {
+      if (t.en.toLowerCase() !== distName.toLowerCase() && (q.includes(t.en.toLowerCase()) || q.includes(t.kn.toLowerCase()))) {
+        return {
+          district: distName,
+          districtKn: distObj.kannada,
+          taluk: t.en,
+          talukKn: t.kn,
+          lat: t.lat,
+          lon: t.lon,
+          zone: distObj.zone,
+          isTaluk: true
+        };
+      }
+    }
+  }
+
+  // 2. Then check if any district matches
+  for (const [distName, distObj] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
+    if (q.includes(distName.toLowerCase()) || q.includes(distObj.kannada.toLowerCase())) {
+      const defaultTaluk = distObj.taluks[0];
+      return {
+        district: distName,
+        districtKn: distObj.kannada,
+        taluk: defaultTaluk.en,
+        talukKn: defaultTaluk.kn,
+        lat: defaultTaluk.lat,
+        lon: defaultTaluk.lon,
+        zone: distObj.zone,
+        isTaluk: true
+      };
+    }
+  }
+
+  // Fallback to Hassan
+  return {
+    district: 'Hassan',
+    districtKn: 'ಹಾಸನ',
+    taluk: 'Hassan',
+    talukKn: 'ಹಾಸನ',
+    lat: 13.0033,
+    lon: 76.1004,
+    zone: 'Southern Transition Zone',
+    isTaluk: false
+  };
+}
+
 const DISTRICT_DATA = {
   'Hassan': { lat: 13.0033, lon: 76.1004, kannada: 'ಹಾಸನ', zone: 'Southern Transition Zone' },
   'Mandya': { lat: 12.5226, lon: 76.8973, kannada: 'ಮಂಡ್ಯ', zone: 'Southern Dry / Cauvery Basin' },
@@ -201,7 +473,8 @@ function evaluateCrop(inputs) {
     ph = null
   } = inputs;
 
-  const locLower = (location || '').toLowerCase();
+  const locInfo = resolveKarnatakaLocation(location || 'Hassan');
+  const locLower = (location || '').toLowerCase() + ' ' + locInfo.district.toLowerCase() + ' ' + (locInfo.taluk ? locInfo.taluk.toLowerCase() : '');
   const scores = [];
 
   for (const [cropName, profile] of Object.entries(CROP_PROFILES)) {
@@ -325,17 +598,10 @@ function evaluateCrop(inputs) {
 /**
  * Fetches Live Open-Meteo Weather for any Karnataka District with automatic fallback
  */
-async function fetchDistrictWeather(districtName) {
-  // Find matching district
-  let cleanName = 'Hassan';
-  for (const name of Object.keys(DISTRICT_DATA)) {
-    if (districtName.toLowerCase().includes(name.toLowerCase())) {
-      cleanName = name;
-      break;
-    }
-  }
-
-  const district = DISTRICT_DATA[cleanName] || DISTRICT_DATA['Hassan'];
+async function fetchDistrictWeather(locationQuery) {
+  const loc = resolveKarnatakaLocation(locationQuery || 'Hassan');
+  const cleanName = loc.district;
+  const district = { lat: loc.lat, lon: loc.lon, kannada: loc.districtKn, zone: loc.zone };
 
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${district.lat}&longitude=${district.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&timezone=auto`;
@@ -366,10 +632,14 @@ async function fetchDistrictWeather(districtName) {
     }
 
     return {
-      location: `${cleanName}, Karnataka`,
-      districtName: cleanName,
-      kannadaName: district.kannada,
-      zone: district.zone,
+      location: loc.isTaluk ? `${loc.taluk}, ${loc.district}, Karnataka` : `${loc.district}, Karnataka`,
+      districtName: loc.district,
+      talukName: loc.taluk,
+      displayName: loc.isTaluk ? `${loc.taluk} (${loc.district} Dist)` : `${loc.district}, Karnataka`,
+      kannadaName: loc.isTaluk ? `${loc.talukKn} (${loc.districtKn} ಜಿಲ್ಲೆ)` : loc.districtKn,
+      zone: loc.zone,
+      lat: loc.lat,
+      lon: loc.lon,
       temperature: Math.round(curr.temperature_2m * 10) / 10,
       apparentTemperature: Math.round(curr.apparent_temperature * 10) / 10,
       humidity: Math.round(curr.relative_humidity_2m),

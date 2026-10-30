@@ -407,7 +407,19 @@
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Parse URL Search Params
       const params = new URLSearchParams(window.location.search);
-      const location = params.get('location') || 'Hassan, Karnataka';
+      const districtParam = params.get('district');
+      const talukParam = params.get('taluk');
+      let location = params.get('location');
+      if (!location) {
+        if (talukParam && districtParam) {
+          location = `${talukParam}, ${districtParam}, Karnataka`;
+        } else if (districtParam) {
+          location = `${districtParam}, Karnataka`;
+        } else {
+          location = 'Hassan, Karnataka';
+        }
+      }
+      const locInfo = typeof resolveKarnatakaLocation === 'function' ? resolveKarnatakaLocation(location) : { isTaluk: false, district: 'Hassan', taluk: 'Hassan' };
       const soilType = params.get('soilType') || 'red_loamy';
       const season = params.get('season') || 'kharif';
       const nitrogen = params.get('nitrogen') ? parseFloat(params.get('nitrogen')) : null;
@@ -436,7 +448,8 @@
       
       const soilFormatted = soilType.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
       const seasonFormatted = season.toUpperCase();
-      document.getElementById('summary-inputs').innerText = `${location.split(',')[0]} • ${soilFormatted} • ${seasonFormatted}`;
+      const placeDisplay = locInfo.isTaluk ? `${locInfo.taluk} Taluk, ${locInfo.district}` : `${locInfo.district}`;
+      document.getElementById('summary-inputs').innerText = `${placeDisplay} • ${soilFormatted} • ${seasonFormatted}`;
 
       // Step Instructions (Field Prep)
       document.getElementById('step-1-en').innerText = profile.simpleInstructionEn;
@@ -502,8 +515,8 @@
 
         // Update Section Header Info
         document.getElementById('auto-section-title').innerText = `Automated Weather & Smart Irrigation for ${crop}`;
-        document.getElementById('auto-section-kannada').innerText = `${profile.kannadaName} ಬೆಳೆಗೆ ${advice.districtName} ಜಿಲ್ಲೆಯ ಹವಾಮಾನ ಮತ್ತು ನೀರಾವರಿ ಮಾರ್ಗದರ್ಶನ`;
-        document.getElementById('auto-section-district').innerText = `${advice.districtName}, Karnataka • ${weatherData.zone || 'Agro-Climatic Zone'}`;
+        document.getElementById('auto-section-kannada').innerText = `${profile.kannadaName} ಬೆಳೆಗೆ ${locInfo.isTaluk ? locInfo.talukKn + ' (' + locInfo.districtKn + ' ಜಿಲ್ಲೆ)' : advice.districtName} ಹವಾಮಾನ ಮತ್ತು ನೀರಾವರಿ ಮಾರ್ಗದರ್ಶನ`;
+        document.getElementById('auto-section-district').innerText = `${advice.displayName || advice.location} • ${weatherData.zone || 'Agro-Climatic Zone'}`;
         document.getElementById('auto-live-status').innerText = weatherData.isLive ? '⚡ Open-Meteo Live Synced' : '🛰️ Regional Baseline Synced';
         document.getElementById('auto-observed-time').innerText = `Updated: ${weatherData.observationTime || 'Today'}`;
 

@@ -55,7 +55,7 @@
             </h1>
           </div>
           <p style="font-size: 0.85rem; color: var(--gray-500); margin-top: 6px;">
-            Simple agricultural guidance for your land. Select your soil and season to discover the best crops. / ನಿಮ್ಮ ಜಮೀನಿಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆಯನ್ನು ಸುಲಭವಾಗಿ ತಿಳಿಯಿರಿ.
+            Simple agricultural guidance for your land. Select your district, taluk, soil and season to discover the best crops. / ನಿಮ್ಮ ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಮಣ್ಣಿಗೆ ಸೂಕ್ತವಾದ ಬೆಳೆಯನ್ನು ತಿಳಿಯಿರಿ.
           </p>
         </div>
 
@@ -68,20 +68,20 @@
       <div style="background: #ffffff; border: 1px solid var(--soil-200); border-radius: var(--radius-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 0.8rem;">
         <span style="font-weight: 700; color: var(--gray-700);">Quick Presets (ವಿವಿಧ ಜಿಲ್ಲೆಗಳ ಪರೀಕ್ಷೆ):</span>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Hassan', 'red_loamy', 'kharif', 65, 40, 40)">
-            Hassan (Red Loam / Kharif)
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Hassan', 'Channarayapatna', 'red_loamy', 'kharif', 65, 40, 40)">
+            Hassan - Channarayapatna (Ragi)
           </button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Dharwad', 'black_regur', 'rabi', 25, 45, 30)">
-            Dharwad (Black Soil / Rabi)
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Dharwad', 'Hubballi', 'black_regur', 'rabi', 25, 45, 30)">
+            Dharwad - Hubballi (Bengal Gram)
           </button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Belagavi', 'black_regur', 'kharif', 100, 50, 50)">
-            Belagavi (Black Soil / Cotton)
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Belagavi', 'Bailhongal', 'black_regur', 'kharif', 100, 50, 50)">
+            Belagavi - Bailhongal (Cotton)
           </button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Mandya', 'clayey', 'kharif', 120, 60, 60)">
-            Mandya (Wetland Clay / Paddy)
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Mandya', 'Maddur', 'clayey', 'kharif', 120, 60, 60)">
+            Mandya - Maddur (Paddy)
           </button>
-          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Chikkamagaluru', 'laterite', 'whole_year', 90, 50, 90)">
-            Chikkamagaluru (Laterite / Coffee)
+          <button type="button" class="btn btn-outline btn-sm" onclick="setPreset('Chikkamagaluru', 'Mudigere', 'laterite', 'whole_year', 90, 50, 90)">
+            Chikkamagaluru - Mudigere (Coffee)
           </button>
         </div>
       </div>
@@ -95,10 +95,10 @@
 
         <div class="grid-4">
           <div class="card" style="padding: 14px;">
-            <strong style="color: var(--agri-primary); font-size: 0.85rem; display: block;">1. Location / ನಿಮ್ಮ ಊರು</strong>
+            <strong style="color: var(--agri-primary); font-size: 0.85rem; display: block;">1. District & Taluk / ಜಿಲ್ಲೆ & ತಾಲೂಕು</strong>
             <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 4px; line-height: 1.4;">
-              Enter your village or district name.<br>
-              <span style="color: var(--gray-500);">ನಿಮ್ಮ ಊರು ಅಥವಾ ಜಿಲ್ಲೆಯ ಹೆಸರು ಹಾಕಿ.</span>
+              Select your District and Taluk.<br>
+              <span style="color: var(--gray-500);">ನಿಮ್ಮ ಜಿಲ್ಲೆ ಮತ್ತು ತಾಲೂಕು ಆಯ್ಕೆಮಾಡಿ.</span>
             </p>
           </div>
 
@@ -131,25 +131,42 @@
       <!-- Recommendation Input Form -->
       <form action="recommendation-result.html" method="get" class="card" style="padding: 32px; display: flex; flex-direction: column; gap: 28px;">
         
-        <!-- Step 1: Location, Soil Type, Sowing Season -->
+        <!-- Step 1: Location (District & Taluk), Soil Type, Sowing Season -->
         <div>
           <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--gray-900); margin-bottom: 4px;">
             1. Farm & Environmental Inputs / ಜಮೀನಿನ ವಿವರ
           </h3>
           <p style="font-size: 0.8rem; color: var(--gray-500); margin-bottom: 20px;">
-            Mandatory parameters required to calculate agronomic compatibility score.
+            Select your District and Taluk for hyperlocal ICAR agronomic matching and live weather feeds.
           </p>
 
-          <div class="grid-3">
-            <!-- Location -->
+          <div class="grid-4">
+            <!-- District Selector -->
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">
-                <span>Location / ಊರು - ಜಿಲ್ಲೆ</span>
+                <span>District / ಜಿಲ್ಲೆ</span>
                 <span class="req">*</span>
               </label>
-              <input type="text" id="input-location" name="location" class="form-input" required value="Hassan, Karnataka" placeholder="e.g. Hassan, Dharwad, Mandya...">
-              <div class="form-help">Hassan, Dharwad, Belagavi, Mandya, Mysuru, etc.</div>
+              <select id="input-district" name="district" class="form-select" onchange="onDistrictChange()" required>
+                <!-- Populated dynamically via JS -->
+              </select>
+              <div class="form-help">Karnataka District / ಜಿಲ್ಲೆ</div>
             </div>
+
+            <!-- Taluk Selector -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">
+                <span>Taluk / ತಾಲೂಕು</span>
+                <span class="req">*</span>
+              </label>
+              <select id="input-taluk" name="taluk" class="form-select" onchange="onTalukChange()" required>
+                <!-- Populated dynamically based on district -->
+              </select>
+              <div class="form-help">Select Taluk / ತಾಲೂಕು</div>
+            </div>
+
+            <!-- Hidden location query for backwards compatibility -->
+            <input type="hidden" id="input-location" name="location" value="Hassan, Karnataka">
 
             <!-- Soil Type -->
             <div class="form-group" style="margin-bottom: 0;">
@@ -158,15 +175,15 @@
                 <span class="req">*</span>
               </label>
               <select id="input-soil" name="soilType" class="form-select" required>
-                <option value="red_loamy" selected>Red Sandy / Loamy (ಕೆಂಪು ಮಣ್ಣು - Hassan & South Kar)</option>
-                <option value="black_regur">Black / Regur (ಕಪ್ಪು / ಎರೇ ಮಣ್ಣು - North Kar)</option>
-                <option value="alluvial">Alluvial Soil (ಮೆಕ್ಕಲು ಮಣ್ಣು - River Basins)</option>
-                <option value="laterite">Laterite Soil (ಲ್ಯಾಟರೈಟ್ / ಜಂಬಿಟ್ಟಿಗೆ - Malnad)</option>
-                <option value="clayey">Clayey Soil (ಜೇಡಿ ಮಣ್ಣು - Wetland / Paddy)</option>
-                <option value="loamy">Loamy Soil (ಗೋಡು ಮಣ್ಣು - Balanced Texture)</option>
-                <option value="sandy">Sandy Soil (ಮರಳು ಮಣ್ಣು - Fast Drainage)</option>
+                <option value="red_loamy" selected>Red Sandy / Loamy (ಕೆಂಪು ಮಣ್ಣು)</option>
+                <option value="black_regur">Black / Regur (ಕಪ್ಪು / ಎರೇ ಮಣ್ಣು)</option>
+                <option value="alluvial">Alluvial Soil (ಮೆಕ್ಕಲು ಮಣ್ಣು)</option>
+                <option value="laterite">Laterite Soil (ಲ್ಯಾಟರೈಟ್ / ಜಂಬಿಟ್ಟಿಗೆ)</option>
+                <option value="clayey">Clayey Soil (ಜೇಡಿ ಮಣ್ಣು)</option>
+                <option value="loamy">Loamy Soil (ಗೋಡು ಮಣ್ಣು)</option>
+                <option value="sandy">Sandy Soil (ಮರಳು ಮಣ್ಣು)</option>
               </select>
-              <div class="form-help">Soil texture and moisture retention capacity.</div>
+              <div class="form-help">Soil texture & moisture retention.</div>
             </div>
 
             <!-- Sowing Season -->
@@ -176,57 +193,51 @@
                 <span class="req">*</span>
               </label>
               <select id="input-season" name="season" class="form-select" required>
-                <option value="kharif" selected>Kharif / ಮುಂಗಾರು (June to Oct)</option>
-                <option value="rabi">Rabi / ಹಿಂಗಾರು (Oct to March)</option>
-                <option value="zaid">Zaid / ಬೇಸಿಗೆ (March to June)</option>
+                <option value="kharif" selected>Kharif / ಮುಂಗಾರು (June - Oct)</option>
+                <option value="rabi">Rabi / ಹಿಂಗಾರು (Oct - March)</option>
+                <option value="zaid">Zaid / ಬೇಸಿಗೆ (March - June)</option>
                 <option value="whole_year">Perennial / ವಾರ್ಷಿಕ (All Year)</option>
               </select>
-              <div class="form-help">Monsoon cycle and temperature window.</div>
+              <div class="form-help">Monsoon cycle & window.</div>
             </div>
           </div>
         </div>
 
-        <!-- Step 2: Primary Soil Macronutrients (N - P - K) - Optional Pure CSS Toggle -->
+        <!-- Step 2: N-P-K Nutrients (Clean Optional Section with Checkbox Toggle) -->
         <div style="border-top: 1px solid var(--soil-200); padding-top: 24px;">
-          <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+          
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
             <div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--gray-900);">
-                  2. Soil Macronutrients (N - P - K) / ಪೋಷಕಾಂಶಗಳು
-                </h3>
-                <span class="badge" style="background: var(--amber-100); color: var(--amber-900); border: 1px solid var(--amber-300);">
-                  Optional / ಐಚ್ಛಿಕ
-                </span>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--gray-500); margin-top: 4px;">
-                Tick the box only if you have a Soil Health Card report. / ಮಣ್ಣು ಪರೀಕ್ಷೆ ಮಾಡಿಸಿದ್ದರೆ ಮಾತ್ರ ಬಾಕ್ಸ್ ಟಿಕ್ ಮಾಡಿ.
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--gray-900);">
+                2. Soil Nutrients (N-P-K) / ಮಣ್ಣಿನ ಪೋಷಕಾಂಶಗಳು (ಐಚ್ಛಿಕ)
+              </h3>
+              <p style="font-size: 0.8rem; color: var(--gray-500);">
+                Do not have soil test card numbers? Leave unchecked to evaluate via soil type & season!
               </p>
             </div>
 
-            <!-- Checkbox Toggle -->
-            <div>
+            <label class="toggle-switch-label" for="toggle-npk">
               <input type="checkbox" id="toggle-npk">
-              <label for="toggle-npk" class="toggle-switch-label">
-                <span class="toggle-indicator"></span>
-                <span>Enter N-P-K Readings / N-P-K ನಮೂದಿಸಿ</span>
-              </label>
-            </div>
+              <span class="toggle-indicator"></span>
+              <span>I have Soil Test Values / ನನ್ನ ಬಳಿ ಮಣ್ಣು ಪರೀಕ್ಷೆ ಚೀಟಿ ಇದೆ</span>
+            </label>
           </div>
 
-          <!-- Hidden container that expands when toggle-npk is checked -->
-          <div class="npk-expandable grid-3" style="background: #fbfaf8; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--soil-200);">
+          <!-- Expandable N-P-K Sliders -->
+          <div class="npk-expandable grid-3">
+            
             <!-- Nitrogen -->
             <div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <label style="font-size: 0.8rem; font-weight: 800; color: var(--gray-800);">Nitrogen (N) / ಸಾರಜನಕ</label>
-                <span id="n-val" style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">65 kg/ha</span>
+                <span id="n-val" style="font-size: 0.75rem; font-weight: 800; color: var(--agri-deep); background: var(--agri-mist); padding: 2px 6px; border-radius: 4px;">60 kg/ha</span>
               </div>
-              <p style="font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px;">Leaf & plant growth / ಹಸಿರು ಎಲೆಗಳ ಬೆಳವಣಿಗೆಗೆ.</p>
-              <input type="range" id="input-n" name="nitrogen" min="0" max="250" value="65" oninput="document.getElementById('n-val').innerText = this.value + ' kg/ha'">
+              <p style="font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px;">Leaf & vegetative growth / ಎಲೆಗಳ ಬೆಳವಣಿಗೆಗೆ.</p>
+              <input type="range" id="input-n" name="nitrogen" min="0" max="200" value="60" oninput="document.getElementById('n-val').innerText = this.value + ' kg/ha'">
               <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--gray-400); margin-top: 4px;">
                 <span>0 (Low)</span>
                 <span>100 (Med)</span>
-                <span>250 (High)</span>
+                <span>200 (High)</span>
               </div>
             </div>
 
@@ -290,8 +301,8 @@
         <!-- Submit & Validation Info -->
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 12px; border-top: 1px solid var(--soil-200);">
           <div style="font-size: 0.78rem; color: var(--gray-500); line-height: 1.4;">
-            * Location, Soil Type, and Season are required. N-P-K nutrients are optional.<br>
-            <span style="color: var(--gray-400);">* ಊರು, ಮಣ್ಣಿನ ಪ್ರಕಾರ ಮತ್ತು ಬಿತ್ತನೆ ಕಾಲ ಕಡ್ಡಾಯ. ಪೋಷಕಾಂಶಗಳ ವಿವರ ಐಚ್ಛಿಕ.</span>
+            * District, Taluk, Soil Type, and Season are evaluated against ICAR benchmarks.<br>
+            <span style="color: var(--gray-400);">* ಜಿಲ್ಲೆ, ತಾಲೂಕು, ಮಣ್ಣಿನ ಪ್ರಕಾರ ಮತ್ತು ಬಿತ್ತನೆ ಕಾಲ ಆಧರಿಸಿ ಬೆಳೆ ನಿರ್ಧರಿಸಲಾಗುತ್ತದೆ.</span>
           </div>
 
           <button type="submit" class="btn btn-primary" style="padding: 14px 28px; font-size: 1rem;">
@@ -312,9 +323,59 @@
     </div>
   </footer>
 
+  <script src="js/agriEngine.js"></script>
   <script>
-    function setPreset(loc, soil, season, n, p, k) {
-      document.getElementById('input-location').value = loc + ', Karnataka';
+    document.addEventListener('DOMContentLoaded', () => {
+      initDistrictAndTalukDropdowns();
+    });
+
+    function initDistrictAndTalukDropdowns() {
+      const distSelect = document.getElementById('input-district');
+      distSelect.innerHTML = '';
+      
+      for (const [distKey, distVal] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
+        const opt = document.createElement('option');
+        opt.value = distKey;
+        opt.innerText = `${distKey} (${distVal.kannada})`;
+        if (distKey === 'Hassan') opt.selected = true;
+        distSelect.appendChild(opt);
+      }
+
+      onDistrictChange();
+    }
+
+    function onDistrictChange() {
+      const distKey = document.getElementById('input-district').value;
+      const talukSelect = document.getElementById('input-taluk');
+      talukSelect.innerHTML = '';
+
+      const distData = KARNATAKA_DISTRICTS_TALUKS[distKey];
+      if (distData && distData.taluks) {
+        distData.taluks.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t.en;
+          opt.innerText = `${t.en} (${t.kn})`;
+          talukSelect.appendChild(opt);
+        });
+      }
+
+      onTalukChange();
+    }
+
+    function onTalukChange() {
+      const distKey = document.getElementById('input-district').value;
+      const talukKey = document.getElementById('input-taluk').value;
+      document.getElementById('input-location').value = `${talukKey}, ${distKey}, Karnataka`;
+    }
+
+    function setPreset(dist, taluk, soil, season, n, p, k) {
+      document.getElementById('input-district').value = dist;
+      onDistrictChange();
+      if (taluk) {
+        document.getElementById('input-taluk').value = taluk;
+      }
+      onTalukChange();
+
       document.getElementById('input-soil').value = soil;
       document.getElementById('input-season').value = season;
       
