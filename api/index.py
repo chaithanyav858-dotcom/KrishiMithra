@@ -33,6 +33,11 @@ CROPS_DISTRIBUTIONS = {
         'temp': (23.0, 32.0), 'humidity': (55.0, 78.0), 'ph': (5.5, 7.5), 'rainfall': (40.0, 95.0),
         'kannada': 'ರಾಗಿ (Ragi)', 'category': 'Millets / Coarse Cereals'
     },
+    'Red Gram (Tur / Pigeonpea)': {
+        'n': (18, 38), 'p': (45, 75), 'k': (20, 45),
+        'temp': (23.0, 35.0), 'humidity': (50.0, 75.0), 'ph': (6.5, 7.8), 'rainfall': (50.0, 95.0),
+        'kannada': 'ತೊಗರಿ (Tur / Red Gram)', 'category': 'Pulses / Legumes'
+    },
     'Paddy (Rice)': {
         'n': (75, 140), 'p': (35, 80), 'k': (35, 85),
         'temp': (22.0, 34.0), 'humidity': (75.0, 95.0), 'ph': (5.5, 7.2), 'rainfall': (140.0, 290.0),
