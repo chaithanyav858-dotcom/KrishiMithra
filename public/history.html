@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultation History - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link active">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="profile.html" class="btn btn-outline btn-sm">Ramesh Patil</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- History Content -->
+  <main class="main-content">
+    <div class="container" style="max-width: 1040px; display: flex; flex-direction: column; gap: 28px;">
+
+      <!-- Header Section -->
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="padding: 8px; border-radius: var(--radius-md); background: rgba(45, 106, 79, 0.1); color: var(--agri-primary);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h1 style="font-size: 2rem; font-weight: 900; color: var(--gray-900);">
+              Consultation History / ಸಲಹಾ ಇತಿಹಾಸ
+            </h1>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--gray-500); margin-top: 6px;">
+            Saved crop evaluations, weather snapshots, and irrigation directives for Ramesh Patil.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <a href="recommendation.html" class="btn btn-primary btn-sm">
+            <span>+ New Crop Evaluation</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Deep Inspection View (Selected Record) -->
+      <div id="record-detail" class="card" style="border: 2px solid var(--agri-primary); background: #fbfdfa;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-live">Consultation Record #KM-8821</span>
+            <span style="font-size: 0.78rem; color: var(--gray-500);">Evaluated: Oct 16, 2026 13:05 IST</span>
+          </div>
+          <span style="font-size: 0.78rem; font-weight: 700; color: var(--agri-deep);">Ramesh Patil (Plot A: Hassan)</span>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 20px;">
+          <!-- Crop result -->
+          <div style="background: var(--white); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--soil-200);">
+            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">1. Recommended Crop</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: var(--gray-900); margin-top: 4px;">
+              Finger Millet (Ragi)
+            </div>
+            <div style="font-size: 0.95rem; font-weight: 700; color: var(--agri-primary);">
+              • ರಾಗಿ (Ragi)
+            </div>
+            <div style="font-size: 0.75rem; color: var(--gray-600); margin-top: 6px;">
+              Soil: Red Loamy | Season: Kharif
+            </div>
+          </div>
+
+          <!-- Weather Snapshot -->
+          <div style="background: var(--white); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--soil-200);">
+            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">2. Weather Conditions</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: var(--sky-700); margin-top: 4px;">
+              27.2°C, Drizzle
+            </div>
+            <div style="font-size: 0.75rem; color: var(--gray-600); margin-top: 6px;">
+              Humidity: 78% | Rain Chance: 65%
+            </div>
+            <div style="font-size: 0.75rem; color: var(--amber-900); font-weight: 700; margin-top: 2px;">
+              Spraying window: Risky
+            </div>
+          </div>
+
+          <!-- Irrigation Advice -->
+          <div style="background: var(--white); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--soil-200);">
+            <div style="font-size: 0.72rem; color: var(--gray-500); text-transform: uppercase;">3. Irrigation Directive</div>
+            <div style="font-size: 1.15rem; font-weight: 900; color: var(--amber-900); margin-top: 4px;">
+              Delay Irrigation (Rain)
+            </div>
+            <div style="font-size: 0.75rem; color: var(--gray-600); margin-top: 6px;">
+              Rain covers crop water deficit (0 mm needed)
+            </div>
+            <div style="font-size: 0.75rem; color: var(--forest-800); font-weight: 700; margin-top: 2px;">
+              Conserved ~3.5 kWh electricity
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.8rem; border-top: 1px solid var(--soil-200); padding-top: 12px;">
+          <span style="color: var(--gray-500);">Inputs: Location=Hassan, Soil=Red Loamy, Season=Kharif, N=65, P=40, K=40, pH=6.5</span>
+          <a href="recommendation-result.html" class="btn btn-outline btn-sm">Re-open Full Action Plan →</a>
+        </div>
+      </div>
+
+      <!-- History Records Table -->
+      <div class="card">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--gray-900); margin-bottom: 16px;">
+          All Saved Consultations (7 Records)
+        </h3>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--soil-200); color: var(--gray-500); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em;">
+                <th style="padding: 12px 14px;">Date</th>
+                <th style="padding: 12px 14px;">Crop Name</th>
+                <th style="padding: 12px 14px;">Farm & Location</th>
+                <th style="padding: 12px 14px;">Soil & Season</th>
+                <th style="padding: 12px 14px;">Irrigation Directive</th>
+                <th style="padding: 12px 14px; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Row 1 -->
+              <tr style="border-bottom: 1px solid var(--soil-100); background: #fafdf8;">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-900);">Oct 16, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Finger Millet (Ragi)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ರಾಗಿ (Ragi)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Hassan (Plot A)</td>
+                <td style="padding: 14px; color: var(--gray-600);">Red Loamy • Kharif</td>
+                <td style="padding: 14px;">
+                  <span style="background: var(--amber-100); color: var(--amber-900); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Delay (Rain Forecast)
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="#record-detail" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 2 -->
+              <tr style="border-bottom: 1px solid var(--soil-100);">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Sep 02, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Maize (Corn)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಮೆಕ್ಕೆಜೋಳ (Maize)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Hassan (Plot A)</td>
+                <td style="padding: 14px; color: var(--gray-600);">Loamy • Kharif</td>
+                <td style="padding: 14px;">
+                  <span style="background: var(--forest-100); color: var(--forest-800); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Moderate (25 mm)
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 3 -->
+              <tr style="border-bottom: 1px solid var(--soil-100);">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Jul 14, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Paddy (Rice)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಭತ್ತ (Paddy)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Hassan Canal Area</td>
+                <td style="padding: 14px; color: var(--gray-600);">Clayey • Kharif</td>
+                <td style="padding: 14px;">
+                  <span style="background: #eff6ff; color: #1e40af; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Standing Water (50 mm)
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 4 -->
+              <tr style="border-bottom: 1px solid var(--soil-100);">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Jun 05, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Groundnut (Peanut)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಕಡಲೆಕಾಯಿ</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Hassan (Plot A)</td>
+                <td style="padding: 14px; color: var(--gray-600);">Sandy Loam • Kharif</td>
+                <td style="padding: 14px;">
+                  <span style="background: var(--forest-100); color: var(--forest-800); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Light (15 mm)
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 5 -->
+              <tr style="border-bottom: 1px solid var(--soil-100);">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Mar 20, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Coffee (Arabica)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಕಾಫಿ (Coffee)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Sakleshpur (Plot B)</td>
+                <td style="padding: 14px; color: var(--gray-600);">Laterite • Annual</td>
+                <td style="padding: 14px;">
+                  <span style="background: #fdf4ff; color: #86198f; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Blossom Showers
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 6 -->
+              <tr style="border-bottom: 1px solid var(--soil-100);">
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Jan 10, 2026</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Chickpea (Bengal Gram)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಕಡಲೆ (Chana)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Dharwad Plot</td>
+                <td style="padding: 14px; color: var(--gray-600);">Black Regur • Rabi</td>
+                <td style="padding: 14px;">
+                  <span style="background: var(--soil-100); color: var(--soil-900); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Residual Moisture
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+
+              <!-- Row 7 -->
+              <tr>
+                <td style="padding: 14px; font-weight: 700; color: var(--gray-800);">Nov 15, 2025</td>
+                <td style="padding: 14px;">
+                  <strong style="color: var(--gray-900);">Sorghum (Jowar)</strong>
+                  <div style="color: var(--agri-primary); font-size: 0.75rem;">• ಜೋಳ (Jowar)</div>
+                </td>
+                <td style="padding: 14px; color: var(--gray-600);">Belagavi Plot</td>
+                <td style="padding: 14px; color: var(--gray-600);">Black Soil • Rabi</td>
+                <td style="padding: 14px;">
+                  <span style="background: var(--forest-100); color: var(--forest-800); padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+                    Low (10 mm)
+                  </span>
+                </td>
+                <td style="padding: 14px; text-align: right;">
+                  <a href="recommendation-result.html" class="btn btn-outline btn-sm">Inspect</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Pure HTML & CSS Implementation</div>
+    </div>
+  </footer>
+
+</body>
+</html>

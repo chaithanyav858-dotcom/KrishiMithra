@@ -427,7 +427,45 @@
       const potassium = params.get('potassium') ? parseFloat(params.get('potassium')) : null;
       const ph = params.get('ph') ? parseFloat(params.get('ph')) : null;
 
-      // 2. Run Crop Evaluation
+      // 2. Run Crop Evaluation (Check Scikit-Learn Serverless API first, fallback to Client Heuristics)
+      let finalCrop = null;
+      let finalConfidence = null;
+      let isMLModel = false;
+      let mlFeatureImportance = null;
+
+      try {
+        const mlPayload = {
+          nitrogen: nitrogen !== null ? nitrogen : 60.0,
+          phosphorus: phosphorus !== null ? phosphorus : 40.0,
+          potassium: potassium !== null ? potassium : 40.0,
+          ph: ph !== null ? ph : 6.5,
+          temperature: 27.0,
+          humidity: 65.0,
+          rainfall: 100.0,
+          soilType,
+          season,
+          location
+        };
+
+        const apiRes = await fetch('/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(mlPayload)
+        });
+
+        if (apiRes.ok) {
+          const mlData = await apiRes.json();
+          if (mlData && mlData.status === 'success' && mlData.crop) {
+            finalCrop = mlData.crop;
+            finalConfidence = mlData.confidence;
+            isMLModel = true;
+            mlFeatureImportance = mlData.featureImportance;
+          }
+        }
+      } catch (e) {
+        // Fallback to client-side heuristics
+      }
+
       const result = evaluateCrop({
         location,
         soilType,
@@ -438,13 +476,26 @@
         ph
       });
 
-      const { crop, profile, score, explanation, suitableAlternatives } = result;
+      const crop = finalCrop || result.crop;
+      const profile = CROP_PROFILES[crop] || result.profile;
+      const score = finalConfidence !== null ? finalConfidence : result.score;
+      const explanation = result.explanation;
+      const suitableAlternatives = result.suitableAlternatives;
 
       // 3. Update Crop Recommendation DOM
       document.getElementById('crop-name').innerText = crop;
       document.getElementById('crop-kannada').innerText = '• ' + profile.kannadaName;
       document.getElementById('crop-botanical').innerText = `${profile.botanicalName} (${profile.category})`;
-      document.getElementById('score-badge').innerText = `Compatibility Score: ${score}/100`;
+      if (isMLModel) {
+        document.getElementById('score-badge').innerText = `⚡ Scikit-Learn ML: ${score}% Confidence`;
+        document.getElementById('score-badge').style.background = '#dcfce7';
+        document.getElementById('score-badge').style.color = '#15803d';
+        document.getElementById('score-badge').style.borderColor = '#86efac';
+        const engineBadge = document.querySelector('.badge-demo');
+        if (engineBadge) engineBadge.innerText = 'Scikit-Learn RandomForestClassifier (Vercel Serverless)';
+      } else {
+        document.getElementById('score-badge').innerText = `Compatibility Score: ${score}/100`;
+      }
       
       const soilFormatted = soilType.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase());
       const seasonFormatted = season.toUpperCase();

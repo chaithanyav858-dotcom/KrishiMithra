@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural Weather - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link active">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="profile.html" class="btn btn-outline btn-sm">Ramesh Patil</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Weather Content -->
+  <main class="main-content">
+    <div class="container" style="max-width: 960px; display: flex; flex-direction: column; gap: 28px;">
+
+      <!-- Header & Search Box -->
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--soil-200);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="padding: 8px; border-radius: var(--radius-md); background: var(--sky-50); color: var(--sky-700);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>
+            </div>
+            <h1 style="font-size: 2rem; font-weight: 900; color: var(--gray-900);">
+              Live Agro-Weather / ಹವಾಮಾನ
+            </h1>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--gray-500); margin-top: 6px;">
+            Hyperlocal meteorological conditions and practical farm interpretations for Karnataka agricultural tracts.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="feed-badge" class="badge badge-sky">Live Open-Meteo Feed</span>
+        </div>
+      </div>
+
+      <!-- Crop Advisory Context Banner (when navigated from recommendation) -->
+      <div id="crop-context-banner" style="display: none; padding: 12px 18px; border-radius: var(--radius-md); background: #f2f7f1; border: 1.5px solid var(--agri-primary); font-size: 0.85rem; color: var(--agri-deep); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.5rem;">🌾</span>
+          <div>
+            <strong>Focused Advice for Recommended Crop:</strong> <span id="crop-context-name" style="font-weight: 800; color: var(--agri-deep);">Chickpea (Bengal Gram)</span>
+            <div style="font-size: 0.75rem; color: var(--gray-600);" id="crop-context-kannada">ಕೃಷಿ ಸಲಹೆ</div>
+          </div>
+        </div>
+        <a id="crop-context-irrigation-link" href="irrigation.html" class="btn btn-outline btn-sm" style="font-size: 0.75rem;">
+          View Smart Irrigation →
+        </a>
+      </div>
+
+      <!-- District Search Bar -->
+      <div class="card" style="padding: 16px 20px; background: #ffffff;">
+        <form id="search-form" onsubmit="handleSearch(event)" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 240px; position: relative;">
+            <input type="text" id="district-search-input" class="form-input" placeholder="Type Karnataka district or taluk name (e.g. Channarayapatna, Hubballi, Bailhongal, Hassan...)" value="Hassan">
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span>Check Weather / ಹವಾಮಾನ ನೋಡಿ</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- District Selector Quick Filter Chips -->
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem;">
+        <span style="font-weight: 700; color: var(--gray-600);">Select District / ಜಿಲ್ಲೆ ಆಯ್ಕೆ:</span>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Hassan')">Hassan (ಹಾಸನ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Dharwad')">Dharwad (ಧಾರವಾಡ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Belagavi')">Belagavi (ಬೆಳಗಾವಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Mandya')">Mandya (ಮಂಡ್ಯ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Mysuru')">Mysuru (ಮೈಸೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Shivamogga')">Shivamogga (ಶಿವಮೊಗ್ಗ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Chikkamagaluru')">Chikkamagaluru (ಚಿಕ್ಕಮಗಳೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Tumakuru')">Tumakuru (ತುಮಕೂರು)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Davangere')">Davangere (ದಾವಣಗೆರೆ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Ballari')">Ballari (ಬಳ್ಳಾರಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Kalaburagi')">Kalaburagi (ಕಲಬುರಗಿ)</button>
+        <button type="button" class="btn btn-outline btn-sm district-chip" onclick="switchDistrict('Vijayapura')">Vijayapura (ವಿಜಯಪುರ)</button>
+      </div>
+
+      <!-- Taluk Selector Quick Filter Chips -->
+      <div id="taluk-chips-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; background: #f4f8f3; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--agri-mist);">
+        <span style="font-weight: 700; color: var(--agri-deep);">Select Taluk / ತಾಲೂಕು ಆಯ್ಕೆ:</span>
+        <div id="taluk-chips-container" style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Current Weather Hero Card -->
+      <div class="card" style="background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 60%, #0284c7 100%); color: var(--white); padding: 36px; border: 0;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="weather-location" style="font-size: 1.1rem; font-weight: 700; color: #bae6fd;">
+                Hassan, Karnataka • ಹಾಸನ
+              </span>
+              <span class="badge" style="background: rgba(255,255,255,0.2); color: #ffffff; border: 0;" id="weather-zone">
+                Southern Transition Zone
+              </span>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 16px; margin-top: 10px; flex-wrap: wrap;">
+              <h2 id="weather-temp" style="font-size: 3.5rem; font-weight: 900; line-height: 1;">
+                26.8°C
+              </h2>
+              <div style="display: flex; flex-direction: column;">
+                <span id="weather-cond-en" style="font-size: 1.25rem; font-weight: 700;">Light Drizzle</span>
+                <span id="weather-cond-kn" style="font-size: 1rem; color: #bae6fd; font-weight: 600;">• ತುಂತುರು ಮಳೆ</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <div id="weather-icon-large" style="font-size: 4rem; line-height: 1;">🌦️</div>
+            <div id="geo-coords" style="font-size: 0.72rem; color: #bae6fd;">Lat: 13.0033°N, Lon: 76.1004°E</div>
+            <div id="observation-time" style="font-size: 0.72rem; color: #e0f2fe;">Updated: Live Model</div>
+          </div>
+        </div>
+
+        <!-- 4 Key Current Metric Boxes -->
+        <div class="grid-4" style="margin-top: 30px; gap: 16px;">
+          <div style="background: rgba(255, 255, 255, 0.12); padding: 14px 18px; border-radius: var(--radius-md); backdrop-filter: blur(4px);">
+            <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Relative Humidity</div>
+            <div id="metric-humidity" style="font-size: 1.5rem; font-weight: 800; margin-top: 4px;">74%</div>
+            <div style="font-size: 0.7rem; color: #e0f2fe;">Foliar moisture high</div>
+          </div>
+
+          <div style="background: rgba(255, 255, 255, 0.12); padding: 14px 18px; border-radius: var(--radius-md); backdrop-filter: blur(4px);">
+            <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Rain Probability</div>
+            <div id="metric-rain" style="font-size: 1.5rem; font-weight: 800; margin-top: 4px;">65% Today</div>
+            <div id="metric-precip" style="font-size: 0.7rem; color: #e0f2fe;">Precipitation: 4.2 mm</div>
+          </div>
+
+          <div style="background: rgba(255, 255, 255, 0.12); padding: 14px 18px; border-radius: var(--radius-md); backdrop-filter: blur(4px);">
+            <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Wind Speed</div>
+            <div id="metric-wind" style="font-size: 1.5rem; font-weight: 800; margin-top: 4px;">12.4 km/h</div>
+            <div style="font-size: 0.7rem; color: #e0f2fe;">Gentle south-west breeze</div>
+          </div>
+
+          <div style="background: rgba(255, 255, 255, 0.12); padding: 14px 18px; border-radius: var(--radius-md); backdrop-filter: blur(4px);">
+            <div style="font-size: 0.72rem; color: #bae6fd; text-transform: uppercase;">Barometric Pressure</div>
+            <div id="metric-pressure" style="font-size: 1.15rem; font-weight: 800; margin-top: 4px;">1012 hPa</div>
+            <div style="font-size: 0.7rem; color: #e0f2fe;">Stable atmospheric layer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           Crucial Agricultural Interpretations Section
+           (Translates raw meteorological numbers into actionable farm directives)
+           ========================================================================== -->
+      <div>
+        <div style="margin-bottom: 16px;">
+          <h3 style="font-size: 1.25rem; font-weight: 900; color: var(--gray-900);">
+            Agricultural Interpretations / ಕೃಷಿ ನಿರ್ವಹಣಾ ಸಲಹೆ
+          </h3>
+          <p id="interpretations-subtitle" style="font-size: 0.82rem; color: var(--gray-500);">
+            Translating raw atmospheric data into practical field actions for Hassan farmers.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Advice 1: Chemical Spraying Window -->
+          <div id="card-spray" class="card" style="border-top: 4px solid #dc2626;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Pesticide Spraying</span>
+              <span id="badge-spray" style="background: var(--red-100); color: var(--red-700); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">RISKY / ಅಪಾಯಕಾರಿ</span>
+            </div>
+            <h4 id="title-spray" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+              Hold Off Chemical Applications
+            </h4>
+            <p id="desc-spray" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Rain probability exceeds 60% and high humidity will cause foliar wash-off, wasting chemical pesticides.
+            </p>
+            <div id="footer-spray" style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Postpone until precipitation chances drop below 30%.
+            </div>
+          </div>
+
+          <!-- Advice 2: Soil Evaporation -->
+          <div id="card-moisture" class="card" style="border-top: 4px solid var(--agri-primary);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Moisture Balance</span>
+              <span id="badge-moisture" style="background: var(--forest-100); color: var(--forest-800); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">FAVORABLE / ತೇವಾಂಶ ಉತ್ತಮ</span>
+            </div>
+            <h4 id="title-moisture" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+              Sustained Root Moisture
+            </h4>
+            <p id="desc-moisture" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Daily transpiration rate is balanced by ambient cloud cover. Rootzone drying will be minimal.
+            </p>
+            <div style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Hold off supplementary pumping for 48 hours.
+            </div>
+          </div>
+
+          <!-- Advice 3: Field Operations -->
+          <div id="card-operations" class="card" style="border-top: 4px solid var(--sky-600);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--gray-500);">Tillage / Sowing</span>
+              <span id="badge-operations" style="background: var(--sky-100); color: var(--sky-700); font-size: 0.7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">CONDITIONAL / ಸಾಧಾರಣ</span>
+            </div>
+            <h4 id="title-operations" style="font-size: 1rem; font-weight: 800; color: var(--gray-900); margin-bottom: 6px;">
+              Plowing & Harvesting Caution
+            </h4>
+            <p id="desc-operations" style="font-size: 0.8rem; color: var(--gray-600); line-height: 1.4;">
+              Soil surface may be slick; heavy tractor implements should avoid low-lying saturated corners.
+            </p>
+            <div style="margin-top: 12px; font-size: 0.75rem; color: var(--gray-500); border-top: 1px solid var(--soil-100); padding-top: 8px;">
+              Cover harvested ragi/grain bags with tarpaulin.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5-Day Agro Forecast Table / Cards -->
+      <div class="card" style="padding: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 900; color: var(--gray-900);">
+              5-Day Farm Meteorological Forecast / ೫ ದಿನಗಳ ಮುನ್ಸೂಚನೆ
+            </h3>
+            <p style="font-size: 0.78rem; color: var(--gray-500);">Daily temperature fluctuations and precipitation probabilities</p>
+          </div>
+        </div>
+
+        <div id="forecast-cards-container" class="grid-5" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Bottom Quick Navigation -->
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 12px;">
+        <a href="recommendation.html" class="btn btn-outline">
+          ← Back to Crop Engine
+        </a>
+        <a id="btn-calc-irrigation" href="irrigation.html" class="btn btn-primary">
+          <span>Calculate Irrigation for this District</span>
+          <span>→</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Dynamic Open-Meteo Meteorological Feed</div>
+    </div>
+  </footer>
+
+  <!-- Include AgriEngine Script -->
+  <script src="js/agriEngine.js"></script>
+  <script>
+    let currentDistrict = 'Hassan';
+    let currentTaluk = 'Hassan';
+    let currentCrop = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query param for location & crop
+      const params = new URLSearchParams(window.location.search);
+      const locParam = params.get('location');
+      const talukParam = params.get('taluk');
+      const cropParam = params.get('crop');
+
+      let initialQuery = 'Hassan';
+      if (talukParam) {
+        initialQuery = talukParam;
+      } else if (locParam) {
+        initialQuery = locParam;
+      }
+
+      const locInfo = typeof resolveKarnatakaLocation === 'function' ? resolveKarnatakaLocation(initialQuery) : { district: 'Hassan', taluk: 'Hassan' };
+      currentDistrict = locInfo.district;
+      currentTaluk = locInfo.taluk;
+
+      if (cropParam) {
+        currentCrop = cropParam;
+        const banner = document.getElementById('crop-context-banner');
+        if (banner) {
+          banner.style.display = 'flex';
+          document.getElementById('crop-context-name').innerText = cropParam;
+          const profile = typeof CROP_PROFILES !== 'undefined' ? CROP_PROFILES[cropParam] : null;
+          if (profile) {
+            document.getElementById('crop-context-kannada').innerText = `${profile.kannadaName} • ${profile.summary}`;
+          }
+          document.getElementById('crop-context-irrigation-link').href = `irrigation.html?crop=${encodeURIComponent(cropParam)}&location=${encodeURIComponent(locParam || currentTaluk + ', ' + currentDistrict)}`;
+        }
+      }
+
+      renderTalukChips(currentDistrict, currentTaluk);
+      highlightDistrictChip(currentDistrict);
+      loadWeather(locInfo.isTaluk ? `${currentTaluk}, ${currentDistrict}` : currentDistrict);
+    });
+
+    function handleSearch(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('district-search-input');
+      const val = input.value.trim();
+      if (val) {
+        const locInfo = resolveKarnatakaLocation(val);
+        currentDistrict = locInfo.district;
+        currentTaluk = locInfo.taluk;
+        highlightDistrictChip(currentDistrict);
+        renderTalukChips(currentDistrict, currentTaluk);
+        loadWeather(locInfo.isTaluk ? `${currentTaluk}, ${currentDistrict}` : currentDistrict);
+      }
+    }
+
+    function highlightDistrictChip(name) {
+      document.querySelectorAll('.district-chip').forEach(btn => {
+        if (btn.innerText.toLowerCase().includes(name.toLowerCase())) {
+          btn.className = 'btn btn-primary btn-sm district-chip';
+        } else {
+          btn.className = 'btn btn-outline btn-sm district-chip';
+        }
+      });
+    }
+
+    function renderTalukChips(districtName, selectedTaluk) {
+      const container = document.getElementById('taluk-chips-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const distData = typeof KARNATAKA_DISTRICTS_TALUKS !== 'undefined' ? KARNATAKA_DISTRICTS_TALUKS[districtName] : null;
+      if (!distData || !distData.taluks) return;
+
+      distData.taluks.forEach(t => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        const isSel = selectedTaluk && (t.en.toLowerCase() === selectedTaluk.toLowerCase());
+        btn.className = isSel ? 'btn btn-sky btn-sm taluk-chip' : 'btn btn-outline btn-sm taluk-chip';
+        btn.style.fontSize = '0.74rem';
+        btn.style.padding = '3px 8px';
+        btn.innerText = `${t.en} (${t.kn})`;
+        btn.onclick = () => switchTaluk(t.en, districtName);
+        container.appendChild(btn);
+      });
+    }
+
+    function switchDistrict(name) {
+      currentDistrict = name;
+      document.getElementById('district-search-input').value = name;
+      highlightDistrictChip(name);
+
+      const distData = KARNATAKA_DISTRICTS_TALUKS[name];
+      currentTaluk = distData && distData.taluks ? distData.taluks[0].en : name;
+      renderTalukChips(name, currentTaluk);
+      loadWeather(name);
+    }
+
+    function switchTaluk(talukName, districtName) {
+      currentTaluk = talukName;
+      currentDistrict = districtName;
+      document.getElementById('district-search-input').value = `${talukName}, ${districtName}`;
+
+      renderTalukChips(districtName, talukName);
+      loadWeather(`${talukName}, ${districtName}`);
+    }
+
+    async function loadWeather(districtName) {
+      document.getElementById('weather-temp').innerText = '...';
+      document.getElementById('weather-cond-en').innerText = 'Updating...';
+
+      const data = await fetchDistrictWeather(districtName);
+
+      document.getElementById('weather-location').innerText = `${data.displayName || data.location} • ${data.kannadaName}`;
+      document.getElementById('weather-zone').innerText = `${data.zone}`;
+      document.getElementById('weather-temp').innerText = `${data.temperature}°C`;
+      document.getElementById('weather-cond-en').innerText = data.conditionText;
+      document.getElementById('weather-cond-kn').innerText = '• ' + data.conditionKn;
+      document.getElementById('weather-icon-large').innerText = data.icon;
+      document.getElementById('geo-coords').innerText = `Lat: ${data.lat || 13.0}°N, Lon: ${data.lon || 76.1}°E`;
+      document.getElementById('observation-time').innerText = `Updated: ${data.observationTime}`;
+
+      document.getElementById('metric-humidity').innerText = `${data.humidity}%`;
+      document.getElementById('metric-rain').innerText = `${data.rainChance}% Today`;
+      document.getElementById('metric-precip').innerText = `Precipitation: ${data.precipitation} mm`;
+      document.getElementById('metric-wind').innerText = `${data.windSpeed} km/h`;
+      document.getElementById('metric-pressure').innerText = `${data.pressure} hPa`;
+
+      document.getElementById('feed-badge').innerText = data.isLive ? 'Live Open-Meteo Feed' : 'Regional Agro Feed';
+      document.getElementById('interpretations-subtitle').innerText = `Translating live atmospheric data into practical field actions for ${data.talukName ? data.talukName + ' (' + data.districtName + ' Dist)' : data.districtName} farmers.`;
+
+      // Dynamic Agricultural Interpretations
+      const sprayBadge = document.getElementById('badge-spray');
+      const sprayTitle = document.getElementById('title-spray');
+      const sprayDesc = document.getElementById('desc-spray');
+      const sprayCard = document.getElementById('card-spray');
+
+      if (currentCrop) {
+        // Customized for recommended crop
+        const advice = getCropAgroAdvice(currentCrop, 'red_loamy', data);
+        if (advice.sprayAdvisory.status === 'risky') {
+          sprayCard.style.borderTopColor = '#dc2626';
+          sprayBadge.style.background = 'var(--red-100)';
+          sprayBadge.style.color = 'var(--red-700)';
+        } else if (advice.sprayAdvisory.status === 'caution') {
+          sprayCard.style.borderTopColor = '#d97706';
+          sprayBadge.style.background = '#fef3c7';
+          sprayBadge.style.color = '#92400e';
+        } else {
+          sprayCard.style.borderTopColor = 'var(--agri-primary)';
+          sprayBadge.style.background = 'var(--forest-100)';
+          sprayBadge.style.color = 'var(--forest-800)';
+        }
+        sprayBadge.innerText = `${advice.sprayAdvisory.badgeText} / ${advice.sprayAdvisory.badgeKn}`;
+        sprayTitle.innerText = `${currentCrop} Spray Advisory`;
+        sprayDesc.innerText = advice.sprayAdvisory.adviceEn;
+        document.getElementById('footer-spray').innerText = advice.sprayAdvisory.adviceKn;
+      } else {
+        const isRainingOrWindy = data.rainChance > 45 || data.windSpeed > 15;
+        if (isRainingOrWindy) {
+          sprayCard.style.borderTopColor = '#dc2626';
+          sprayBadge.style.background = 'var(--red-100)';
+          sprayBadge.style.color = 'var(--red-700)';
+          sprayBadge.innerText = 'RISKY / ಅಪಾಯಕಾರಿ';
+          sprayTitle.innerText = 'Hold Off Chemical Sprays';
+          sprayDesc.innerText = `Rain probability (${data.rainChance}%) and wind (${data.windSpeed} km/h) will blow chemicals off-target or wash them away before absorption.`;
+        } else {
+          sprayCard.style.borderTopColor = 'var(--agri-primary)';
+          sprayBadge.style.background = 'var(--forest-100)';
+          sprayBadge.style.color = 'var(--forest-800)';
+          sprayBadge.innerText = 'FAVORABLE / ಅನುಕೂಲಕರ';
+          sprayTitle.innerText = 'Optimal Spraying Window';
+          sprayDesc.innerText = `Calm winds (${data.windSpeed} km/h) and low rain risk (${data.rainChance}%) allow systemic foliar pesticides or fertilizers to absorb safely.`;
+        }
+      }
+
+      // Forecast cards
+      const forecastContainer = document.getElementById('forecast-cards-container');
+      forecastContainer.innerHTML = '';
+      data.forecast.forEach((day, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.textAlign = 'center';
+        card.style.padding = '14px';
+        card.style.background = idx === 0 ? 'var(--sky-50)' : '#faf9f7';
+        card.style.borderColor = idx === 0 ? 'var(--sky-200)' : 'var(--soil-200)';
+        card.innerHTML = `
+          <div style="font-size: 0.8rem; font-weight: 800; color: var(--gray-900);">${day.dayName}</div>
+          <div style="font-size: 0.7rem; color: var(--gray-500); margin-bottom: 6px;">${day.date}</div>
+          <div style="font-size: 1.6rem; margin-bottom: 4px;">${day.icon}</div>
+          <div style="font-weight: 900; font-size: 1.1rem; color: var(--gray-900);">${day.maxTemp}°C</div>
+          <div style="font-size: 0.75rem; color: var(--gray-500);">Min: ${day.minTemp}°C</div>
+          <div style="margin-top: 6px; font-size: 0.72rem; font-weight: 700; color: ${day.rainChance > 40 ? 'var(--sky-700)' : 'var(--gray-600)'}; background: ${day.rainChance > 40 ? 'var(--sky-100)' : 'var(--gray-100)'}; padding: 2px 4px; border-radius: 4px;">
+            Rain: ${day.rainChance}%
+          </div>
+        `;
+        forecastContainer.appendChild(card);
+      });
+
+      // Update button to calculate irrigation for this district
+      document.getElementById('btn-calc-irrigation').href = `irrigation.html?location=${encodeURIComponent(data.location)}${currentCrop ? '&crop=' + encodeURIComponent(currentCrop) : ''}`;
+      document.getElementById('btn-calc-irrigation').querySelector('span').innerText = `Calculate Irrigation for ${data.districtName}${currentCrop ? ' (' + currentCrop.split(' ')[0] + ')' : ''}`;
+    }
+  </script>
+
+</body>
+</html>

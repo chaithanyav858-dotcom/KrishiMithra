@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Farmer Account - KrishiMitra (ಕೃಷಿಮಿತ್ರ)</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'><path d='M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12A10 10 0 0 1 12 2zm-1 14.5v-3.08a4.5 4.5 0 0 1-3.42-4.34c0-.28.03-.56.08-.83A5 5 0 0 1 11 8.5V5h2v3.5a5 5 0 0 1 3.34-.25c.05.27.08.55.08.83a4.5 4.5 0 0 1-3.42 4.34V16.5h3v2h-8v-2h2z'/></svg>">
+</head>
+<body style="background-color: var(--soil-100); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Site Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8zM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div>
+          <div class="brand-title">KrishiMitra <span class="brand-kannada">ಕೃಷಿಮಿತ್ರ</span></div>
+          <div class="brand-sub">Smart Agricultural Decision Support</div>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="recommendation.html" class="nav-link">Crop Engine</a></li>
+          <li><a href="weather.html" class="nav-link">Weather</a></li>
+          <li><a href="irrigation.html" class="nav-link">Irrigation</a></li>
+          <li><a href="history.html" class="nav-link">History</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Register Container -->
+  <main class="main-content" style="display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+    <div style="width: 100%; max-width: 580px;">
+
+      <div class="card">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--gray-900); margin-bottom: 4px;">
+            Create Farmer Account / ರೈತರ ನೋಂದಣಿ
+          </h2>
+          <p style="font-size: 0.82rem; color: var(--gray-500);">
+            Register your land details to receive personalized crop, weather, and watering advisory.
+          </p>
+        </div>
+
+        <form action="dashboard.html" method="get">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">
+                <span>Full Name / ಹೆಸರು</span>
+                <span class="req">*</span>
+              </label>
+              <input type="text" class="form-input" required placeholder="e.g. Ramesh Patil">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>District / ಜಿಲ್ಲೆ</span>
+                <span class="req">*</span>
+              </label>
+              <select class="form-select" required>
+                <option value="Hassan" selected>Hassan / ಹಾಸನ</option>
+                <option value="Mandya">Mandya / ಮಂಡ್ಯ</option>
+                <option value="Mysuru">Mysuru / ಮೈಸೂರು</option>
+                <option value="Shivamogga">Shivamogga / ಶಿವಮೊಗ್ಗ</option>
+                <option value="Chikkamagaluru">Chikkamagaluru / ಚಿಕ್ಕಮಗಳೂರು</option>
+                <option value="Belagavi">Belagavi / ಬೆಳಗಾವಿ</option>
+                <option value="Dharwad">Dharwad / ಧಾರವಾಡ</option>
+                <option value="Tumakuru">Tumakuru / ತುಮಕೂರು</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Email Address / ಇಮೇಲ್</span>
+              <span class="req">*</span>
+            </label>
+            <input type="email" class="form-input" required placeholder="farmer@krishimitra.agr">
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">
+                <span>Farm Size (Acres) / ಜಮೀನು (ಎಕರೆ)</span>
+              </label>
+              <input type="number" step="0.5" class="form-input" placeholder="4.5" value="4.0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <span>Primary Soil Type / ಮಣ್ಣಿನ ಪ್ರಕಾರ</span>
+              </label>
+              <select class="form-select">
+                <option value="red_loamy" selected>Red Sandy / Loamy (ಕೆಂಪು ಮಣ್ಣು)</option>
+                <option value="black_regur">Black / Regur (ಕಪ್ಪು / ಎರೇ ಮಣ್ಣು)</option>
+                <option value="alluvial">Alluvial (ಮೆಕ್ಕಲು ಮಣ್ಣು)</option>
+                <option value="laterite">Laterite (ಜಂಬಿಟ್ಟಿಗೆ)</option>
+                <option value="clayey">Clayey (ಜೇಡಿ ಮಣ್ಣು)</option>
+                <option value="loamy">Loamy (ಗೋಡು ಮಣ್ಣು)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span>Create Password / ಪಾಸ್‌ವರ್ಡ್</span>
+              <span class="req">*</span>
+            </label>
+            <input type="password" class="form-input" required placeholder="Minimum 6 characters">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem; margin-top: 10px;">
+            <span>Create Account & Open Dashboard</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--soil-200); text-align: center; font-size: 0.82rem; color: var(--gray-600);">
+          Already have an account? 
+          <a href="login.html" style="color: var(--agri-primary); font-weight: 800; text-decoration: underline;">
+            Sign In / ಲಾಗಿನ್ ಮಾಡಿ
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border: 0; padding-top: 0;">
+      <div>KrishiMitra • Department of CSE, Malnad College of Engineering, Hassan</div>
+      <div>Pure HTML & CSS Implementation</div>
+    </div>
+  </footer>
+
+</body>
+</html>

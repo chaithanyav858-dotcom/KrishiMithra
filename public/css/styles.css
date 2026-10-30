@@ -1,0 +1,627 @@
+/* ==========================================================================
+   KrishiMitra (ಕೃಷಿಮಿತ್ರ) - Pure HTML & CSS Stylesheet
+   Smart Agricultural Decision Support System
+   Department of Computer Science & Engineering, Malnad College of Engineering
+   ========================================================================== */
+
+:root {
+  --agri-deep: #1b4332;
+  --agri-primary: #2d6a4f;
+  --agri-light: #40916c;
+  --agri-leaf: #52b788;
+  --agri-mint: #74c69d;
+  --agri-mist: #d8f3dc;
+  
+  --forest-950: #052e16;
+  --forest-900: #14532d;
+  --forest-800: #166534;
+  --forest-700: #15803d;
+  --forest-100: #dcfce7;
+  --forest-50: #f0fdf4;
+
+  --soil-50: #fcfaf8;
+  --soil-100: #f7f3ee;
+  --soil-200: #ede4d8;
+  --soil-300: #decbb8;
+  --soil-400: #c8ad93;
+  --soil-500: #a9876f;
+  --soil-600: #8c6b54;
+  --soil-700: #715341;
+  --soil-800: #5c4436;
+  --soil-900: #4d392e;
+
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+
+  --sky-50: #f0f9ff;
+  --sky-100: #e0f2fe;
+  --sky-200: #bae6fd;
+  --sky-600: #0284c7;
+  --sky-700: #0369a1;
+  --sky-900: #0c4a6e;
+
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-700: #b91c1c;
+
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Kannada", sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.09), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Reset & Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--soil-50);
+  color: var(--gray-900);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--agri-mist);
+  color: var(--agri-deep);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+.site-header {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--soil-200);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--agri-primary), var(--agri-deep));
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--agri-deep);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.brand-kannada {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--agri-leaf);
+}
+
+.brand-sub {
+  font-size: 0.68rem;
+  color: var(--gray-500);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  background-color: var(--agri-mist);
+  color: var(--agri-deep);
+}
+
+.nav-link.active {
+  background-color: var(--agri-mist);
+  color: var(--agri-deep);
+  font-weight: 700;
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.btn-primary {
+  background-color: var(--agri-primary);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background-color: var(--agri-deep);
+}
+
+.btn-amber {
+  background-color: var(--amber-400);
+  color: var(--soil-900);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-amber:hover {
+  background-color: var(--amber-300);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--soil-300);
+  color: var(--gray-700);
+}
+
+.btn-outline:hover {
+  background-color: var(--gray-50);
+  border-color: var(--agri-primary);
+  color: var(--agri-deep);
+}
+
+.btn-sky {
+  background-color: var(--sky-50);
+  border-color: var(--sky-200);
+  color: var(--sky-700);
+}
+
+.btn-sky:hover {
+  background-color: var(--sky-100);
+}
+
+.btn-white {
+  background-color: var(--white);
+  color: var(--agri-deep);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-white:hover {
+  background-color: var(--agri-mist);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-demo {
+  background-color: var(--amber-100);
+  color: var(--amber-900);
+  border: 1px solid var(--amber-300);
+}
+
+.badge-live {
+  background-color: var(--forest-100);
+  color: var(--forest-800);
+  border: 1px solid var(--agri-mint);
+}
+
+.badge-sky {
+  background-color: var(--sky-50);
+  color: var(--sky-700);
+  border: 1px solid var(--sky-200);
+}
+
+.badge-pill {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--agri-mist);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   Cards & Surfaces
+   ========================================================================== */
+.card {
+  background-color: var(--white);
+  border: 1px solid var(--soil-200);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: var(--soil-300);
+  box-shadow: var(--shadow-md);
+}
+
+.card-hero {
+  background: linear-gradient(135deg, var(--agri-deep) 0%, var(--agri-primary) 55%, #144733 100%);
+  color: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(82, 183, 136, 0.2);
+}
+
+/* ==========================================================================
+   Forms & Controls
+   ========================================================================== */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+
+.form-label .req {
+  color: #dc2626;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--soil-300);
+  background-color: #faf9f7;
+  color: var(--gray-800);
+  transition: var(--transition);
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--agri-primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+
+.form-help {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+
+/* Range input */
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--agri-primary);
+  cursor: pointer;
+}
+
+/* Checkbox Toggle Hack for Optional N-P-K section */
+#toggle-npk {
+  display: none;
+}
+
+.toggle-switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background-color: #faf8f5;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--soil-300);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray-700);
+  user-select: none;
+  transition: var(--transition);
+}
+
+.toggle-switch-label:hover {
+  border-color: var(--agri-primary);
+  color: var(--agri-deep);
+}
+
+.toggle-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--soil-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  transition: var(--transition);
+}
+
+#toggle-npk:checked + .toggle-switch-label {
+  background-color: var(--agri-mist);
+  border-color: var(--agri-leaf);
+  color: var(--agri-deep);
+}
+
+#toggle-npk:checked + .toggle-switch-label .toggle-indicator {
+  background-color: var(--agri-primary);
+  border-color: var(--agri-primary);
+}
+
+#toggle-npk:checked + .toggle-switch-label .toggle-indicator::after {
+  content: "✔";
+  color: var(--white);
+  font-size: 11px;
+}
+
+.npk-expandable {
+  display: none;
+  margin-top: 16px;
+}
+
+#toggle-npk:checked ~ .npk-expandable {
+  display: grid;
+}
+
+/* ==========================================================================
+   Grids
+   ========================================================================== */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Farmer Action Checklist (Bilingual)
+   ========================================================================== */
+.action-checklist {
+  background-color: #fafdf8;
+  border: 2px solid var(--agri-mist);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.checklist-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--agri-deep);
+  margin-bottom: 16px;
+}
+
+.step-card {
+  background-color: var(--white);
+  border: 1px solid var(--soil-200);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.step-number {
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.step-en {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  line-height: 1.4;
+}
+
+.step-kn {
+  font-size: 0.78rem;
+  color: var(--gray-600);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+  background-color: var(--white);
+  border-top: 1px solid var(--soil-200);
+  padding-top: 40px;
+  padding-bottom: 30px;
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid var(--soil-100);
+  padding-top: 20px;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 900px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card-hero {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 680px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .header-inner {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 12px;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
