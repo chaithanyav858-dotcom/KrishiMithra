@@ -224,14 +224,73 @@ const KARNATAKA_DISTRICTS_TALUKS = {
   }
 };
 
+function escapeRx(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function matchesExactTerm(text, term) {
+  if (!text || !term) return false;
+  const escaped = escapeRx(term.trim());
+  // Word boundary that supports Kannada unicode characters and English
+  const rx = new RegExp('(^|[^a-zA-Z0-9\\u0C80-\\u0CFF])' + escaped + '([^a-zA-Z0-9\\u0C80-\\u0CFF]|$)', 'i');
+  return rx.test(text);
+}
+
 function resolveKarnatakaLocation(query) {
   if (!query) query = 'Hassan';
-  const q = String(query).toLowerCase().trim();
+  const cleanQ = String(query).trim();
 
-  // 1. First check if any specific taluk (not named identically to district) matches
+  // 1. Check if query matches any District first
+  for (const [distName, distObj] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
+    if (matchesExactTerm(cleanQ, distName) || matchesExactTerm(cleanQ, distObj.kannada)) {
+      // Find matching taluk within this district (prioritize taluk name not identical to district)
+      for (const t of distObj.taluks) {
+        if (t.en.toLowerCase() !== distName.toLowerCase() && (matchesExactTerm(cleanQ, t.en) || matchesExactTerm(cleanQ, t.kn))) {
+          return {
+            district: distName,
+            districtKn: distObj.kannada,
+            taluk: t.en,
+            talukKn: t.kn,
+            lat: t.lat,
+            lon: t.lon,
+            zone: distObj.zone,
+            isTaluk: true
+          };
+        }
+      }
+      // If headquarter taluk is specifically mentioned
+      for (const t of distObj.taluks) {
+        if (matchesExactTerm(cleanQ, t.en) || matchesExactTerm(cleanQ, t.kn)) {
+          return {
+            district: distName,
+            districtKn: distObj.kannada,
+            taluk: t.en,
+            talukKn: t.kn,
+            lat: t.lat,
+            lon: t.lon,
+            zone: distObj.zone,
+            isTaluk: true
+          };
+        }
+      }
+      const defTaluk = distObj.taluks[0];
+      return {
+        district: distName,
+        districtKn: distObj.kannada,
+        taluk: defTaluk.en,
+        talukKn: defTaluk.kn,
+        lat: defTaluk.lat,
+        lon: defTaluk.lon,
+        zone: distObj.zone,
+        isTaluk: false
+      };
+    }
+  }
+
+  // 2. Search taluk names across all districts
   for (const [distName, distObj] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
     for (const t of distObj.taluks) {
-      if (t.en.toLowerCase() !== distName.toLowerCase() && (q.includes(t.en.toLowerCase()) || q.includes(t.kn.toLowerCase()))) {
+      if (matchesExactTerm(cleanQ, t.en) || matchesExactTerm(cleanQ, t.kn)) {
         return {
           district: distName,
           districtKn: distObj.kannada,
@@ -246,24 +305,7 @@ function resolveKarnatakaLocation(query) {
     }
   }
 
-  // 2. Then check if any district matches
-  for (const [distName, distObj] of Object.entries(KARNATAKA_DISTRICTS_TALUKS)) {
-    if (q.includes(distName.toLowerCase()) || q.includes(distObj.kannada.toLowerCase())) {
-      const defaultTaluk = distObj.taluks[0];
-      return {
-        district: distName,
-        districtKn: distObj.kannada,
-        taluk: defaultTaluk.en,
-        talukKn: defaultTaluk.kn,
-        lat: defaultTaluk.lat,
-        lon: defaultTaluk.lon,
-        zone: distObj.zone,
-        isTaluk: true
-      };
-    }
-  }
-
-  // Fallback to Hassan
+  // 3. Fallback to Hassan
   return {
     district: 'Hassan',
     districtKn: 'ಹಾಸನ',
@@ -297,6 +339,22 @@ const DISTRICT_DATA = {
 };
 
 const CROP_PROFILES = {
+  'Red Gram (Tur / Pigeonpea)': {
+    kannadaName: 'ತೊಗರಿ (Tur / Red Gram)',
+    botanicalName: 'Cajanus cajan',
+    category: 'Pulses (ದ್ವಿದಳ ಧಾನ್ಯ)',
+    localKarnatakaRelevance: 'The undisputed gold of Hyderabad-Karnataka / Kalyana-Karnataka belt. Kalaburagi is the registered GI-tagged Tur bowl of Karnataka.',
+    seasons: ['kharif'],
+    soils: ['black_regur', 'red_loamy', 'loamy', 'alluvial'],
+    idealNPK: { n: [20, 35], p: [50, 75], k: [20, 40] },
+    idealPH: [6.5, 7.8],
+    waterRequirement: 'Moderate (500 - 650 mm)',
+    dailyWaterConsumptionMm: 3.8,
+    criticalStages: ['Branching', 'Flowering', 'Pod filling'],
+    summary: 'Premier rainfed pulse crop fixing atmospheric nitrogen; deep taproot system thrives in North Karnataka black and red soils.',
+    simpleInstructionEn: 'Maintain 90-120cm row spacing. Nip growing tips at 45-50 days to encourage extensive branching and pod bearing.',
+    simpleInstructionKn: 'ಸಾಲುಗಳ ನಡುವೆ ೯೦-೧೨೦ ಸೆಂ.ಮೀ ಅಂತರವಿರಲಿ. ೪೫ ದಿನಕ್ಕೆ ತುದಿ ಚಿವುಟುವುದರಿಂದ ಹೆಚ್ಚಿನ ಕವಲುಗಳು ಬಂದು ಇಳುವರಿ ದುಪ್ಪಟ್ಟಾಗುತ್ತದೆ.'
+  },
   'Finger Millet (Ragi)': {
     kannadaName: 'ರಾಗಿ (Ragi)',
     botanicalName: 'Eleusine coracana',
@@ -474,8 +532,16 @@ function evaluateCrop(inputs) {
   } = inputs;
 
   const locInfo = resolveKarnatakaLocation(location || 'Hassan');
-  const locLower = (location || '').toLowerCase() + ' ' + locInfo.district.toLowerCase() + ' ' + (locInfo.taluk ? locInfo.taluk.toLowerCase() : '');
+  const dist = locInfo.district;
+  const taluk = locInfo.taluk || '';
   const scores = [];
+
+  // Regional Zone Categories
+  const isNorthKarnataka = ['Kalaburagi', 'Vijayapura', 'Bagalkot', 'Belagavi', 'Dharwad', 'Ballari'].includes(dist);
+  const isMalnadPlantation = ['Chikkamagaluru', 'Kodagu'].includes(dist) || taluk.toLowerCase().includes('sakleshpur');
+  const isCoastal = ['Udupi'].includes(dist);
+  const isSouthernDryZone = ['Hassan', 'Mandya', 'Tumakuru', 'Mysuru', 'Bengaluru Rural', 'Chitradurga'].includes(dist);
+  const isCentralZone = ['Davangere', 'Shivamogga'].includes(dist);
 
   for (const [cropName, profile] of Object.entries(CROP_PROFILES)) {
     let score = 0;
@@ -497,25 +563,92 @@ function evaluateCrop(inputs) {
       score -= 20;
     }
 
-    // 3. Regional Agro-Climatic Alignment (+15 bonus)
-    if (cropName.includes('Coffee') && (locLower.includes('chik') || locLower.includes('sakle') || locLower.includes('koda') || locLower.includes('shiva'))) {
-      score += 25;
-      matchReasons.push(`Highly indigenous to Malnad & Western Ghats coffee belt`);
-    } else if (cropName.includes('Cotton') && (locLower.includes('dhar') || locLower.includes('bela') || locLower.includes('ball') || locLower.includes('kala') || locLower.includes('vija') || locLower.includes('baga'))) {
-      score += 20;
-      matchReasons.push(`Leading commercial cash crop of North Karnataka black soil belts`);
-    } else if (cropName.includes('Chickpea') && season === 'rabi' && (locLower.includes('dhar') || locLower.includes('bela') || locLower.includes('kala') || locLower.includes('baga'))) {
-      score += 20;
-      matchReasons.push(`Premier post-monsoon Rabi pulse of Northern Karnataka`);
-    } else if (cropName.includes('Paddy') && (locLower.includes('mand') || locLower.includes('mys') || locLower.includes('udupi') || locLower.includes('shiva') || locLower.includes('hema') || locLower.includes('cauvery'))) {
-      score += 20;
-      matchReasons.push(`Optimal for irrigated river command basins`);
-    } else if (cropName.includes('Finger Millet') && (locLower.includes('hassan') || locLower.includes('tuma') || locLower.includes('beng') || locLower.includes('mand') || locLower.includes('kola') || locLower.includes('chitra'))) {
-      score += 20;
-      matchReasons.push(`Primary staple crop of Southern Karnataka dry tracts`);
+    // 3. Regional Agro-Climatic Alignment & Penalties
+    if (cropName.includes('Finger Millet')) {
+      if (isSouthernDryZone) {
+        score += 25;
+        matchReasons.push('Premier staple crop of Southern Karnataka dry tracts');
+      } else if (isNorthKarnataka) {
+        score -= 40; // Heavy penalty: Ragi is not an agronomic fit for North Karnataka
+      } else if (isCoastal) {
+        score -= 40; // Heavy penalty: High coastal rainfall (>3000mm) causes lodging/mold in Ragi
+      } else if (isMalnadPlantation && soilType === 'laterite') {
+        score -= 35; // Heavy penalty: Mountain laterite slopes are meant for coffee/spices
+      }
+    } else if (cropName.includes('Coffee')) {
+      if (isMalnadPlantation) {
+        score += 35;
+        matchReasons.push('Indigenous coffee plantation tract of Western Ghats');
+      } else if (dist === 'Shivamogga' || taluk.toLowerCase().includes('sakleshpur')) {
+        score += 25;
+        matchReasons.push('High-elevation Malnad coffee belt');
+      } else {
+        score -= 40; // Coffee cannot be grown in hot dry plains or heavy clay plains
+      }
+    } else if (cropName.includes('Red Gram')) {
+      if (dist === 'Kalaburagi' || dist === 'Vijayapura' || dist === 'Bagalkot') {
+        score += 30;
+        matchReasons.push('Registered GI zone / Premier Tur bowl of Kalyana-Karnataka');
+      } else if (isNorthKarnataka) {
+        score += 20;
+        matchReasons.push('Major high-value rainfed pulse of North Karnataka');
+      }
+    } else if (cropName.includes('Cotton')) {
+      if (isNorthKarnataka && soilType === 'black_regur') {
+        score += 30;
+        matchReasons.push('Leading commercial cash crop of North Karnataka black soil belts');
+      } else if (isNorthKarnataka) {
+        score += 15;
+      } else {
+        score -= 20; // Not suitable for high rainfall or acidic plantation soils
+      }
+    } else if (cropName.includes('Chickpea')) {
+      if (isNorthKarnataka && season === 'rabi') {
+        score += 30;
+        matchReasons.push('Premier post-monsoon Rabi pulse of Northern Karnataka black soils');
+      } else if (season === 'rabi') {
+        score += 10;
+      }
+    } else if (cropName.includes('Sorghum')) {
+      if (isNorthKarnataka) {
+        score += 25;
+        matchReasons.push('Primary staple grain of North Karnataka arid tracts');
+      } else if (dist === 'Davangere' || dist === 'Chitradurga') {
+        score += 15;
+      }
+    } else if (cropName.includes('Maize')) {
+      if (dist === 'Davangere' || dist === 'Belagavi' || dist === 'Hassan') {
+        score += 25;
+        matchReasons.push('Karnataka maize bowl district with high yield productivity');
+      } else if (isCentralZone) {
+        score += 15;
+      }
+    } else if (cropName.includes('Paddy')) {
+      if (isCoastal) {
+        score += 35;
+        matchReasons.push('Primary coastal kharif crop with high seasonal rainfall');
+      } else if (dist === 'Mandya' || dist === 'Mysuru' || dist === 'Shivamogga') {
+        score += 25;
+        matchReasons.push('Command area river basin with intensive irrigation');
+      }
+    } else if (cropName.includes('Groundnut')) {
+      if (dist === 'Tumakuru' || dist === 'Chitradurga' || dist === 'Ballari') {
+        score += 25;
+        matchReasons.push('Ideal rainfed sandy-loam oilseed belt');
+      }
+    } else if (cropName.includes('Sugarcane')) {
+      if (dist === 'Mandya' || dist === 'Belagavi' || dist === 'Bagalkot') {
+        score += 25;
+        matchReasons.push('Prominent sugar belt with irrigation infrastructure');
+      }
+    } else if (cropName.includes('Sunflower')) {
+      if (dist === 'Bagalkot' || dist === 'Vijayapura' || dist === 'Chitradurga') {
+        score += 25;
+        matchReasons.push('Dryland oilseed belt');
+      }
     }
 
-    // 4. N-P-K Nutrient Scoring (if provided)
+    // 4. N-P-K Nutrient Scoring (ONLY if explicitly provided by farmer)
     const hasN = nitrogen != null && !isNaN(Number(nitrogen)) && Number(nitrogen) > 0;
     const hasP = phosphorus != null && !isNaN(Number(phosphorus)) && Number(phosphorus) > 0;
     const hasK = potassium != null && !isNaN(Number(potassium)) && Number(potassium) > 0;
@@ -528,8 +661,8 @@ function evaluateCrop(inputs) {
           score += 12;
           matchReasons.push(`Soil Nitrogen (${n} kg/ha) matches target [${minN}-${maxN}]`);
         } else {
-          const dist = Math.min(Math.abs(n - minN), Math.abs(n - maxN));
-          score += Math.max(0, 12 - (dist / 10));
+          const d = Math.min(Math.abs(n - minN), Math.abs(n - maxN));
+          score += Math.max(0, 12 - (d / 10));
         }
       }
       if (hasP) {
@@ -550,7 +683,7 @@ function evaluateCrop(inputs) {
       }
     } else {
       score += 10;
-      matchReasons.push(`Evaluated via soil texture, season cycle & regional agro-ecological suitability.`);
+      matchReasons.push('Evaluated via soil texture, season cycle & regional agro-ecological suitability.');
     }
 
     // 5. pH Scoring
@@ -577,10 +710,10 @@ function evaluateCrop(inputs) {
   scores.sort((a, b) => b.score - a.score);
 
   const topMatch = scores[0];
-  const alternatives = scores.slice(1, 3).map(s => s.crop);
+  const alternatives = scores.slice(1, 4).map(s => s.crop);
 
   const explanations = [
-    `Recommended crop '${topMatch.crop}' achieved the highest agronomic compatibility score (${topMatch.score}/100) based on your selected ${soilType.replace('_', ' ')} soil and ${season.toUpperCase()} seasonal cycle.`,
+    `Recommended crop '${topMatch.crop}' achieved the highest agronomic compatibility score (${topMatch.score}/100) based on your selected ${soilType.replace('_', ' ')} soil, ${season.toUpperCase()} seasonal cycle, and ${dist} agro-climatic zone.`,
     ...topMatch.matchReasons.slice(0, 3),
     `Agronomic summary: ${topMatch.profile.summary}`
   ];
@@ -593,71 +726,6 @@ function evaluateCrop(inputs) {
     suitableAlternatives: alternatives,
     evaluatedAt: new Date().toISOString()
   };
-}
-
-/**
- * Fetches Live Open-Meteo Weather for any Karnataka District with automatic fallback
- */
-async function fetchDistrictWeather(locationQuery) {
-  const loc = resolveKarnatakaLocation(locationQuery || 'Hassan');
-  const cleanName = loc.district;
-  const district = { lat: loc.lat, lon: loc.lon, kannada: loc.districtKn, zone: loc.zone };
-
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${district.lat}&longitude=${district.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&timezone=auto`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    const data = await res.json();
-
-    const curr = data.current;
-    const daily = data.daily;
-
-    const weatherCodeDesc = decodeWeatherCode(curr.weather_code);
-
-    const forecastDays = [];
-    for (let i = 0; i < Math.min(5, daily.time.length); i++) {
-      const codeInfo = decodeWeatherCode(daily.weather_code[i]);
-      const dateObj = new Date(daily.time[i]);
-      const dayName = i === 0 ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-      forecastDays.push({
-        dayName,
-        date: dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        maxTemp: Math.round(daily.temperature_2m_max[i]),
-        minTemp: Math.round(daily.temperature_2m_min[i]),
-        rainChance: daily.precipitation_probability_max ? daily.precipitation_probability_max[i] : 20,
-        precipMm: daily.precipitation_sum ? Math.round(daily.precipitation_sum[i] * 10) / 10 : 0,
-        icon: codeInfo.icon,
-        desc: codeInfo.textEn
-      });
-    }
-
-    return {
-      location: loc.isTaluk ? `${loc.taluk}, ${loc.district}, Karnataka` : `${loc.district}, Karnataka`,
-      districtName: loc.district,
-      talukName: loc.taluk,
-      displayName: loc.isTaluk ? `${loc.taluk} (${loc.district} Dist)` : `${loc.district}, Karnataka`,
-      kannadaName: loc.isTaluk ? `${loc.talukKn} (${loc.districtKn} ಜಿಲ್ಲೆ)` : loc.districtKn,
-      zone: loc.zone,
-      lat: loc.lat,
-      lon: loc.lon,
-      temperature: Math.round(curr.temperature_2m * 10) / 10,
-      apparentTemperature: Math.round(curr.apparent_temperature * 10) / 10,
-      humidity: Math.round(curr.relative_humidity_2m),
-      precipitation: curr.precipitation || 0,
-      rainChance: daily.precipitation_probability_max ? daily.precipitation_probability_max[0] : 30,
-      windSpeed: Math.round(curr.wind_speed_10m * 10) / 10,
-      pressure: Math.round(curr.surface_pressure),
-      conditionText: weatherCodeDesc.textEn,
-      conditionKn: weatherCodeDesc.textKn,
-      icon: weatherCodeDesc.icon,
-      forecast: forecastDays,
-      isLive: true,
-      observationTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-  } catch (err) {
-    console.warn('Open-Meteo live feed error, loading high-fidelity regional baseline:', err);
-    return getFallbackWeather(cleanName);
-  }
 }
 
 function decodeWeatherCode(code) {
