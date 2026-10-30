@@ -258,13 +258,14 @@
       const soilType = document.getElementById('select-soil').value;
 
       const profile = CROP_PROFILES[cropName] || CROP_PROFILES['Finger Millet (Ragi)'];
-      const district = location.split(',')[0].trim();
+      const locInfo = typeof resolveKarnatakaLocation === 'function' ? resolveKarnatakaLocation(location) : { district: 'Hassan', taluk: 'Hassan', isTaluk: false };
 
-      // Fetch district weather & get crop advice
-      const weather = await fetchDistrictWeather(district);
+      // Fetch district/taluk weather & get crop advice
+      const weather = await fetchDistrictWeather(location);
       const advice = getCropAgroAdvice(cropName, soilType, weather);
 
-      document.getElementById('directive-crop-info').innerHTML = `Crop: <strong>${cropName} (${profile.kannadaName})</strong> • ${district} (${soilType.replace('_', ' ')} soil)`;
+      const displayLoc = locInfo.isTaluk ? `${locInfo.taluk} (${locInfo.district} Dist)` : locInfo.district;
+      document.getElementById('directive-crop-info').innerHTML = `Crop: <strong>${cropName} (${profile.kannadaName})</strong> • ${displayLoc} (${soilType.replace('_', ' ')} soil)`;
       document.getElementById('link-weather-btn').href = `weather.html?location=${encodeURIComponent(location)}&crop=${encodeURIComponent(cropName)}`;
 
       const rainChance = weather.rainChance || 30;
